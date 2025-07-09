@@ -1,0 +1,31 @@
+
+ USER VALIDATIONS
+- Name is required (min 2 characters)
+- Email is required, must be unique and valid format
+- Password is required (min 6 characters)
+
+ PRODUCT VALIDATIONS
+- Product name is required (min 3 characters)
+- Price is required (should be positive)
+- Category is required
+- Image URL is required 
+- Description is required (min 10 characters)
+
+ CART VALIDATIONS
+- Items must be an array of:
+  - Product ID is required (refers to Product)
+  - Quantity is required (min 1)
+
+ORDER VALIDATIONS
+- User ID is required
+- Order must include:
+  - At least one order item
+  - Each order item must have:
+    - Product ID (required)
+    - Quantity (min 1)
+- Shipping address is required and must include:
+  - City
+  - Postal Code
+  - Country
+- Payment Status (default: Pending)
+- Order Status must be one of: Processing, Shipped, Delivered, Cancelled (default:processing)
