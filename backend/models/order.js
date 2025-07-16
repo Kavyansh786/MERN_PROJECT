@@ -34,6 +34,11 @@ const orderSchema = new mongoose.Schema({
     type: String,
     enum: ['Processing', 'Shipped', 'Delivered', 'Cancelled'],
     default: 'Processing'
+  },
+  totalPrice: {
+    type: Number,
+    required: [true, 'Total price is required'],
+    min: [0, 'Total must be positive']
   }
 }, {
   timestamps: true

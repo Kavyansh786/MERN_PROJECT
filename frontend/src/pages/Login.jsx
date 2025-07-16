@@ -1,21 +1,33 @@
+// Login.jsx
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const navigate = useNavigate()
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
-    // You can replace this with your real backend API call
-    console.log('Logging in with', { email, password })
+
+    try {
+      const res = await axios.post('http://localhost:5000/api/users/login', {
+        email,
+        password
+      })
+
+      localStorage.setItem('user', JSON.stringify(res.data)) // ✅ Save user
+      navigate('/user/profile') // ✅ Redirect to profile
+    } catch (err) {
+      console.error('Login error:', err)
+      alert('Invalid credentials or user not found')
+    }
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
-      <form
-        onSubmit={handleLogin}
-        className="w-full max-w-md bg-gray-100 p-8 rounded-lg shadow-md"
-      >
+      <form onSubmit={handleLogin} className="w-full max-w-md bg-gray-100 p-8 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         <input
           type="email"

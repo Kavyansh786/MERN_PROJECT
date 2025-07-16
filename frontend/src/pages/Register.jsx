@@ -1,14 +1,28 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 
 export default function Register() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault()
-    // Replace this with your backend registration call
     console.log('Registering:', { name, email, password })
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/register', {
+        name,
+        email,
+        password,
+      })
+
+      console.log('✅ Registration successful:', response.data)
+      alert('Registered successfully!')
+    } catch (error) {
+      console.error('USER ALREADY EXISTS:', error.response?.data || error.message)
+      alert('USER ALREADY EXISTS')
+    }
   }
 
   return (
@@ -20,7 +34,7 @@ export default function Register() {
         <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
         <input
           type="text"
-          placeholder="Full Name"
+          placeholder="Name"
           className="w-full mb-4 px-4 py-2 border rounded"
           value={name}
           onChange={(e) => setName(e.target.value)}
