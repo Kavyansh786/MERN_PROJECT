@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ShopByCategory from '../components/ShopByCategory';
+import NewArrivals from '../components/NewArrivals';
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -130,6 +131,7 @@ export default function Home() {
         )}
           <div>
       <ShopByCategory/>
+      <NewArrivals/>
     </div>
       </div>
     </div>
