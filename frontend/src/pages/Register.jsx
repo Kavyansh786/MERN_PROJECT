@@ -26,7 +26,14 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4">
+    <div className="min-h-screen flex items-center justify-center bg-white px-4"
+    style={{ 
+      backgroundImage: "url('login.jpg')",
+       backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat"
+    }}
+    >
       <form
         onSubmit={handleRegister}
         className="w-full max-w-md bg-gray-100 p-8 rounded-lg shadow-md"

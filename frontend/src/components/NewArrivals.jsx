@@ -1,62 +1,58 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const newArrivalsData = [
-  {
-    title: 'Necklaces',
-    description: 'Elegant and timeless designs',
-    image: 'https://i.pinimg.com/736x/47/c5/28/47c528ca0995dc8678967dcf78f32a24.jpg',
-    price: '₹12,999',
-    rating: 5,
-    reviews: 43,
-  },
-  {
-    title: 'Rings',
-    description: 'Perfect for engagements & more',
-    image: 'https://i.pinimg.com/736x/f7/34/68/f7346867164c12c3be0ebf67f1bddf3f.jpg',
-    price: '₹9,499',
-    rating: 4,
-    reviews: 28,
-  },
-  {
-    title: 'Bracelets',
-    description: 'Chic and stylish accessories',
-    image: 'https://i.pinimg.com/736x/5e/35/f8/5e35f80b9b94f1e6ff64b616b60bf8ea.jpg',
-    price: '₹7,299',
-    rating: 4,
-    reviews: 34,
-  },
-  {
-    title: 'Earrings',
-    description: 'From studs to statement pieces',
-    image: 'https://i.pinimg.com/1200x/1f/d8/f5/1fd8f50c802373ee0d428a83e70f42e5.jpg',
-    price: '₹6,599',
-    rating: 5,
-    reviews: 52,
-  },
-];
+export default function NewArrivals() {
+  const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
-const NewArrivals = () => {
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/products')
+      .then(res => setProducts(res.data))
+      .catch(err => {
+        console.error('Failed to fetch new arrivals:', err);
+        alert('Failed to load new arrivals.');
+      });
+  }, []);
+
+  const handleAddToCart = async (productId) => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (!storedUser) {
+      alert('Please login to add items to your cart.');
+      navigate('/login');
+      return;
+    }
+
+    try {
+      await axios.post(
+        'http://localhost:5000/api/cart',
+        { productId, quantity: 1 },
+        { params: { userId: storedUser._id } }
+      );
+      alert('Added to cart!');
+    } catch (error) {
+      console.error('Add to cart error:', error);
+      alert('Failed to add to cart.');
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#fdf8f6] text-[#4a2c2a] px-6 py-10">
-      {/* Heading */}
+    <div className="min-h-screen bg-[#fdf8f6] text-[#4a2c2a] px-6 py-10 mt-16">
       <div className="text-center mb-10">
         <h2 className="text-4xl font-bold">New Arrivals</h2>
-        <p className="text-[#7b5d58] text-lg mt-2">
-          Fresh designs that capture the latest trends
-        </p>
+        <p className="text-[#7b5d58] text-lg mt-2">Fresh designs that capture the latest trends</p>
       </div>
 
-      {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {newArrivalsData.map((item, idx) => (
+        {products.map((product) => (
           <div
-            key={idx}
-            className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden"
+            key={product._id}
+            className="bg-white rounded-lg shadow hover:shadow-lg transition-transform duration-300 hover:scale-105 hover:-translate-y-2 overflow-hidden"
           >
             <div className="relative">
               <img
-                src={item.image}
-                alt={item.title}
+                src={product.imageUrl || '/placeholder.jpg'}
+                alt={product.name}
                 className="w-full h-[240px] object-cover"
               />
               <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
@@ -64,21 +60,26 @@ const NewArrivals = () => {
               </span>
             </div>
             <div className="p-4">
-              <h3 className="text-lg font-semibold">{item.title}</h3>
+              <h3 className="text-lg font-semibold">{product.name}</h3>
 
-              {/* Ratings */}
+              {/* Optional Rating if available */}
               <div className="flex items-center gap-1 text-yellow-500 mt-1">
-                {'★'.repeat(item.rating)}
-                {'☆'.repeat(5 - item.rating)}
-                <span className="text-[#7b5d58] text-sm ml-2">({item.reviews})</span>
+                {'★'.repeat(4)}{'☆'}
+                <span className="text-[#7b5d58] text-sm ml-2">(4.0)</span>
               </div>
 
-              {/* Price */}
-              <p className="text-xl font-bold mt-2">{item.price}</p>
+              <p className="text-xl font-bold mt-2">₹{product.price.toLocaleString()}</p>
 
-              {/* Add to Cart Button */}
-              <button className="mt-4 w-full bg-emerald-700 hover:bg-emerald-800 text-white py-2 rounded-lg flex items-center justify-center gap-2">
-                <span>🛒</span> Add to Cart
+              <button
+                onClick={() => handleAddToCart(product._id)}
+                className="mt-6 flex items-center justify-center gap-2 bg-[#3e2d26] text-[#fff6ee] font-bold py-2 px-4 rounded-xl shadow-lg hover:bg-[#6b3e26] transition-all duration-300 w-3/4 mx-auto text-base border border-[#e5d5c6]"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <circle cx="9" cy="21" r="1" />
+                  <circle cx="20" cy="21" r="1" />
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+                Add to Cart
               </button>
             </div>
           </div>
@@ -86,6 +87,4 @@ const NewArrivals = () => {
       </div>
     </div>
   );
-};
-
-export default NewArrivals;
+}

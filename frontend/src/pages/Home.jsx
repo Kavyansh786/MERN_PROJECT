@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ShopByCategory from '../components/ShopByCategory';
 import NewArrivals from '../components/NewArrivals';
+import GiftingAndMore from '../components/GiftingAndMore';
+import Footer from '../components/Footer';
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -78,8 +80,8 @@ export default function Home() {
       </div>
 
       {/* Featured Products */}
-      <div className="px-6 py-10 bg-[#eeeee4]">
-        <h2 className="text-2xl font-bold mb-6 text-[#e0b594] text-center">Featured Products</h2>
+      <div className="px-6 py-10 bg-[#fdf8f6]">
+        <h2 className="text-2xl font-bold mb-6 text-[#271809] text-center">Featured Products</h2>
         {products.length === 0 ? (
           <p className="text-center text-[#fff6ee]/60">No products found.</p>
         ) : (
@@ -113,17 +115,17 @@ export default function Home() {
 
                   <div className="text-3xl font-extrabold text-[#3e2d26] mb-4">₹{product.price}</div>
 
-                  <button
-                    onClick={() => handleAddToCart(product._id)}
-                    className="mt-auto flex items-center justify-center gap-2 bg-[#3e2d26] text-[#fff6ee] font-bold py-3 rounded-lg shadow-lg hover:bg-[#6b3e26] transition-all duration-300 w-full text-lg"
-                  >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <circle cx="9" cy="21" r="1" />
-                      <circle cx="20" cy="21" r="1" />
-                      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                    </svg>
-                    Add to Cart
-                  </button>
+            <button
+                onClick={() => handleAddToCart(product._id)}
+                className="mt-6 flex items-center justify-center gap-2 bg-[#3e2d26] text-[#fff6ee] font-bold py-2 px-4 rounded-xl shadow-lg hover:bg-[#6b3e26] transition-all duration-300 w-3/4 mx-auto text-base border border-[#e5d5c6]"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <circle cx="9" cy="21" r="1" />
+                  <circle cx="20" cy="21" r="1" />
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+                Add to Cart
+              </button>
                 </div>
               </div>
             ))}
@@ -131,7 +133,9 @@ export default function Home() {
         )}
           <div>
       <ShopByCategory/>
-      <NewArrivals/>
+      <div className='mt-20'><NewArrivals/></div>
+      <GiftingAndMore/>
+      <Footer/>
     </div>
       </div>
     </div>
