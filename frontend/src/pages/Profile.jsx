@@ -1,32 +1,31 @@
-// Profile.jsx
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
-  const [user, setUser] = useState(null)
-  const [error, setError] = useState('')
-  const navigate = useNavigate()
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user'))
+    const storedUser = JSON.parse(localStorage.getItem('user'));
 
-    if (!storedUser || !storedUser._id) {
-      navigate('/login')
-      return
+    if (!storedUser || !storedUser.user?.id) {
+      navigate('/login');
+      return;
     }
 
     axios
-      .get(`http://localhost:5000/api/users/profile?id=${storedUser._id}`)
-      .then(res => setUser(res.data))
-      .catch(err => {
-        console.error('Error fetching profile:', err)
-        setError('Failed to load profile')
-      })
-  }, [navigate])
+      .get(`http://localhost:5000/api/users/profile?id=${storedUser.user.id}`)
+      .then((res) => setUser(res.data))
+      .catch((err) => {
+        console.error('Error fetching profile:', err);
+        setError('Failed to load profile');
+      });
+  }, [navigate]);
 
-  if (error) return <div className="text-center mt-10 text-red-600">{error}</div>
-  if (!user) return <div className="text-center mt-10">Loading profile...</div>
+  if (error) return <div className="text-center mt-10 text-red-600">{error}</div>;
+  if (!user) return <div className="text-center mt-10">Loading profile...</div>;
 
   return (
     <div className="min-h-screen bg-white text-gray-800 p-6 max-w-xl mx-auto">
@@ -35,10 +34,21 @@ export default function Profile() {
         <p><strong>Name:</strong> {user.name}</p>
         <p><strong>Email:</strong> {user.email}</p>
         <p><strong>Phone:</strong> {user.phone || 'N/A'}</p>
-        <button className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800">
-          Edit Profile
-        </button>
+        <div className="flex justify-between">
+          <button className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800">
+            Edit Profile
+          </button>
+          <button
+            onClick={() => {
+              localStorage.removeItem('user');
+              navigate('/login');
+            }}
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+          >
+            Logout
+          </button>
+        </div>
       </div>
     </div>
-  )
+  );
 }

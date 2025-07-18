@@ -18,6 +18,11 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Password is required'],
     minlength: [6, 'Password should be at least 6 characters']
   },
+  phone: {
+    type: String,
+    required: [true, 'Phone number is required'],
+    match: [/^\d{10}$/, 'Phone number must be 10 digits']
+  },
   isAdmin: {
     type: Boolean,
     default: false

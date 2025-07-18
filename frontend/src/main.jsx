@@ -1,18 +1,17 @@
+// main.jsx or App.jsx
+
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
 import App from './App'
-import { GoogleOAuthProvider } from '@react-oauth/google'
-
-// Load from .env (recommended) or put in quotes if hardcoded
-const clientId = '662817277611-m374usjd0nib4k48ctpeo982odj963ar.apps.googleusercontent.com'
+import { BrowserRouter } from 'react-router-dom'
+import { ToastProvider } from './components/Toast' // Adjust the path as needed
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId={clientId}>
-      <BrowserRouter>
+    <BrowserRouter>
+      <ToastProvider>
         <App />
-      </BrowserRouter>
-    </GoogleOAuthProvider>
+      </ToastProvider>
+    </BrowserRouter>
   </React.StrictMode>
 )

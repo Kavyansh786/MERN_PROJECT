@@ -1,53 +1,68 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import ShopByCategory from '../components/ShopByCategory';
-import NewArrivals from '../components/NewArrivals';
-import GiftingAndMore from '../components/GiftingAndMore';
-import Footer from '../components/Footer';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import ShopByCategory from '../components/ShopByCategory'
+import NewArrivals from '../components/NewArrivals'
+import GiftingAndMore from '../components/GiftingAndMore'
+import Footer from '../components/Footer'
+import { useToast } from '../components/Toast'
 
 export default function Home() {
-  const [products, setProducts] = useState([]);
-  const navigate = useNavigate();
+  const [products, setProducts] = useState([])
+  const navigate = useNavigate()
+  const { showToast } = useToast()
 
   useEffect(() => {
     axios
       .get('http://localhost:5000/api/products')
-      .then(res => {
-        setProducts(res.data);
+      .then((res) => {
+        setProducts(res.data)
       })
-      .catch(err => console.error('Error fetching products:', err));
-  }, []);
+      .catch((err) => console.error('Error fetching products:', err))
+  }, [])
 
   const handleAddToCart = async (productId) => {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
+    const storedUser = JSON.parse(localStorage.getItem('user'))
 
     if (!storedUser) {
-      alert('Please login to add items to your cart.');
-      navigate('/login');
-      return;
+      showToast({
+        type: 'error',
+        message: 'Please login to add to cart.',
+      })
+      navigate('/login')
+      return
     }
 
     try {
-      await axios.post(`http://localhost:5000/api/cart`, {
+      const res = await axios.post('http://localhost:5000/api/cart', {
+        userId: storedUser._id,
         productId,
-        quantity: 1
-      }, {
-        params: {
-          userId: storedUser._id
-        }
-      });
+        quantity: 1,
+      })
 
-      alert('Added to cart!');
+      if (res.data.success) {
+        showToast({
+          type: 'success',
+          message: 'Item added to cart!',
+        })
+      } else {
+        showToast({
+          type: 'error',
+          message: res.data.message || 'Something went wrong.',
+        })
+      }
     } catch (error) {
-      console.error('Add to cart error:', error);
-      alert('Failed to add to cart.');
+      console.error('Add to cart error:', error)
+      showToast({
+        type: 'error',
+        message: 'Failed to add item to cart.',
+      })
     }
-  };
+  }
 
   return (
     <div className="min-h-screen w-full bg-[#e9e1de] text-[#fff6ee] relative">
-      {/* Hero Section with Local Video */}
+      {/* Hero Section */}
       <div className="relative min-h-screen bg-[#f3ebe8] text-center flex flex-col justify-center items-center px-6 py-20 overflow-hidden">
         <video
           autoPlay
@@ -55,7 +70,7 @@ export default function Home() {
           loop
           playsInline
           className="absolute inset-0 w-full h-full object-cover z-0"
-           style={{ filter: 'brightness(1.5)' }}
+          style={{ filter: 'brightness(1.5)' }}
         >
           <source src="/VIDEO2.mp4" type="video/mp4" />
         </video>
@@ -72,7 +87,7 @@ export default function Home() {
           <div className="flex gap-4 flex-wrap justify-center">
             <Link to="/shop">
               <button className="bg-[#f7c59f] text-[#3e2d26] font-semibold px-6 py-3 rounded-lg shadow hover:bg-[#f39c6b] transition">
-               <center> Explore Collection → </center>
+                <center> Explore Collection → </center>
               </button>
             </Link>
           </div>
@@ -115,29 +130,31 @@ export default function Home() {
 
                   <div className="text-3xl font-extrabold text-[#3e2d26] mb-4">₹{product.price}</div>
 
-            <button
-                onClick={() => handleAddToCart(product._id)}
-                className="mt-6 flex items-center justify-center gap-2 bg-[#3e2d26] text-[#fff6ee] font-bold py-2 px-4 rounded-xl shadow-lg hover:bg-[#6b3e26] transition-all duration-300 w-3/4 mx-auto text-base border border-[#e5d5c6]"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <circle cx="9" cy="21" r="1" />
-                  <circle cx="20" cy="21" r="1" />
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                </svg>
-                Add to Cart
-              </button>
+                  <button
+                    onClick={() => handleAddToCart(product._id)}
+                    className="mt-6 flex items-center justify-center gap-2 bg-[#3e2d26] text-[#fff6ee] font-bold py-2 px-4 rounded-xl shadow-lg hover:bg-[#6b3e26] transition-all duration-300 w-3/4 mx-auto text-base border border-[#e5d5c6]"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <circle cx="9" cy="21" r="1" />
+                      <circle cx="20" cy="21" r="1" />
+                      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                    </svg>
+                    Add to Cart
+                  </button>
                 </div>
               </div>
             ))}
           </div>
         )}
-          <div>
-      <ShopByCategory/>
-      <div className='mt-20'><NewArrivals/></div>
-      <GiftingAndMore/>
-      <Footer/>
-    </div>
+
+        {/* Other Sections */}
+        <div>
+          <ShopByCategory />
+          <div className="mt-20"><NewArrivals /></div>
+          <GiftingAndMore />
+          <Footer />
+        </div>
       </div>
     </div>
-  );
+  )
 }

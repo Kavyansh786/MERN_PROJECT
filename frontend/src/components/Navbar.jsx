@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useToast } from '../components/Toast'; // ✅ Adjust path as needed
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const { showToast } = useToast(); // ✅ Use toast
   const [showMenu, setShowMenu] = useState(false);
 
   const user = JSON.parse(localStorage.getItem('user'));
@@ -13,6 +15,11 @@ export default function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem('user');
+    showToast({
+      type: 'success',
+      message: 'Logged out successfully!',
+      duration: 3000,
+    });
     setShowMenu(false);
     navigate('/login');
   };
@@ -70,7 +77,7 @@ export default function Navbar() {
             </svg>
           </Link>
 
-          {/* ✅ Profile Icon with Dropdown */}
+          {/* Profile Icon with Dropdown */}
           <div className="relative">
             <button onClick={handleProfileClick} className="ml-2 hover:text-[#D4AF37] transition-colors">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">

@@ -1,40 +1,41 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from 'jwt-decode'; // ✅ Named import
-
+import { useToast } from '../components/Toast';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/users/login', {
+      const res = await axios.post('http://localhost:5000/api/auth/login', {
         email,
         password,
       });
-      localStorage.setItem('user', JSON.stringify(res.data));
-      navigate('/user/profile');
-    } catch (err) {
-      console.error('Login error:', err);
-      alert('Invalid credentials or user not found');
-    }
-  };
 
-  const handleGoogleSuccess = (credentialResponse) => {
-    try {
-      const decoded = jwt_decode(credentialResponse.credential);
-      console.log('Google user decoded:', decoded);
-      localStorage.setItem('user', JSON.stringify(decoded));
-      navigate('/user/profile');
+      localStorage.setItem('user', JSON.stringify(res.data));
+
+
+      showToast({
+        type: 'success',
+        message: 'Login successful!',
+        duration: 3000,
+      });
+
+      setTimeout(() => {
+        navigate('/user/profile');
+      }, 1000); // short delay for toast to show
     } catch (err) {
-      console.error('Google login decode error:', err);
-      alert('Failed to decode Google credentials.');
+      showToast({
+        type: 'error',
+        message: err.response?.data?.message || 'Invalid credentials',
+        duration: 3000,
+      });
     }
   };
 
@@ -42,17 +43,17 @@ export default function Login() {
     <div
       className="min-h-screen flex items-center justify-center px-2 bg-gradient-to-br from-rose-200 via-pink-100 to-amber-100 relative"
       style={{
-        backgroundImage: "url('login1.jpg')",
+        backgroundImage: "url('bg 2.jpg')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
       }}
     >
       <div className="w-full max-w-md bg-white/90 rounded-3xl shadow-2xl p-8 md:p-10 flex flex-col items-center">
-        <h2 className="text-3xl font-bold text-center text-brown-800 mb-2" style={{ color: '#5a3a1b' }}>
+        <h2 className="text-3xl font-bold text-center mb-2" style={{ color: '#5a3a1b' }}>
           Welcome Back
         </h2>
-        <p className="text-center text-brown-400 mb-8 text-lg" style={{ color: '#a58a6a' }}>
+        <p className="text-center mb-8 text-lg" style={{ color: '#a58a6a' }}>
           Sign in to your account to continue
         </p>
 
@@ -64,7 +65,7 @@ export default function Login() {
             <input
               type="email"
               placeholder="Enter your email"
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-rose-200"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-rose-200 transition text-gray-700"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -78,7 +79,7 @@ export default function Login() {
               <input
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Enter your password"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50 text-gray-700 pr-10 focus:outline-none focus:ring-2 focus:ring-rose-200"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-rose-200 pr-10 text-gray-700"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -86,43 +87,35 @@ export default function Login() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-rose-400"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-rose-400 focus:outline-none"
               >
                 {showPassword ? '🙈' : '👁️'}
               </button>
             </div>
           </div>
 
+          <div className="flex items-center justify-between text-sm mt-1 mb-2">
+            <label className="flex items-center gap-2">
+              <input type="checkbox" className="accent-rose-400" />
+              <span className="text-gray-600">Remember me</span>
+            </label>
+            <a href="#" className="text-rose-400 hover:text-rose-500 font-medium transition">
+              Forgot Password?
+            </a>
+          </div>
+
           <button
             type="submit"
-            className="w-full text-white py-3 rounded-xl font-semibold text-lg shadow-md transition-all duration-200 flex items-center justify-center gap-2 hover:scale-105 active:scale-95 hover:shadow-lg"
+            className="w-full text-white py-3 rounded-xl font-semibold text-lg shadow-md transition-all duration-200 flex items-center justify-center gap-2 hover:scale-105 active:scale-95 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#B76E79]/50"
             style={{ backgroundColor: '#B76E79' }}
           >
             Sign In <span className="text-xl">→</span>
           </button>
         </form>
 
-        <div className="flex items-center w-full my-6">
-          <div className="flex-grow h-px bg-gray-300" />
-          <span className="mx-3 text-gray-500 bg-white px-2">Or continue with</span>
-          <div className="flex-grow h-px bg-gray-300" />
-        </div>
-
-        <div className="w-full flex justify-center mb-4">
-          <GoogleLogin
-            onSuccess={handleGoogleSuccess}
-            onError={() => {
-              alert('Google Login Failed');
-            }}
-            theme="outline"
-            size="large"
-            width="100%"
-          />
-        </div>
-
-        <p className="text-center text-gray-600 text-sm">
-          Don&apos;t have an account?{' '}
-          <a href="/register" className="text-rose-500 font-semibold hover:underline">
+        <p className="text-center text-gray-600 text-sm mt-6">
+          Don&apos;t have an account?
+          <a href="/register" className="text-rose-500 font-semibold hover:underline ml-1">
             Create Account
           </a>
         </p>
