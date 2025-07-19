@@ -24,31 +24,28 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// ✅ POST /api/auth/login
+// ✅ POST /api/auth/login (NO JWT, NO Cookie)
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
     const user = await User.findOne({ email });
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found. Please register first.' });
-    }
+    if (!user) return res.status(404).json({ message: 'User not found. Please register first.' });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ message: 'Incorrect password' });
-    }
+    if (!isMatch) return res.status(401).json({ message: 'Incorrect password' });
 
     res.status(200).json({
       message: 'Login successful',
-      user: { id: user._id, name: user.name, email: user.email },
+      user: { id: user._id, name: user.name, email: user.email }
     });
-
   } catch (err) {
     console.error('Login error:', err.message);
     res.status(500).json({ message: 'Login failed' });
   }
 });
+
+// ❌ Logout: not needed anymore since localStorage is managed by frontend
+// ❌ User GET route: also removed since no session is tracked on server
 
 module.exports = router;

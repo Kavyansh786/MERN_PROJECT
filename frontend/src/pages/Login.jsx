@@ -11,15 +11,17 @@ export default function Login() {
   const { showToast } = useToast();
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', {
-        email,
-        password,
-      });
+  e.preventDefault();
 
-      localStorage.setItem('user', JSON.stringify(res.data));
+  try {
+    const res = await axios.post('http://localhost:5000/api/auth/login', {
+      email,
+      password,
+    });
 
+    if (res.data && res.data.user) {
+      // ✅ Correct shape for Profile.jsx
+      localStorage.setItem('user', JSON.stringify({ user: res.data.user }));
 
       showToast({
         type: 'success',
@@ -28,17 +30,23 @@ export default function Login() {
       });
 
       setTimeout(() => {
-        navigate('/user/profile');
-      }, 1000); // short delay for toast to show
-    } catch (err) {
+        navigate('/user/profile'); // ✅ Based on your router
+      }, 1000);
+    } else {
       showToast({
         type: 'error',
-        message: err.response?.data?.message || 'Invalid credentials',
+        message: 'Invalid response from server',
         duration: 3000,
       });
     }
-  };
-
+  } catch (err) {
+    showToast({
+      type: 'error',
+      message: err.response?.data?.message || 'Invalid credentials',
+      duration: 3000,
+    });
+  }
+};
   return (
     <div
       className="min-h-screen flex items-center justify-center px-2 bg-gradient-to-br from-rose-200 via-pink-100 to-amber-100 relative"
