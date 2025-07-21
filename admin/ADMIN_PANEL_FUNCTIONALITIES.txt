@@ -1,0 +1,79 @@
+ADMIN PANEL FUNCTIONALITIES
+===========================
+
+1. AUTHENTICATION & SECURITY
+- Admin login/logout (JWT, session, etc.)
+- Role-based access control (admin, superadmin, staff, etc.)
+- Password reset/change
+
+2. DASHBOARD
+- Key stats: Total sales, orders, users, products, revenue
+- Recent orders summary
+- Sales/revenue charts (daily, weekly, monthly)
+- Quick actions (add product, view orders, etc.)
+- Recent activity log
+
+3. PRODUCT MANAGEMENT
+- List all products with search/filter/sort
+- Add new product (name, price, description, images, categories, stock, etc.)
+- Edit product details
+- Delete product
+- Manage product images/gallery
+- Manage categories/tags/collections
+
+4. ORDER MANAGEMENT
+- List all orders with search/filter/sort
+- View order details (items, customer, shipping, payment, status)
+- Update order status (pending, processing, shipped, delivered, cancelled)
+- Refund/cancel orders
+- Download invoice/receipt
+- Assign orders to staff (optional)
+
+5. USER MANAGEMENT
+- List all users/customers with search/filter
+- View user details (profile, order history, wishlist, etc.)
+- Edit user info (name, email, phone, address, etc.)
+- Delete/block user
+- Assign user roles (admin, staff, customer)
+
+6. REVIEWS & FEEDBACK
+- View/manage product reviews
+- Approve/reject reviews
+- Respond to customer feedback
+
+7. INVENTORY & STOCK MANAGEMENT
+- Track product stock levels
+- Low stock alerts
+- Bulk update stock
+- Import/export inventory (CSV/Excel)
+
+8. PROMOTIONS & COUPONS
+- Create/manage discount codes/coupons
+- Set rules (expiry, usage limit, min order, etc.)
+- Track coupon usage
+
+9. REPORTS & ANALYTICS
+- Sales reports (by date, product, category, etc.)
+- Customer reports (top buyers, new signups)
+- Product performance
+- Export reports (CSV, PDF)
+
+10. SETTINGS & CONFIGURATION
+- Store info (name, logo, contact, address)
+- Payment gateway settings
+- Shipping methods/rates
+- Tax settings
+- Email templates/notifications
+
+11. ADMIN PROFILE & PREFERENCES
+- Edit admin profile
+- Change password
+- Notification preferences
+- Dark mode/theme toggle (optional)
+
+12. OTHER ADVANCED FEATURES (OPTIONAL)
+- Staff management (add/edit staff, assign permissions)
+- Activity logs/audit trails
+- Multi-language support
+- CMS for homepage banners, content, etc.
+- Push/email notifications to admins 

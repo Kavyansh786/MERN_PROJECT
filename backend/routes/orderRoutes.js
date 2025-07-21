@@ -6,40 +6,137 @@ const Order = require('../models/order');
 
 // POST /api/orders
 router.post('/', async (req, res) => {
-  const testUserId = '662f1b8e3c8c7e1e94650a20'; // Replace with your test user
-  const { orderItems, shippingAddress, paymentMethod } = req.body;
-
-  if (!orderItems || orderItems.length === 0) {
-    return res.status(400).json({ message: 'No order items' });
-  }
-
   try {
-    // Calculate total price
-    let totalPrice = 0;
+    // Get user ID from request body or headers
+    const userId = req.body.userId || req.headers['user-id'];
+    
+    if (!userId) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'User ID is required' 
+      });
+    }
 
-    for (const item of orderItems) {
-      const product = await Product.findById(item.product);
-      if (!product) {
-        return res.status(400).json({ message: 'Invalid product ID in order' });
+    const { orderItems, shippingAddress, paymentMethod, totalPrice } = req.body;
+
+
+
+    if (!orderItems || orderItems.length === 0) {
+      return res.status(400).json({ message: 'No order items' });
+    }
+
+    // Calculate total price if not provided
+    let calculatedTotalPrice = totalPrice || 0;
+
+    if (!calculatedTotalPrice) {
+      for (const item of orderItems) {
+        const product = await Product.findById(item.product);
+        if (!product) {
+          return res.status(400).json({ 
+            success: false,
+            message: 'Invalid product ID in order' 
+          });
+        }
+        calculatedTotalPrice += product.price * item.quantity;
       }
+    }
 
-      totalPrice += product.price * item.quantity;
+    // Validate shipping address
+    if (!shippingAddress || !shippingAddress.city || !shippingAddress.postalCode) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Invalid shipping address' 
+      });
     }
 
     const newOrder = await Order.create({
-      user: testUserId,
+      user: userId,
       orderItems,
       shippingAddress,
       paymentMethod,
-      totalPrice,
+      totalPrice: calculatedTotalPrice,
       paymentStatus: 'Pending',
       orderStatus: 'Processing'
     });
 
-    res.status(201).json(newOrder);
+
+
+    res.status(201).json({
+      success: true,
+      order: newOrder
+    });
   } catch (err) {
     console.error('Order creation error:', err.message);
-    res.status(500).json({ message: 'Failed to create order' });
+    res.status(500).json({ 
+      success: false,
+      message: 'Failed to create order'
+    });
+  }
+});
+
+// GET /api/orders/my - Get user's orders
+router.get('/my', async (req, res) => {
+  try {
+    // Get user ID from query parameter or header
+    const userId = req.query.userId || req.headers['user-id'];
+    
+    if (!userId) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'User ID is required' 
+      });
+    }
+
+    const orders = await Order.find({ user: userId })
+      .populate('orderItems.product', 'name price imageUrl')
+      .sort({ createdAt: -1 }); // Most recent first
+
+    res.status(200).json({
+      success: true,
+      orders: orders
+    });
+  } catch (err) {
+    console.error('Error fetching orders:', err.message);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Failed to fetch orders'
+    });
+  }
+});
+
+// GET /api/orders/:id - Get specific order
+router.get('/:id', async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    const userId = req.query.userId || req.headers['user-id'];
+
+    if (!userId) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'User ID is required' 
+      });
+    }
+
+    const order = await Order.findOne({ _id: orderId, user: userId })
+      .populate('orderItems.product', 'name price imageUrl');
+
+    if (!order) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Order not found' 
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      order: order
+    });
+  } catch (err) {
+    console.error('Error fetching order:', err.message);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Failed to fetch order'
+    });
   }
 });
 

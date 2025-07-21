@@ -21,8 +21,20 @@ async function addToWishlist(userId, productId) {
   return user.wishlist;
 }
 
+async function removeFromWishlist(userId, productId) {
+  console.log('removeFromWishlist called with:', { userId, productId });
+  const user = await User.findById(userId);
+  if (!user) throw new Error('User not found');
+  user.wishlist = user.wishlist.filter(
+    id => id.toString() !== productId.toString()
+  );
+  await user.save();
+  return user.wishlist;
+}
+
 module.exports = {
   getUserById,
   getUserWishlist,
-  addToWishlist
+  addToWishlist,
+  removeFromWishlist
 };

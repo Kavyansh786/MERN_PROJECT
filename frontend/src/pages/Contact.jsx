@@ -3,7 +3,7 @@ import React from 'react'
 export default function Contact() {
   return (
     <div className="min-h-screen bg-white p-6 text-gray-800 max-w-lg mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-center">Contact Us</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center text-[#D4AF37]">Contact Us</h1>
       <form className="space-y-4">
         <input
           type="text"

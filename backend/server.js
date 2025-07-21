@@ -15,7 +15,7 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:1512', // frontend URL
+  origin: ['http://localhost:1512', 'http://localhost:5173'], // frontend URLs
   credentials: true // allows sending cookies
 }));
 app.use(express.json());
@@ -28,6 +28,7 @@ app.use('/api/products', require('./routes/productRoutes.js'));
 app.use('/api/orders', require('./routes/orderRoutes.js'));
 app.use('/api/cart', require('./routes/cartRoutes.js'));
 app.use('/api/payment',require('./routes/payment.js'));
+app.use('/api/address', require('./routes/addressRoutes.js'));
 
 // Root route
 app.get('/', (req, res) => {

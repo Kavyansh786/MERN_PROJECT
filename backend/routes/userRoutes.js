@@ -3,7 +3,8 @@ const {
   getUserById,
   updateUserProfile,
   getUserWishlist,
-  addToWishlist
+  addToWishlist,
+  removeFromWishlist
 } = require('../services/userService');
 
 const router = express.Router();
@@ -71,6 +72,21 @@ router.post('/wishlist', async (req, res) => {
   } catch (err) {
     console.error('Failed to add to wishlist:', err.message);
     res.status(500).json({ message: 'Failed to add to wishlist' });
+  }
+});
+
+// DELETE /api/users/wishlist/:userId/:productId
+router.delete('/wishlist/:userId/:productId', async (req, res) => {
+  try {
+    const { userId, productId } = req.params;
+    if (!userId || !productId) {
+      return res.status(400).json({ message: 'User ID and product ID are required' });
+    }
+    const updatedWishlist = await removeFromWishlist(userId, productId);
+    res.json(updatedWishlist);
+  } catch (err) {
+    console.error('Failed to remove from wishlist:', err.message);
+    res.status(500).json({ message: 'Failed to remove from wishlist' });
   }
 });
 

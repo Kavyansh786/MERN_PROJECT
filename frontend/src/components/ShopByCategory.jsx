@@ -69,11 +69,12 @@ export default function ShopByCategory() {
   const smallCategories = categories.slice(1);
 
   return (
-    <section className="px-4 py-16 md:px-8 lg:px-16 bg-[#fdf8f6]">
+    <section className="px-4 pt-0 pb-0 md:px-8 lg:px-16 bg-white">
       {/* Section title */}
       <div className="text-center mb-10">
-        <h2 className="text-4xl font-bold text-[#4a2c2a]">Shop by Category</h2>
-        <p className="text-[#7b5d58] text-lg mt-2">Curated collections just for you</p>
+        <h2 className="text-3xl md:text-4xl font-extrabold font-serif text-[#D4AF37] mb-2">Shop by Category</h2>
+        <span className="block h-1 w-16 bg-gradient-to-r from-[#FFD700] to-[#D4AF37] rounded-full mx-auto mb-2"></span>
+        <p className="text-[#7b5d58] text-lg mt-2 font-medium">Curated collections just for you</p>
       </div>
 
       {/* Category grid */}

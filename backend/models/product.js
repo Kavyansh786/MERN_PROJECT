@@ -24,6 +24,15 @@ const productSchema = new mongoose.Schema({
     required: [true, 'Product description is required'],
     minlength: [10, 'Description must be at least 10 characters']
   },
+  isRakhi: {
+    type: Boolean,
+    default: false
+  },
+  rakhiType: {
+    type: String,
+    enum: ['traditional', 'designer', 'premium'],
+    default: 'traditional'
+  },
   createdAt: {
     type: Date,
     default: Date.now

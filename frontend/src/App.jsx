@@ -8,12 +8,16 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Orders from './pages/Orders';
+import TrackOrder from './pages/TrackOrder';
 import Wishlist from './pages/Wishlist';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import PrivateRoute from './components/PrivateRoutes'
 import './index.css';
 import BridalCollection from './pages/BridalCollection';
+import Address from './pages/Address';
+import Payment from './pages/Payment';
+import RakshaBandhan from './pages/RakshaBandhan';
 
 export default function App() {
   return (
@@ -43,6 +47,14 @@ export default function App() {
           }
         />
         <Route
+          path="/track-order"
+          element={
+            <PrivateRoute>
+              <TrackOrder />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/wishlist"
           element={
             <PrivateRoute>
@@ -53,6 +65,23 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/bridal" element={<BridalCollection/>} />
+        <Route path="/raksha-bandhan" element={<RakshaBandhan/>} />
+        <Route
+          path="/address"
+          element={
+            <PrivateRoute>
+              <Address />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/payment"
+          element={
+            <PrivateRoute>
+              <Payment />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </>
   );

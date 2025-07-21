@@ -31,6 +31,15 @@ const toastConfig = {
     shadowColor: "shadow-rose-100/50",
     accentColor: "bg-rose-400/20",
   },
+  info: {
+    icon: AlertTriangle,
+    gradient: "from-blue-50/90 via-indigo-50/90 to-purple-50/90",
+    border: "border-blue-200/60",
+    iconColor: "text-blue-600",
+    textColor: "text-blue-900",
+    shadowColor: "shadow-blue-100/50",
+    accentColor: "bg-blue-400/20",
+  },
 }
 
 export function ToastComponent({ toast, onRemove }) {
@@ -38,8 +47,14 @@ export function ToastComponent({ toast, onRemove }) {
   const [isLeaving, setIsLeaving] = useState(false)
   const [progress, setProgress] = useState(100)
 
-  const config = toastConfig[toast.type]
-  const Icon = config.icon
+  // Safety check for toast object
+  if (!toast || !toast.type) {
+    console.warn('ToastComponent: Invalid toast object', toast)
+    return null
+  }
+
+  const config = toastConfig[toast.type] || toastConfig.success
+  const Icon = config.icon || CheckCircle
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 50)
