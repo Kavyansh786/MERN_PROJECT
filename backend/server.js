@@ -29,6 +29,7 @@ app.use('/api/orders', require('./routes/orderRoutes.js'));
 app.use('/api/cart', require('./routes/cartRoutes.js'));
 app.use('/api/payment',require('./routes/payment.js'));
 app.use('/api/address', require('./routes/addressRoutes.js'));
+app.use('/api/reviews', require('./routes/reviewRoutes.js'));
 
 // Root route
 app.get('/', (req, res) => {

@@ -1,27 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const reviews = [
-  {
-    name: 'Priya Sharma',
-    product: 'Rose Gold Infinity Bracelet',
-    comment: 'Absolutely stunning jewelry! The quality is great and I got so many compliments.',
-    image: 'https://i.pinimg.com/1200x/94/3a/d0/943ad0ad0332b9194e74347ef423efff.jpg',
-  },
-  {
-    name: 'Ananya Gupta',
-    product: 'Custom Wedding Ring',
-    comment: 'They made exactly what I imagined. Highly recommend their customization!',
-    image: 'https://i.pinimg.com/1200x/6f/67/dc/6f67dcd6381155dc03953227d06d217f.jpg',
-  },
-  {
-    name: 'Meera Patel',
-    product: 'Silver Lotus Necklace',
-    comment: 'Fast delivery and beautiful packaging. The necklace is even better in person!',
-    image: 'https://i.pinimg.com/1200x/74/b6/86/74b68679224a650cb46f9b25526ef7ad.jpg',
-  },
-];
+const placeholderImg = 'https://i.pinimg.com/1200x/94/3a/d0/943ad0ad0332b9194e74347ef423efff.jpg';
 
 export default function CustomerReviews() {
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get('/api/reviews?status=Approved');
+        setReviews(Array.isArray(res.data) ? res.data : res.data.reviews || []);
+      } catch (err) {
+        setReviews([]);
+      }
+      setLoading(false);
+    };
+    fetchReviews();
+  }, []);
+
   return (
     <section className="bg-white text-[#3E2723] py-12 px-4">
       <div className="text-center mb-10">
@@ -30,21 +29,25 @@ export default function CustomerReviews() {
         <p className="text-base mt-2 text-[#8D6E63]">Real stories from our jewelry lovers</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        {reviews.map((item, index) => (
-          <div key={index} className="bg-white shadow rounded-lg overflow-hidden">
-            <img src={item.image} alt={item.name} className="w-full h-48 object-cover" />
-            <div className="p-4">
-              <p className="text-yellow-500 mb-2">★★★★★</p>
-              <p className="italic">"{item.comment}"</p>
-              <div className="mt-3">
-                <p className="font-bold">{item.name}</p>
-                <p className="text-sm text-[#8D6E63]">Purchased: {item.product}</p>
+      {loading ? (
+        <div className="text-center text-gray-500 py-12">Loading reviews...</div>
+      ) : (
+        <div>
+          <pre>{JSON.stringify(reviews, null, 2)}</pre>
+          {reviews.length === 0 ? (
+            <div>No reviews yet.</div>
+          ) : (
+            reviews.map((item, index) => (
+              <div key={item._id || index} style={{border: '1px solid #ccc', margin: 8, padding: 8}}>
+                <div>User: {item.user?.name}</div>
+                <div>Product: {item.product?.name}</div>
+                <div>Comment: {item.comment}</div>
+                <div>Rating: {'★'.repeat(item.rating) + '☆'.repeat(5 - item.rating)}</div>
               </div>
-            </div>
-          </div>
-        ))}
-      </div>
+            ))
+          )}
+        </div>
+      )}
     </section>
   );
 } 

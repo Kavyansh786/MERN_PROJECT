@@ -6,6 +6,7 @@ const {
   addToWishlist,
   removeFromWishlist
 } = require('../services/userService');
+const User = require('../models/user');
 
 const router = express.Router();
 
@@ -87,6 +88,27 @@ router.delete('/wishlist/:userId/:productId', async (req, res) => {
   } catch (err) {
     console.error('Failed to remove from wishlist:', err.message);
     res.status(500).json({ message: 'Failed to remove from wishlist' });
+  }
+});
+
+// GET /api/users
+router.get('/', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch users' });
+  }
+});
+
+// PATCH /api/users/:id
+router.patch('/:id', async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true }).select('-password');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to update user' });
   }
 });
 

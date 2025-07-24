@@ -140,4 +140,28 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// GET /api/orders - Get all orders (for admin)
+router.get('/', async (req, res) => {
+  try {
+    const orders = await Order.find().populate('user', 'name email');
+    res.json({ orders });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch orders' });
+  }
+});
+// PATCH /api/orders/:id - Update order status or other fields
+router.patch('/:id', async (req, res) => {
+  try {
+    const updated = await Order.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!updated) return res.status(404).json({ message: 'Order not found' });
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ message: 'Order update failed' });
+  }
+});
+
 module.exports = router;
