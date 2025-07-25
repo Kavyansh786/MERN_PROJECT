@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../api/axios';
 
 const placeholderImg = 'https://i.pinimg.com/1200x/94/3a/d0/943ad0ad0332b9194e74347ef423efff.jpg';
 
@@ -11,7 +11,7 @@ export default function CustomerReviews() {
     const fetchReviews = async () => {
       setLoading(true);
       try {
-        const res = await axios.get('/api/reviews?status=Approved');
+        const res = await axios.get('http://localhost:5000/api/reviews?status=Approved');
         setReviews(Array.isArray(res.data) ? res.data : res.data.reviews || []);
       } catch (err) {
         setReviews([]);
@@ -32,17 +32,37 @@ export default function CustomerReviews() {
       {loading ? (
         <div className="text-center text-gray-500 py-12">Loading reviews...</div>
       ) : (
-        <div>
-          <pre>{JSON.stringify(reviews, null, 2)}</pre>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {reviews.length === 0 ? (
             <div>No reviews yet.</div>
           ) : (
             reviews.map((item, index) => (
-              <div key={item._id || index} style={{border: '1px solid #ccc', margin: 8, padding: 8}}>
-                <div>User: {item.user?.name}</div>
-                <div>Product: {item.product?.name}</div>
-                <div>Comment: {item.comment}</div>
-                <div>Rating: {'★'.repeat(item.rating) + '☆'.repeat(5 - item.rating)}</div>
+              <div
+                key={item._id || index}
+                className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-start border border-gray-200"
+              >
+                <div className="flex items-center mb-4">
+                  <img
+                    src={item.user?.profilePic || 'https://i.pinimg.com/1200x/94/3a/d0/943ad0ad0332b9194e74347ef423efff.jpg'}
+                    alt={item.user?.name}
+                    className="w-12 h-12 rounded-full object-cover mr-3 border"
+                  />
+                  <div>
+                    <div className="font-semibold text-lg">{item.user?.name}</div>
+                    <div className="text-sm text-gray-500">{item.product?.name}</div>
+                  </div>
+                </div>
+                <div className="mb-2 text-gray-700 italic">"{item.comment}"</div>
+                <div className="flex items-center mb-2">
+                  <span className="text-yellow-400 text-lg mr-2">
+                    {'★'.repeat(item.rating)}
+                    {'☆'.repeat(5 - item.rating)}
+                  </span>
+                  <span className="text-gray-500 text-sm ml-2">{item.rating}/5</span>
+                </div>
+                <div className="text-xs text-gray-400 mt-auto">
+                  {new Date(item.createdAt).toLocaleDateString()}
+                </div>
               </div>
             ))
           )}

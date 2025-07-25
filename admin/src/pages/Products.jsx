@@ -21,7 +21,9 @@ export default function Products() {
     imageUrl: "",
     description: "",
     isRakhi: false,
-    rakhiType: "traditional"
+    rakhiType: "traditional",
+    isFeatured: false,
+    isNewArrival: false
   });
   const [editId, setEditId] = useState(null);
   const [search, setSearch] = useState("");
@@ -68,7 +70,7 @@ export default function Products() {
     const submitForm = { ...form };
     if (customCategory) submitForm.category = customCategory;
     await api.post("/products", submitForm);
-    setForm({ name: "", price: "", category: "", imageUrl: "", description: "", isRakhi: false, rakhiType: "traditional" });
+    setForm({ name: "", price: "", category: "", imageUrl: "", description: "", isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false });
     setShowForm(false);
     fetchProducts();
   };
@@ -82,7 +84,9 @@ export default function Products() {
       imageUrl: product.imageUrl,
       description: product.description,
       isRakhi: product.isRakhi,
-      rakhiType: product.rakhiType || "traditional"
+      rakhiType: product.rakhiType || "traditional",
+      isFeatured: product.isFeatured || false,
+      isNewArrival: product.isNewArrival || false
     });
     setShowForm(true);
     setCustomCategory("");
@@ -94,7 +98,7 @@ export default function Products() {
     if (customCategory) submitForm.category = customCategory;
     await api.patch(`/products/${editId}`, submitForm);
     setEditId(null);
-    setForm({ name: "", price: "", category: "", imageUrl: "", description: "", isRakhi: false, rakhiType: "traditional" });
+    setForm({ name: "", price: "", category: "", imageUrl: "", description: "", isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false });
     setShowForm(false);
     fetchProducts();
   };
@@ -124,7 +128,7 @@ export default function Products() {
           onClick={() => {
             setShowForm(true);
             setEditId(null);
-            setForm({ name: "", price: "", category: "", imageUrl: "", description: "", isRakhi: false, rakhiType: "traditional" });
+            setForm({ name: "", price: "", category: "", imageUrl: "", description: "", isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false });
             setCustomCategory("");
           }}
         >
@@ -254,6 +258,24 @@ export default function Products() {
               <option value="designer">Designer</option>
               <option value="premium">Premium</option>
             </select>
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                name="isFeatured"
+                checked={form.isFeatured}
+                onChange={handleInput}
+              />
+              Featured
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                name="isNewArrival"
+                checked={form.isNewArrival}
+                onChange={handleInput}
+              />
+              New Arrival
+            </label>
           </div>
           <div className="flex gap-2">
             <button
@@ -268,7 +290,7 @@ export default function Products() {
               onClick={() => {
                 setShowForm(false);
                 setEditId(null);
-                setForm({ name: "", price: "", category: "", imageUrl: "", description: "", isRakhi: false, rakhiType: "traditional" });
+                setForm({ name: "", price: "", category: "", imageUrl: "", description: "", isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false });
                 setCustomCategory("");
               }}
             >
@@ -290,6 +312,8 @@ export default function Products() {
                 <th className="p-4 text-left font-semibold">Price</th>
                 <th className="p-4 text-left font-semibold">Category</th>
                 <th className="p-4 text-left font-semibold">Image</th>
+                <th className="p-4 text-left font-semibold">Featured</th>
+                <th className="p-4 text-left font-semibold">New Arrival</th>
                 <th className="p-4 text-left font-semibold">Status</th>
                 <th className="p-4 text-left font-semibold">Actions</th>
               </tr>
@@ -305,6 +329,8 @@ export default function Products() {
                       <img src={p.imageUrl} alt={p.name} className="w-16 h-16 object-cover rounded" />
                     )}
                   </td>
+                  <td className="p-4 text-center">{p.isFeatured ? '✔️' : ''}</td>
+                  <td className="p-4 text-center">{p.isNewArrival ? '✔️' : ''}</td>
                   <td className="p-4">
                     <span className="bg-black text-white px-4 py-1 rounded-full text-xs font-semibold">Active</span>
                   </td>

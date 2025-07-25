@@ -28,6 +28,14 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  isFeatured: {
+    type: Boolean,
+    default: false
+  },
+  isNewArrival: {
+    type: Boolean,
+    default: false
+  },
   rakhiType: {
     type: String,
     enum: ['traditional', 'designer', 'premium'],

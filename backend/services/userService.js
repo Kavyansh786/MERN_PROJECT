@@ -32,9 +32,20 @@ async function removeFromWishlist(userId, productId) {
   return user.wishlist;
 }
 
+async function updateUserProfile(userId, updates) {
+  // Only allow certain fields to be updated
+  const allowedFields = ['name', 'email', 'phone', 'dob', 'profilePic'];
+  const updateData = {};
+  for (const key of allowedFields) {
+    if (updates[key] !== undefined) updateData[key] = updates[key];
+  }
+  return await User.findByIdAndUpdate(userId, updateData, { new: true, runValidators: true }).select('-password');
+}
+
 module.exports = {
   getUserById,
   getUserWishlist,
   addToWishlist,
-  removeFromWishlist
+  removeFromWishlist,
+  updateUserProfile
 };

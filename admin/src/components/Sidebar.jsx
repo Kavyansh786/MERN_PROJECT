@@ -27,7 +27,7 @@ export default function Sidebar({ active = "Dashboard" }) {
     <aside className="w-64 bg-white py-6 px-4 space-y-8 border-r border-gray-200 flex flex-col fixed inset-y-0 left-0 z-20">
       <div>
         <h1 className="text-2xl font-bold text-gold tracking-wide">Admin Panel</h1>
-        <p className="text-xs text-gray-500 font-medium">Jewelry Store</p>
+        <p className="text-xs text-gray-500 font-medium">Auréa</p>
       </div>
       <nav className="flex-1">
         <ul className="space-y-2">

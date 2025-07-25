@@ -25,7 +25,7 @@ export default function FeaturedProducts() {
         <p className="text-center text-[#7c5c36]/60">No products found.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
-          {products.slice(0, 8).map((product) => (
+          {products.filter(p => p.isFeatured).slice(0, 8).map((product) => (
             <ProductCard key={product._id} product={product} showNewBadge={false} />
           ))}
         </div>
