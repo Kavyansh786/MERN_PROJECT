@@ -6,6 +6,9 @@ import Products from "./pages/Products";
 import Orders from "./pages/Orders";
 import Users from "./pages/Users";
 import Reviews from "./pages/Reviews";
+import Inventory from "./pages/Inventory";
+import Coupons from "./pages/Coupons";
+import Reports from "./pages/Reports";
 
 
 function OrderDetails() {
@@ -27,6 +30,9 @@ export default function App() {
               <Route path="/admin/orders/:id" element={<OrderDetails />} />
               <Route path="/admin/users" element={<Users/>}/>
               <Route path="/admin/reviews" element={<Reviews/>}/>
+              <Route path="/admin/inventory" element={<Inventory/>}/>
+              <Route path="/admin/coupons" element={<Coupons/>}/>
+              <Route path="/admin/reports" element={<Reports/>}/>
               <Route path="*" element={<Navigate to="/admin" />} />
             </Routes>
           </main>

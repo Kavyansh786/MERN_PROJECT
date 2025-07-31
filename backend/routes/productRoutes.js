@@ -34,11 +34,12 @@ router.get('/:id', async (req, res) => {
 // ✅ POST /api/products
 router.post('/', async (req, res) => {
   try {
+    console.log('Received product creation request:', JSON.stringify(req.body, null, 2));
     const product = await createProduct(req.body);
     res.status(201).json(product);
   } catch (err) {
     console.error('Product creation error:', err.message);
-    res.status(500).json({ message: 'Product creation failed' });
+    res.status(500).json({ message: err.message });
   }
 });
 

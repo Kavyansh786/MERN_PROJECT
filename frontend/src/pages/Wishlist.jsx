@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../api/axios';
 import ProductCard from '../components/ProductCard';
+import { getUserId } from '../utils/userUtils';
 
 export default function Wishlist() {
   const [wishlist, setWishlist] = useState([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-    const userId = storedUser?.user?.id || storedUser?._id;
+    const userId = getUserId();
 
     if (!userId) {
       setError('Please login to view your wishlist');
       return;
     }
 
-    axios.get(`http://localhost:5000/api/users/wishlist?id=${userId}`)
+    axios.get(`/users/wishlist?id=${userId}`)
       .then(res => setWishlist(res.data))
       .catch(err => {
         console.error('Error fetching wishlist:', err);

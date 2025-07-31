@@ -30,6 +30,9 @@ app.use('/api/cart', require('./routes/cartRoutes.js'));
 app.use('/api/payment',require('./routes/payment.js'));
 app.use('/api/address', require('./routes/addressRoutes.js'));
 app.use('/api/reviews', require('./routes/reviewRoutes.js'));
+app.use('/api/inventory', require('./routes/inventoryRoutes.js'));
+app.use('/api/coupons', require('./routes/couponRoutes.js'));
+app.use('/api/reports', require('./routes/reportRoutes.js'));
 
 // Root route
 app.get('/', (req, res) => {

@@ -2,22 +2,22 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const giftingItems = [
-  { title: 'Birthday', image: 'birthday.png' },
-  { title: 'Anniversary', image: 'anniversary.png' },
-  { title: 'Baby Birth', image: 'baby.png' },
-  { title: 'Festive collection', image: 'festive.png' },
-  { title: 'Personalised Jewellery', image: 'featured.png' },
-  { title: 'Raksha Bandhan Collection', image: 'festive.png' },
+  { title: 'Birthday', image: 'birthday.png', link: '/birthday-gifts' },
+  { title: 'Anniversary', image: 'anniversary.png', link: '/anniversary-gifts' },
+  { title: 'Baby Birth', image: 'baby.png', link: '/birthday-gifts' }, // Using birthday gifts for baby birth
+  { title: 'Festive collection', image: 'festive.png', link: '/festive-gifts' },
+  { title: 'Personalised Jewellery', image: 'featured.png', link: '/personalized-gifts' },
+  { title: 'Raksha Bandhan Collection', image: 'festive.png', link: '/raksha-bandhan' },
 ];
 
 export default function GiftingAndMore() {
   const navigate = useNavigate();
 
   const handleItemClick = (title) => {
-    if (title === 'Raksha Bandhan Collection') {
-      navigate('/raksha-bandhan');
+    const item = giftingItems.find(item => item.title === title);
+    if (item && item.link) {
+      navigate(item.link);
     }
-    // Add other navigation logic for other items if needed
   };
 
   return (
@@ -30,14 +30,14 @@ export default function GiftingAndMore() {
       </div>
 
       {/* Main Grid */}
-      <div className="max-w-7xl mx-auto grid grid-cols-3 gap-6">
-        {/* Left 2x2 smaller cards */}
-        <div className="col-span-2 grid grid-cols-2 grid-rows-2 gap-4">
+      <div className="max-w-7xl mx-auto grid grid-cols-12 gap-6">
+        {/* Left 2x2 grid - 4 equal boxes */}
+        <div className="col-span-7 grid grid-cols-2 grid-rows-2 gap-4">
           {giftingItems.slice(0, 4).map((item, idx) => (
             <div
               key={idx}
               onClick={() => handleItemClick(item.title)}
-              className="rounded-xl overflow-hidden relative shadow hover:shadow-lg transition-transform hover:scale-105 aspect-[4/3] cursor-pointer"
+              className="rounded-xl overflow-hidden relative shadow hover:shadow-lg transition-transform hover:scale-105 aspect-square cursor-pointer"
             >
               <img
                 src={item.image}
@@ -51,13 +51,13 @@ export default function GiftingAndMore() {
           ))}
         </div>
 
-        {/* Right stacked tall rectangles */}
-        <div className="flex flex-col gap-4">
+        {/* Right 2 horizontal rectangles side by side */}
+        <div className="col-span-5 flex flex-row gap-4">
           {giftingItems.slice(4).map((item, idx) => (
             <div
               key={idx}
               onClick={() => handleItemClick(item.title)}
-              className="rounded-xl overflow-hidden relative shadow hover:shadow-lg transition-transform hover:scale-105 h-[172px] cursor-pointer"
+              className="rounded-xl overflow-hidden relative shadow hover:shadow-lg transition-transform hover:scale-105 w-1/2 aspect-[4/5] cursor-pointer"
             >
               <img
                 src={item.image}

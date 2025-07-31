@@ -25,6 +25,11 @@ const orderSchema = new mongoose.Schema({
     postalCode: { type: String, required: [true, 'Postal Code is required'] },
     country: { type: String, required: [true, 'Country is required'] }
   },
+  paymentMethod: {
+    type: String,
+    required: [true, 'Payment method is required'],
+    enum: ['cod', 'razorpay']
+  },
   paymentStatus: {
     type: String,
     enum: ['Pending', 'Paid'],
@@ -39,6 +44,19 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Total price is required'],
     min: [0, 'Total must be positive']
+  },
+  originalPrice: {
+    type: Number,
+    min: [0, 'Original price must be positive']
+  },
+  discountAmount: {
+    type: Number,
+    default: 0,
+    min: [0, 'Discount amount cannot be negative']
+  },
+  couponCode: {
+    type: String,
+    uppercase: true
   }
 }, {
   timestamps: true

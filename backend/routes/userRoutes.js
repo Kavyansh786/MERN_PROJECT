@@ -48,7 +48,13 @@ router.get('/wishlist', async (req, res) => {
   try {
     const userId = req.query.id;
 
-    if (!userId) return res.status(400).json({ message: 'User ID is required' });
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is required' });
+    }
+
+    if (userId === 'undefined') {
+      return res.status(400).json({ message: 'Invalid user ID' });
+    }
 
     const wishlist = await getUserWishlist(userId);
     res.json(wishlist);

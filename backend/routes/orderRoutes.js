@@ -17,9 +17,7 @@ router.post('/', async (req, res) => {
       });
     }
 
-    const { orderItems, shippingAddress, paymentMethod, totalPrice } = req.body;
-
-
+    const { orderItems, shippingAddress, paymentMethod, totalPrice, couponCode } = req.body;
 
     if (!orderItems || orderItems.length === 0) {
       return res.status(400).json({ message: 'No order items' });

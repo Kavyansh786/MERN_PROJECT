@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Chevron Earring",
+    "price": 70,
+    "category": "Earrings",
+    "imageUrl": "/ear.png",
+    "description": "Elegant chevron design earring from our signature collection. Perfect for everyday wear and special occasions.",
+    "currentStock": 50,
+    "sku": "AAIKA-CHEV-001",
+    "isFeatured": true,
+    "isNewArrival": false
+  },
+  {
+    "name": "Clover Bracelet",
+    "price": 180,
+    "category": "Bracelets",
+    "imageUrl": "/bangle.png",
+    "description": "Beautiful clover design bracelet from our signature collection. Brings luck and elegance to your wrist.",
+    "currentStock": 30,
+    "sku": "AAIKA-CLOV-001",
+    "isFeatured": true,
+    "isNewArrival": false
+  },
+  {
+    "name": "Magnetic Heart Pendant",
+    "price": 180,
+    "category": "Pendants",
+    "imageUrl": "/neck.png",
+    "description": "Magnetic heart pendant from our signature collection. Easy to wear and perfect for layering.",
+    "currentStock": 25,
+    "sku": "AAIKA-MAG-001",
+    "isFeatured": true,
+    "isNewArrival": false
+  },
+  {
+    "name": "Crystal Earring",
+    "price": 165,
+    "category": "Earrings",
+    "imageUrl": "/img200.jpg",
+    "description": "Sparkling crystal earring from our signature collection. Adds glamour to any outfit.",
+    "currentStock": 40,
+    "sku": "AAIKA-CRY-001",
+    "isFeatured": true,
+    "isNewArrival": false
+  },
+  {
+    "name": "Pearl Bow",
+    "price": 60,
+    "category": "Accessories",
+    "imageUrl": "/featured.png",
+    "description": "Elegant pearl bow accessory from our signature collection. Perfect hair accessory for any occasion.",
+    "currentStock": 60,
+    "sku": "AAIKA-PEARL-001",
+    "isFeatured": false,
+    "isNewArrival": true
+  }
+] 

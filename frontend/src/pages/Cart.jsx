@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../api/axios';
 import { useToast } from '../components/Toast';
 import Footer from '../components/Footer';
+import { getUserId } from '../utils/userUtils';
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -16,8 +17,7 @@ export default function Cart() {
   const [removingItem, setRemovingItem] = useState(null);
   const { showToast } = useToast();
 
-  const storedUser = JSON.parse(localStorage.getItem('user'));
-  const userId = storedUser?.user?.id || storedUser?._id;
+  const userId = getUserId();
 
   useEffect(() => {
     if (!userId) {
@@ -26,7 +26,7 @@ export default function Cart() {
     }
 
     axios
-      .get(`http://localhost:5000/api/cart/${userId}`)
+      .get(`/cart/${userId}`)
       .then((res) => {
         setCartItems(res.data.items || []);
         setLoading(false);
@@ -73,7 +73,7 @@ export default function Cart() {
     setRemovingItem(productId);
     try {
       const res = await axios.delete(
-        `http://localhost:5000/api/cart/${userId}/remove/${productId}`
+        `/cart/${userId}/remove/${productId}`
       );
       setCartItems(res.data.cart.items);
       showToast({ type: 'success', message: 'Item removed from cart.' });
@@ -102,7 +102,7 @@ export default function Cart() {
 
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/cart/${userId}/update`,
+        `/cart/${userId}/update`,
         { productId, quantity: newQuantity }
       );
 
@@ -151,21 +151,49 @@ export default function Cart() {
   const progress = Math.min((subtotal / freeShippingThreshold) * 100, 100);
   const remainingForFreeShipping = Math.max(freeShippingThreshold - subtotal, 0);
 
-  // Placeholder coupon logic
-  const handleApplyCoupon = () => {
+  // Real coupon validation
+  const handleApplyCoupon = async () => {
     if (couponApplied) {
       showToast({ type: 'info', message: 'Coupon already applied.' });
       return;
     }
-    if (coupon.trim().toLowerCase() === 'JEWEL10'.toLowerCase()) {
-      const discountValue = Math.round(subtotal * 0.1);
-      setDiscount(discountValue);
-      setCouponApplied(true);
-      showToast({ type: 'success', message: 'Coupon applied! 10% off.' });
-    } else {
+
+    if (!coupon.trim()) {
+      showToast({ type: 'error', message: 'Please enter a coupon code.' });
+      return;
+    }
+
+    try {
+      const response = await axios.get(`http://localhost:5000/api/coupons/validate/${coupon.trim()}`);
+      
+              if (response.data.valid) {
+          const discountValue = Math.round(subtotal * (response.data.coupon.discount / 100));
+          setDiscount(discountValue);
+          setCouponApplied(true);
+          // Store coupon info in localStorage for payment page
+          localStorage.setItem('appliedCoupon', JSON.stringify({
+            code: coupon.trim(),
+            discount: response.data.coupon.discount,
+            discountAmount: discountValue
+          }));
+          showToast({ 
+            type: 'success', 
+            message: `Coupon applied! ${response.data.coupon.discount}% off.` 
+          });
+        } else {
+          setDiscount(0);
+          setCouponApplied(false);
+          localStorage.removeItem('appliedCoupon');
+          showToast({ type: 'error', message: response.data.message || 'Invalid coupon code.' });
+        }
+    } catch (error) {
+      console.error('Coupon validation error:', error);
       setDiscount(0);
       setCouponApplied(false);
-      showToast({ type: 'error', message: 'Invalid coupon code.' });
+      showToast({ 
+        type: 'error', 
+        message: error.response?.data?.message || 'Failed to validate coupon.' 
+      });
     }
   };
 
@@ -181,7 +209,17 @@ export default function Cart() {
       return;
     }
     
-    navigate('/address');
+    // Pass coupon information to address page
+    const appliedCoupon = localStorage.getItem('appliedCoupon');
+    const couponData = appliedCoupon ? JSON.parse(appliedCoupon) : null;
+    
+    navigate('/address', { 
+      state: { 
+        couponData,
+        discount,
+        couponApplied
+      }
+    });
   };
 
   if (!userId) {

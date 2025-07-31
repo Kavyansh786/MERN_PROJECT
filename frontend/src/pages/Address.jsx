@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../api/axios';
 import { useToast } from '../components/Toast';
+import { getUserId } from '../utils/userUtils';
 import Footer from '../components/Footer';
 
 export default function Address() {
@@ -10,8 +11,7 @@ export default function Address() {
   const { showToast } = useToast();
   
   // Get user info from localStorage
-  const storedUser = JSON.parse(localStorage.getItem('user'));
-  const userId = storedUser?.user?.id;
+  const userId = getUserId();
 
   // Form state
   const [formData, setFormData] = useState({
@@ -38,6 +38,11 @@ export default function Address() {
 
   // Buy Now product info (if coming from product page)
   const buyNowProduct = location.state?.buyNowProduct;
+  
+  // Coupon information (if coming from cart)
+  const couponData = location.state?.couponData;
+  const discount = location.state?.discount || 0;
+  const couponApplied = location.state?.couponApplied || false;
 
   // Indian states for dropdown
   const indianStates = [
@@ -236,7 +241,10 @@ export default function Address() {
       state: { 
         selectedAddress,
         buyNowProduct,
-        fromCart: !buyNowProduct
+        fromCart: !buyNowProduct,
+        couponData,
+        discount,
+        couponApplied
       }
     });
   };

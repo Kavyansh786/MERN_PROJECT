@@ -1,3 +1,4 @@
+import { Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
   Package,
@@ -22,7 +23,11 @@ const navItems = [
   { label: "Settings", icon: Settings, path: "/admin/settings" },
 ];
 
-export default function Sidebar({ active = "Dashboard" }) {
+export default function Sidebar() {
+  const location = useLocation();
+  
+  console.log('Current location:', location.pathname);
+  
   return (
     <aside className="w-64 bg-white py-6 px-4 space-y-8 border-r border-gray-200 flex flex-col fixed inset-y-0 left-0 z-20">
       <div>
@@ -33,11 +38,13 @@ export default function Sidebar({ active = "Dashboard" }) {
         <ul className="space-y-2">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = item.label === active;
+            const isActive = location.pathname === item.path || 
+                           (item.path === "/admin" && location.pathname === "/admin") ||
+                           (item.path !== "/admin" && location.pathname.startsWith(item.path));
             return (
               <li key={item.label}>
-                <a
-                  href={item.path}
+                <Link
+                  to={item.path}
                   className={`flex items-center w-full space-x-3 px-4 py-3 rounded-xl font-medium text-base transition-all duration-200 ${
                     isActive
                       ? "bg-gold text-white shadow scale-105"
@@ -46,7 +53,7 @@ export default function Sidebar({ active = "Dashboard" }) {
                 >
                   <Icon className="w-5 h-5" />
                   <span>{item.label}</span>
-                </a>
+                </Link>
               </li>
             );
           })}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useToast } from './Toast';
+import { getUserId } from '../utils/userUtils';
 
 export default function ProductCard({ product, showNewBadge = false, viewMode = 'grid' }) {
   const navigate = useNavigate();
@@ -9,15 +10,14 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const storedUser = JSON.parse(localStorage.getItem('user'));
+  const userId = getUserId();
 
   // Check if product is already in wishlist on component mount
   useEffect(() => {
     const checkWishlistStatus = async () => {
-      if (!storedUser || !product._id) return;
+      if (!userId || !product._id) return;
 
       try {
-        const userId = storedUser.user?.id || storedUser._id;
         const response = await axios.get(`http://localhost:5000/api/users/wishlist?id=${userId}`);
         const wishlistItems = response.data;
         const isInWishlist = wishlistItems.some(item => item._id === product._id);
@@ -28,18 +28,23 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
     };
 
     checkWishlistStatus();
-  }, [product._id, storedUser]);
+  }, [product._id, userId]);
 
   const handleAddToCart = async () => {
-    if (!storedUser) {
+    if (!userId) {
       showToast({ type: 'error', message: 'Please login to add items to your cart.' });
       navigate('/login');
       return;
     }
 
+    // Check if product is out of stock
+    if (product.available <= 0) {
+      showToast({ type: 'error', message: 'This product is out of stock.' });
+      return;
+    }
+
     setIsLoading(true);
     try {
-      const userId = storedUser.user?.id || storedUser._id;
       await axios.post(
         'http://localhost:5000/api/cart',
         { 
@@ -58,7 +63,7 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
   };
 
   const handleWishlist = async () => {
-    if (!storedUser) {
+    if (!userId) {
       showToast({ type: 'error', message: 'Please login to add items to your wishlist.' });
       navigate('/login');
       return;
@@ -66,7 +71,6 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
 
     setIsLoading(true);
     try {
-      const userId = storedUser.user?.id || storedUser._id;
       
       if (isWishlisted) {
         // Remove from wishlist
@@ -110,7 +114,12 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
               onClick={handleProductClick}
             />
             
-
+            {/* Out of Stock Badge */}
+            {product.available <= 0 && (
+              <div className="absolute top-3 left-3 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg whitespace-nowrap">
+                Out of Stock
+              </div>
+            )}
 
             {/* Wishlist Button */}
             <button
@@ -189,8 +198,12 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
             <div className="flex gap-2">
               <button
                 onClick={handleAddToCart}
-                disabled={isLoading}
-                className="flex-1 bg-gradient-to-r from-[#a67c52] to-[#7c5c36] text-white font-bold py-2 px-4 rounded-lg shadow-lg hover:from-[#8d6a43] hover:to-[#6b4a2a] transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
+                disabled={isLoading || product.available <= 0}
+                className={`flex-1 font-bold py-2 px-4 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm ${
+                  product.available <= 0 
+                    ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
+                    : 'bg-gradient-to-r from-[#a67c52] to-[#7c5c36] text-white hover:from-[#8d6a43] hover:to-[#6b4a2a]'
+                }`}
               >
                 {isLoading ? (
                   <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
@@ -204,7 +217,7 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                   </svg>
                 )}
-                {isLoading ? 'Adding...' : 'Add to Cart'}
+                {isLoading ? 'Adding...' : product.available <= 0 ? 'Out of Stock' : 'Add to Cart'}
               </button>
               
               <button className="bg-gradient-to-r from-[#D4AF37] to-[#FFD700] text-white font-bold py-2 px-4 rounded-lg shadow-lg hover:from-[#B8941F] hover:to-[#E6C200] transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 text-sm">
@@ -237,6 +250,13 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
         
  
   
+        {/* Out of Stock Badge */}
+        {product.available <= 0 && (
+          <div className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-lg whitespace-nowrap">
+            Out of Stock
+          </div>
+        )}
+
         {/* Wishlist Button */}
         <button
           onClick={handleWishlist}
@@ -316,8 +336,12 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
         <div className="flex gap-2 h-8">
           <button
             onClick={handleAddToCart}
-            disabled={isLoading}
-            className="flex-1 bg-gradient-to-r from-[#a67c52] to-[#7c5c36] text-white font-bold py-2 px-3 rounded-lg shadow-lg hover:from-[#8d6a43] hover:to-[#6b4a2a] transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1 text-xs"
+            disabled={isLoading || product.available <= 0}
+            className={`flex-1 font-bold py-2 px-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1 text-xs ${
+              product.available <= 0 
+                ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
+                : 'bg-gradient-to-r from-[#a67c52] to-[#7c5c36] text-white hover:from-[#8d6a43] hover:to-[#6b4a2a]'
+            }`}
           >
             {isLoading ? (
               <svg className="animate-spin h-3 w-3 flex-shrink-0" fill="none" viewBox="0 0 24 24">
@@ -331,7 +355,7 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
               </svg>
             )}
-            <span className="truncate">{isLoading ? 'Adding...' : 'Add to Cart'}</span>
+            <span className="truncate">{isLoading ? 'Adding...' : product.available <= 0 ? 'Out of Stock' : 'Add to Cart'}</span>
           </button>
           
           <button className="w-20 bg-gradient-to-r from-[#D4AF37] to-[#FFD700] text-white font-bold py-2 px-3 rounded-lg shadow-lg hover:from-[#B8941F] hover:to-[#E6C200] transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-1 text-xs">

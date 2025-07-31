@@ -7,26 +7,31 @@ const categories = [
     name: 'Bridal Collection',
     price: 'Starting from ₹32,400*',
     image: 'neck.png',
+    link: '/bridal',
   },
   {
     name: 'Sleek Rings',
     price: 'Starting from ₹10,080*',
     image: 'gring.png',
+    link: '/rings',
   },
   {
     name: 'Elegant Bangles',
     price: 'Starting from ₹36,200*',
     image: 'bangle.png',
+    link: '/bracelets',
   },
   {
     name: 'Stunning Earrings',
     price: 'Starting from ₹10,817*',
     image: 'ear.png',
+    link: '/earrings',
   },
   {
     name: 'Stylish Mangalsutras',
     price: 'Starting from ₹36,500*',
     image: 'mangal.png',
+    link: '/necklaces', // Using necklaces page for mangalsutras
   },
 ];
 
@@ -55,9 +60,9 @@ const CategoryItem = ({ category, isLarge = false }) => {
     </div>
   );
 
-  // Only make Bridal Collection clickable
-  return category.name === 'Bridal Collection' ? (
-    <Link to="/bridal">{content}</Link>
+  // Make all categories clickable if they have a link
+  return category.link ? (
+    <Link to={category.link}>{content}</Link>
   ) : (
     content
   );

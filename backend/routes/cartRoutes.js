@@ -28,6 +28,31 @@ router.post('/', async (req, res) => {
       });
     }
 
+    // Check product availability
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(400).json({
+        success: false,
+        message: 'Product not found'
+      });
+    }
+
+    // Check if product is in stock
+    if (product.available <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'This product is out of stock'
+      });
+    }
+
+    // Check if requested quantity is available
+    if (product.available < quantity) {
+      return res.status(400).json({
+        success: false,
+        message: `Only ${product.available} units available in stock`
+      });
+    }
+
     let cart = await Cart.findOne({ user });
 
     if (!cart) {
@@ -37,7 +62,15 @@ router.post('/', async (req, res) => {
     const itemIndex = cart.items.findIndex(item => item.product.toString() === productId);
 
     if (itemIndex > -1) {
-      cart.items[itemIndex].quantity += quantity;
+      // Check if adding more quantity exceeds available stock
+      const newTotalQuantity = cart.items[itemIndex].quantity + quantity;
+      if (newTotalQuantity > product.available) {
+        return res.status(400).json({
+          success: false,
+          message: `Cannot add more quantity. Only ${product.available} units available in stock`
+        });
+      }
+      cart.items[itemIndex].quantity = newTotalQuantity;
     } else {
       cart.items.push({ product: productId, quantity });
     }
@@ -57,6 +90,20 @@ router.put('/:userId/update', async (req, res) => {
     const { productId, quantity } = req.body;
     if (!productId || quantity < 1) {
       return res.status(400).json({ success: false, message: 'Valid product ID and quantity required' });
+    }
+
+    // Check product availability
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(400).json({ success: false, message: 'Product not found' });
+    }
+
+    // Check if requested quantity is available
+    if (product.available < quantity) {
+      return res.status(400).json({
+        success: false,
+        message: `Only ${product.available} units available in stock`
+      });
     }
 
     const cart = await Cart.findOne({ user: req.params.userId });

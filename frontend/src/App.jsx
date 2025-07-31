@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Orders from './pages/Orders';
+import OrderDetail from './pages/OrderDetail';
 import TrackOrder from './pages/TrackOrder';
 import Wishlist from './pages/Wishlist';
 import About from './pages/About';
@@ -18,6 +19,18 @@ import BridalCollection from './pages/BridalCollection';
 import Address from './pages/Address';
 import Payment from './pages/Payment';
 import RakshaBandhan from './pages/RakshaBandhan';
+
+// Shop by Category Pages
+import Earrings from './pages/Earrings';
+import Necklaces from './pages/Necklaces';
+import Bracelets from './pages/Bracelets';
+import Rings from './pages/Rings';
+
+// Gifting Category Pages
+import BirthdayGifts from './pages/BirthdayGifts';
+import AnniversaryGifts from './pages/AnniversaryGifts';
+import FestiveGifts from './pages/FestiveGifts';
+import PersonalizedGifts from './pages/PersonalizedGifts';
 
 export default function App() {
   return (
@@ -47,6 +60,14 @@ export default function App() {
           }
         />
         <Route
+          path="/orders/:orderId"
+          element={
+            <PrivateRoute>
+              <OrderDetail />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/track-order"
           element={
             <PrivateRoute>
@@ -66,6 +87,19 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/bridal" element={<BridalCollection/>} />
         <Route path="/raksha-bandhan" element={<RakshaBandhan/>} />
+        
+        {/* Shop by Category Routes */}
+        <Route path="/earrings" element={<Earrings />} />
+        <Route path="/necklaces" element={<Necklaces />} />
+        <Route path="/bracelets" element={<Bracelets />} />
+        <Route path="/rings" element={<Rings />} />
+        
+        {/* Gifting Category Routes */}
+        <Route path="/birthday-gifts" element={<BirthdayGifts />} />
+        <Route path="/anniversary-gifts" element={<AnniversaryGifts />} />
+        <Route path="/festive-gifts" element={<FestiveGifts />} />
+        <Route path="/personalized-gifts" element={<PersonalizedGifts />} />
+        
         <Route
           path="/address"
           element={

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../api/axios';
 import { useToast } from '../components/Toast';
+import { getUserId } from '../utils/userUtils';
 import { Heart, ShoppingCart, Star, Filter, Search, Eye } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 
@@ -480,8 +481,8 @@ export default function BridalCollection() {
   }, [products, searchTerm, selectedCategory, priceRange, sortBy]);
 
   const handleAddToCart = async (productId) => {
-    const storedUser = localStorage.getItem('user');
-    if (!storedUser) {
+    const userId = getUserId();
+    if (!userId) {
       showToast({
         type: 'error',
         message: 'Please login to add items to your cart.'
@@ -490,10 +491,9 @@ export default function BridalCollection() {
       return;
     }
 
-    const user = JSON.parse(storedUser);
     try {
       await axios.post('http://localhost:5000/api/cart', {
-        user: user.user.id,
+        user: userId,
         productId,
         quantity: 1,
       });

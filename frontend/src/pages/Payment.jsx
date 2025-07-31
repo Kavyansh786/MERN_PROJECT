@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useToast } from '../components/Toast';
 import Footer from '../components/Footer';
 import axios from 'axios';
+import { getUserId } from '../utils/userUtils';
 
 // Load Razorpay script
 const loadRazorpay = () => {
@@ -27,23 +28,45 @@ export default function Payment() {
   const [loading, setLoading] = useState(true);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [processingPayment, setProcessingPayment] = useState(false);
+  const [couponCode, setCouponCode] = useState('');
+  const [discount, setDiscount] = useState(0);
 
   useEffect(() => {
     if (location.state) {
       setSelectedAddress(location.state.selectedAddress);
       setBuyNowProduct(location.state.buyNowProduct);
       setFromCart(location.state.fromCart);
+      
+      // Get coupon information from location state
+      if (location.state.couponData) {
+        setCouponCode(location.state.couponData.code);
+        setDiscount(location.state.discount || 0);
+      }
     } else {
       showToast({ type: 'error', message: 'No address selected. Please go back to cart.' });
       navigate('/cart');
+    }
+
+    // Fallback: Get coupon information from localStorage if not in location state
+    if (!location.state?.couponData) {
+      const appliedCoupon = localStorage.getItem('appliedCoupon');
+      if (appliedCoupon) {
+        try {
+          const couponData = JSON.parse(appliedCoupon);
+          setCouponCode(couponData.code);
+          setDiscount(couponData.discountAmount);
+        } catch (error) {
+          console.error('Error parsing coupon data:', error);
+          localStorage.removeItem('appliedCoupon');
+        }
+      }
     }
   }, [location.state, navigate]);
 
   // Fetch cart items if coming from cart
   useEffect(() => {
     const fetchCartItems = async () => {
-      const storedUser = JSON.parse(localStorage.getItem('user'));
-      const userId = storedUser?.user?.id;
+      const userId = getUserId();
 
       if (!userId) {
         setLoading(false);
@@ -68,17 +91,20 @@ export default function Payment() {
     }
   }, [fromCart]);
 
-  // Calculate total amount
-  const calculateTotal = () => {
-    let total = 0;
-    
+  // Calculate subtotal (before discount)
+  const calculateSubtotal = () => {
     if (buyNowProduct) {
-      total = buyNowProduct.price * buyNowProduct.quantity;
+      return buyNowProduct.price * buyNowProduct.quantity;
     } else if (cartItems.length > 0) {
-      total = cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+      return cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
     }
-    
-    return total;
+    return 0;
+  };
+
+  // Calculate total amount (after discount)
+  const calculateTotal = () => {
+    const subtotal = calculateSubtotal();
+    return Math.max(subtotal - discount, 0);
   };
 
   const handleRazorpayPayment = async () => {
@@ -182,8 +208,7 @@ export default function Payment() {
 
   const createOrderInDatabase = async () => {
     try {
-      const storedUser = JSON.parse(localStorage.getItem('user'));
-      const userId = storedUser?.user?.id;
+      const userId = getUserId();
 
       if (!userId) {
         throw new Error('User not logged in');
@@ -200,7 +225,8 @@ export default function Payment() {
           country: 'India'
         },
         paymentMethod: selectedPaymentMethod,
-        totalPrice: calculateTotal()
+        totalPrice: calculateSubtotal(), // Send original subtotal, let backend handle discount
+        couponCode: couponCode || null
       };
 
       const response = await axios.post('http://localhost:5000/api/orders', {
@@ -222,6 +248,8 @@ export default function Payment() {
   const handlePaymentSuccess = async () => {
     try {
       await createOrderInDatabase();
+      // Clear coupon from localStorage after successful order
+      localStorage.removeItem('appliedCoupon');
       showToast({ type: 'success', message: 'Order placed successfully! You will receive a confirmation soon.' });
       navigate('/orders');
     } catch (error) {
@@ -235,7 +263,10 @@ export default function Payment() {
     navigate('/address', { 
       state: { 
         buyNowProduct,
-        fromCart
+        fromCart,
+        couponData: couponCode ? { code: couponCode, discount: discount } : null,
+        discount,
+        couponApplied: discount > 0
       }
     });
   };
@@ -397,10 +428,24 @@ export default function Payment() {
                       <p className="text-[#3e2d26] text-sm">Qty: {buyNowProduct.quantity}</p>
                     </div>
                   </div>
-                  <div className="border-t border-[#e0c3a0] pt-4">
-                    <div className="flex justify-between text-lg font-bold">
+                  <div className="border-t border-[#e0c3a0] pt-4 space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span>Subtotal</span>
+                      <span>₹{calculateSubtotal().toLocaleString()}</span>
+                    </div>
+                    {discount > 0 && (
+                      <div className="flex justify-between text-sm text-green-600">
+                        <span>Discount ({couponCode})</span>
+                        <span>-₹{discount.toLocaleString()}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between text-sm">
+                      <span>Shipping</span>
+                      <span>Free</span>
+                    </div>
+                    <div className="flex justify-between text-lg font-bold border-t border-[#e0c3a0] pt-2">
                       <span>Total</span>
-                      <span>₹{(buyNowProduct.price * buyNowProduct.quantity).toLocaleString()}</span>
+                      <span>₹{calculateTotal().toLocaleString()}</span>
                     </div>
                   </div>
                 </div>
@@ -431,15 +476,21 @@ export default function Payment() {
                   <div className="border-t border-[#e0c3a0] pt-4 space-y-2">
                     <div className="flex justify-between text-sm">
                       <span>Subtotal</span>
-                      <span>₹{cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0).toLocaleString()}</span>
+                      <span>₹{calculateSubtotal().toLocaleString()}</span>
                     </div>
+                    {discount > 0 && (
+                      <div className="flex justify-between text-sm text-green-600">
+                        <span>Discount ({couponCode})</span>
+                        <span>-₹{discount.toLocaleString()}</span>
+                      </div>
+                    )}
                     <div className="flex justify-between text-sm">
                       <span>Shipping</span>
                       <span>Free</span>
                     </div>
                     <div className="flex justify-between text-lg font-bold border-t border-[#e0c3a0] pt-2">
                       <span>Total</span>
-                      <span>₹{cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0).toLocaleString()}</span>
+                      <span>₹{calculateTotal().toLocaleString()}</span>
                     </div>
                   </div>
                 </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../api/axios';
 import AddressManager from '../components/AddressManager';
+import { getUserId } from '../utils/userUtils';
 
 const TABS = [
   { label: 'Personal Information', value: 'personal' },
@@ -19,8 +20,7 @@ export default function Profile() {
   const [rewardPoints, setRewardPoints] = useState(0);
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-    const userId = storedUser?.user?.id || storedUser?._id;
+    const userId = getUserId();
     if (!userId) return;
     setLoading(true);
     axios.get(`/users/profile?id=${userId}`)
@@ -37,7 +37,7 @@ export default function Profile() {
       })
       .catch(() => setLoading(false));
     // Fetch orders
-    axios.get(`http://localhost:5000/api/orders/my?userId=${userId}`)
+    axios.get(`/orders/my?userId=${userId}`)
       .then(res => {
         if (res.data.success) {
           setOrders(res.data.orders || []);
@@ -45,18 +45,21 @@ export default function Profile() {
           const totalOrderValue = (res.data.orders || []).reduce((sum, order) => sum + (order.totalPrice || 0), 0);
           setRewardPoints(Math.round(totalOrderValue * 0.10));
         }
-      });
+      })
+      .catch(() => {});
     // Fetch wishlist
-    axios.get(`http://localhost:5000/api/users/wishlist?id=${userId}`)
-      .then(res => setWishlist(res.data || []));
+    if (userId) {
+      axios.get(`/users/wishlist?id=${userId}`)
+        .then(res => setWishlist(res.data || []))
+        .catch(() => setWishlist([]));
+    }
   }, []);
 
   const handleEdit = () => setEditMode(true);
   const handleCancel = () => setEditMode(false);
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
   const handleSave = async () => {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-    const userId = storedUser?.user?.id || storedUser?._id;
+    const userId = getUserId();
     await axios.patch(`/users/profile?id=${userId}`, {
       name: `${form.firstName} ${form.lastName}`.trim(),
       email: form.email,
@@ -65,7 +68,10 @@ export default function Profile() {
     });
     setEditMode(false);
     // Refetch user
-    axios.get(`/users/profile?id=${userId}`).then(res => setUser(res.data));
+    axios.get(`/users/profile?id=${userId}`).then(res => {
+      setUser(res.data);
+      localStorage.setItem('user', JSON.stringify({ user: res.data }));
+    });
   };
 
   if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;

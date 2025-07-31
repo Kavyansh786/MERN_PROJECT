@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import api from "../api/axios";
+import Toast from "../components/Toast";
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -18,12 +19,17 @@ export default function Products() {
     name: "",
     price: "",
     category: "",
+    material: "",
     imageUrl: "",
     description: "",
+    sku: "",
+    currentStock: 0,
+    reserved: 0,
     isRakhi: false,
     rakhiType: "traditional",
     isFeatured: false,
-    isNewArrival: false
+    isNewArrival: false,
+    categoryPage: ""
   });
   const [editId, setEditId] = useState(null);
   const [search, setSearch] = useState("");
@@ -31,6 +37,7 @@ export default function Products() {
   const [customCategory, setCustomCategory] = useState("");
   const [imagePreview, setImagePreview] = useState("");
   const formRef = useRef(null);
+  const [toast, setToast] = useState(null);
 
   // Scroll to form when showForm changes to true
   useEffect(() => {
@@ -38,6 +45,11 @@ export default function Products() {
       formRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, [showForm]);
+
+  // Debug form state changes
+  useEffect(() => {
+    console.log('Form state updated:', form);
+  }, [form]);
 
   // Fetch products
   useEffect(() => {
@@ -53,7 +65,12 @@ export default function Products() {
 
   const handleInput = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm({ ...form, [name]: type === "checkbox" ? checked : value });
+    console.log('Form input change:', { name, value, type, checked });
+    setForm(prevForm => {
+      const newForm = { ...prevForm, [name]: type === "checkbox" ? checked : value };
+      console.log('Updated form state:', newForm);
+      return newForm;
+    });
   };
 
   const handleCategoryChange = (e) => {
@@ -63,16 +80,27 @@ export default function Products() {
     if (value === "__other__") setCustomCategory("");
   };
 
+  const showToast = (message, type = 'success') => {
+    setToast({ message, type });
+  };
+
   // Remove handleImageChange and imagePreview logic
 
   const handleAdd = async (e) => {
     e.preventDefault();
-    const submitForm = { ...form };
-    if (customCategory) submitForm.category = customCategory;
-    await api.post("/products", submitForm);
-    setForm({ name: "", price: "", category: "", imageUrl: "", description: "", isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false });
-    setShowForm(false);
-    fetchProducts();
+    try {
+      const submitForm = { ...form };
+      if (customCategory) submitForm.category = customCategory;
+      await api.post("/products", submitForm);
+      setForm({ name: "", price: "", category: "", material: "", imageUrl: "", description: "", sku: "", currentStock: 0, reserved: 0, isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false, categoryPage: "" });
+      setShowForm(false);
+      fetchProducts();
+      showToast("Product created successfully!", "success");
+    } catch (error) {
+      console.error("Error creating product:", error);
+      const errorMessage = error.response?.data?.message || "Failed to create product";
+      showToast(errorMessage, "error");
+    }
   };
 
   const handleEdit = (product) => {
@@ -81,12 +109,17 @@ export default function Products() {
       name: product.name,
       price: product.price,
       category: product.category,
+      material: product.material || "",
       imageUrl: product.imageUrl,
       description: product.description,
+      sku: product.sku || "",
+      currentStock: product.currentStock || 0,
+      reserved: product.reserved || 0,
       isRakhi: product.isRakhi,
       rakhiType: product.rakhiType || "traditional",
       isFeatured: product.isFeatured || false,
-      isNewArrival: product.isNewArrival || false
+      isNewArrival: product.isNewArrival || false,
+      categoryPage: product.categoryPage || ""
     });
     setShowForm(true);
     setCustomCategory("");
@@ -94,24 +127,71 @@ export default function Products() {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const submitForm = { ...form };
-    if (customCategory) submitForm.category = customCategory;
-    await api.patch(`/products/${editId}`, submitForm);
-    setEditId(null);
-    setForm({ name: "", price: "", category: "", imageUrl: "", description: "", isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false });
-    setShowForm(false);
-    fetchProducts();
+    try {
+      const submitForm = { ...form };
+      if (customCategory) submitForm.category = customCategory;
+      await api.patch(`/products/${editId}`, submitForm);
+      setEditId(null);
+      setForm({ name: "", price: "", category: "", material: "", imageUrl: "", description: "", sku: "", currentStock: 0, reserved: 0, isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false, categoryPage: "" });
+      setShowForm(false);
+      fetchProducts();
+      showToast("Product updated successfully!", "success");
+    } catch (error) {
+      console.error("Error updating product:", error);
+      const errorMessage = error.response?.data?.message || "Failed to update product";
+      showToast(errorMessage, "error");
+    }
   };
 
   const handleDelete = async (id) => {
     if (window.confirm("Delete this product?")) {
-      await api.delete(`/products/${id}`);
-      fetchProducts();
+      try {
+        await api.delete(`/products/${id}`);
+        fetchProducts();
+        showToast("Product deleted successfully!", "success");
+      } catch (error) {
+        console.error("Error deleting product:", error);
+        const errorMessage = error.response?.data?.message || "Failed to delete product";
+        showToast(errorMessage, "error");
+      }
     }
   };
 
   // Get unique categories for filter and dropdown
   const categories = Array.from(new Set(products.map((p) => p.category))).filter(Boolean);
+
+  // Material options for the dropdown
+  const materialOptions = [
+    { value: "", label: "Select Material" },
+    { value: "Sterling Silver", label: "Sterling Silver" },
+    { value: "18K Gold Plated", label: "18K Gold Plated" },
+    { value: "Rose Gold", label: "Rose Gold" },
+    { value: "White Gold", label: "White Gold" },
+    { value: "Platinum", label: "Platinum" },
+    { value: "Freshwater Pearl", label: "Freshwater Pearl" },
+    { value: "Diamond", label: "Diamond" },
+    { value: "Ruby", label: "Ruby" },
+    { value: "Emerald", label: "Emerald" },
+    { value: "Sapphire", label: "Sapphire" },
+    { value: "Cubic Zirconia", label: "Cubic Zirconia" },
+    { value: "Other", label: "Other" }
+  ];
+
+  // Category page options for the dropdown
+  const categoryPageOptions = [
+    { value: "", label: "Select Category Page" },
+    { value: "rings", label: "Rings Page" },
+    { value: "necklaces", label: "Necklaces Page" },
+    { value: "earrings", label: "Earrings Page" },
+    { value: "bracelets", label: "Bracelets Page" },
+    { value: "bridal", label: "Bridal Collection Page" },
+    { value: "birthday-gifts", label: "Birthday Gifts Page" },
+    { value: "anniversary-gifts", label: "Anniversary Gifts Page" },
+    { value: "festive-gifts", label: "Festive Gifts Page" },
+    { value: "personalized-gifts", label: "Personalized Gifts Page" },
+    { value: "raksha-bandhan", label: "Raksha Bandhan Page" },
+    { value: "shop", label: "General Shop Page" }
+  ];
 
   // Filtered products
   const filtered = products.filter((p) =>
@@ -121,6 +201,13 @@ export default function Products() {
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
         <h1 className="text-4xl font-bold text-gray-900">Products</h1>
         <button
@@ -128,7 +215,7 @@ export default function Products() {
           onClick={() => {
             setShowForm(true);
             setEditId(null);
-            setForm({ name: "", price: "", category: "", imageUrl: "", description: "", isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false });
+            setForm({ name: "", price: "", category: "", material: "", imageUrl: "", description: "", sku: "", currentStock: 0, reserved: 0, isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false, categoryPage: "" });
             setCustomCategory("");
           }}
         >
@@ -167,6 +254,7 @@ export default function Products() {
       {showForm && (
         <form
           ref={formRef}
+          key={`form-${editId || 'new'}`}
           onSubmit={editId ? handleUpdate : handleAdd}
           className="bg-white p-6 rounded-xl shadow mb-6 max-w-xl"
         >
@@ -216,6 +304,94 @@ export default function Products() {
                 required
               />
             )}
+          </div>
+          <div className="mb-4">
+            <label className="block mb-1 font-semibold">Material</label>
+            <select
+              key={`material-${form.material}`}
+              name="material"
+              value={form.material}
+              onChange={handleInput}
+              className="w-full border px-3 py-2 rounded"
+              required
+            >
+              {materialOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <p className="text-sm text-gray-600 mt-1">
+              Select the primary material of the product
+            </p>
+          </div>
+          <div className="mb-4">
+            <label className="block mb-1 font-semibold">Category Page</label>
+            <select
+              key={`categoryPage-${form.categoryPage}`}
+              name="categoryPage"
+              value={form.categoryPage}
+              onChange={handleInput}
+              className="w-full border px-3 py-2 rounded"
+              required
+            >
+              {categoryPageOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <p className="text-sm text-gray-600 mt-1">
+              Select which category page this product should appear on
+            </p>
+          </div>
+          <div className="mb-4">
+            <label className="block mb-1 font-semibold">SKU</label>
+            <input
+              name="sku"
+              value={form.sku}
+              onChange={handleInput}
+              className="w-full border px-3 py-2 rounded"
+              placeholder="e.g., RING-GOLD-001"
+              required
+            />
+            <p className="text-sm text-gray-600 mt-1">
+              Unique Stock Keeping Unit identifier
+            </p>
+          </div>
+          <div className="mb-4 grid grid-cols-2 gap-4">
+            <div>
+              <label className="block mb-1 font-semibold">Current Stock</label>
+              <input
+                name="currentStock"
+                type="number"
+                min="0"
+                value={form.currentStock}
+                onChange={handleInput}
+                className="w-full border px-3 py-2 rounded"
+                placeholder="0"
+                required
+              />
+              <p className="text-sm text-gray-600 mt-1">
+                Available inventory
+              </p>
+            </div>
+            <div>
+              <label className="block mb-1 font-semibold">Reserved Stock</label>
+              <input
+                name="reserved"
+                type="number"
+                min="0"
+                value={form.reserved}
+                onChange={handleInput}
+                className="w-full border px-3 py-2 rounded"
+                placeholder="0"
+                required
+              />
+              <p className="text-sm text-gray-600 mt-1">
+                Reserved for orders
+              </p>
+            </div>
           </div>
           <div className="mb-4">
             <label className="block mb-1 font-semibold">Image URL</label>
@@ -290,7 +466,7 @@ export default function Products() {
               onClick={() => {
                 setShowForm(false);
                 setEditId(null);
-                setForm({ name: "", price: "", category: "", imageUrl: "", description: "", isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false });
+                setForm({ name: "", price: "", category: "", material: "", imageUrl: "", description: "", sku: "", currentStock: 0, reserved: 0, isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false, categoryPage: "" });
                 setCustomCategory("");
               }}
             >
@@ -309,8 +485,12 @@ export default function Products() {
             <thead>
               <tr className="text-gray-500 text-sm border-b">
                 <th className="p-4 text-left font-semibold">Product</th>
+                <th className="p-4 text-left font-semibold">SKU</th>
                 <th className="p-4 text-left font-semibold">Price</th>
                 <th className="p-4 text-left font-semibold">Category</th>
+                <th className="p-4 text-left font-semibold">Material</th>
+                <th className="p-4 text-left font-semibold">Category Page</th>
+                <th className="p-4 text-left font-semibold">Stock</th>
                 <th className="p-4 text-left font-semibold">Image</th>
                 <th className="p-4 text-left font-semibold">Featured</th>
                 <th className="p-4 text-left font-semibold">New Arrival</th>
@@ -322,8 +502,28 @@ export default function Products() {
               {filtered.map((p) => (
                 <tr key={p._id} className="border-b hover:bg-gray-50">
                   <td className="p-4 font-medium text-gray-900">{p.name}</td>
+                  <td className="p-4 font-mono text-sm text-gray-600">{p.sku || 'N/A'}</td>
                   <td className="p-4 font-semibold text-gray-900">₹{p.price}</td>
                   <td className="p-4">{p.category}</td>
+                  <td className="p-4">
+                    <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-medium">
+                      {p.material || 'N/A'}
+                    </span>
+                  </td>
+                  <td className="p-4">
+                    <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium">
+                      {p.categoryPage || 'shop'}
+                    </span>
+                  </td>
+                  <td className="p-4">
+                    <div className="text-sm">
+                      <div className="font-medium text-gray-900">{p.currentStock || 0}</div>
+                      <div className="text-gray-500 text-xs">Available</div>
+                      {p.reserved > 0 && (
+                        <div className="text-orange-500 text-xs">+{p.reserved} Reserved</div>
+                      )}
+                    </div>
+                  </td>
                   <td className="p-4">
                     {p.imageUrl && (
                       <img src={p.imageUrl} alt={p.name} className="w-16 h-16 object-cover rounded" />

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../api/axios';
 import { useToast } from '../components/Toast';
+import { getUserId } from '../utils/userUtils';
 
 export default function RakshaBandhan() {
   const [products, setProducts] = useState([]);
@@ -58,8 +59,8 @@ export default function RakshaBandhan() {
     try {
       setAddingToCart(prev => ({ ...prev, [product._id]: true }));
       
-      const user = JSON.parse(localStorage.getItem('user'));
-      if (!user) {
+      const userId = getUserId();
+      if (!userId) {
         showToast({ type: 'error', message: 'Please login to add items to cart' });
         navigate('/login');
         return;
@@ -67,7 +68,7 @@ export default function RakshaBandhan() {
 
       // Add to cart using backend API
       const response = await axios.post('http://localhost:5000/api/cart', {
-        user: user._id || user.user?.id,
+        user: userId,
         productId: product._id,
         quantity: 1
       });

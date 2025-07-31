@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { getUserId } from '../utils/userUtils';
 
 function StatusBadge({ status }) {
   let color = 'bg-[#D4AF37] text-[#4a2c2a]';
@@ -21,8 +22,7 @@ export default function Orders() {
 
   useEffect(() => {
     // Get user from localStorage
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-    const userId = storedUser?.user?.id;
+    const userId = getUserId();
 
     if (!userId) {
       setError('Please login to view your orders');
@@ -105,16 +105,32 @@ export default function Orders() {
                   <div>
                     <p className="mb-1 text-lg"><strong className="text-[#a67c52]">Order ID:</strong> <span className="tracking-wider">#{order._id}</span></p>
                     <p className="mb-1 text-lg"><strong className="text-[#a67c52]">Date:</strong> {new Date(order.createdAt).toLocaleDateString()}</p>
-                    <p className="mb-1 text-lg"><strong className="text-[#a67c52]">Total:</strong> <span className="font-bold">₹{order.totalPrice?.toLocaleString() || '—'}</span></p>
+                    <p className="mb-1 text-lg">
+                      <strong className="text-[#a67c52]">Total:</strong> 
+                      <span className="font-bold">₹{order.totalPrice?.toLocaleString() || '—'}</span>
+                      {order.originalPrice && order.originalPrice > order.totalPrice && (
+                        <span className="text-sm text-green-600 ml-2">
+                          (Saved ₹{(order.originalPrice - order.totalPrice).toLocaleString()})
+                        </span>
+                      )}
+                    </p>
                   </div>
                   <div className="flex flex-col items-end gap-2">
                     <StatusBadge status={order.orderStatus} />
-                    <button
-                      className="mt-2 px-4 py-1 rounded-full bg-[#D4AF37] text-[#4a2c2a] font-bold shadow hover:bg-[#fff6ee] hover:text-[#bfa14a] transition text-sm border border-[#D4AF37]"
-                      onClick={() => toggleExpand(order._id)}
-                    >
-                      {expanded[order._id] ? 'Hide Details' : 'View Details'}
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        className="mt-2 px-4 py-1 rounded-full bg-[#D4AF37] text-[#4a2c2a] font-bold shadow hover:bg-[#fff6ee] hover:text-[#bfa14a] transition text-sm border border-[#D4AF37]"
+                        onClick={() => toggleExpand(order._id)}
+                      >
+                        {expanded[order._id] ? 'Hide Details' : 'View Details'}
+                      </button>
+                      <button
+                        className="mt-2 px-4 py-1 rounded-full bg-[#7c5c36] text-white font-bold shadow hover:bg-[#5a3a1b] transition text-sm border border-[#7c5c36]"
+                        onClick={() => navigate(`/orders/${order._id}`)}
+                      >
+                        Full Details
+                      </button>
+                    </div>
                   </div>
                 </div>
                 {expanded[order._id] && (
@@ -131,6 +147,26 @@ export default function Orders() {
                         </li>
                       ))}
                     </ul>
+                    <h3 className="font-serif text-xl text-[#D4AF37] mb-2">Order Summary</h3>
+                    <div className="text-[#3e2d26] text-sm space-y-1 mb-4">
+                      {order.originalPrice && (
+                        <div className="flex justify-between">
+                          <span>Original Price:</span>
+                          <span>₹{order.originalPrice.toLocaleString()}</span>
+                        </div>
+                      )}
+                      {order.discountAmount && order.discountAmount > 0 && (
+                        <div className="flex justify-between text-green-600">
+                          <span>Discount ({order.couponCode}):</span>
+                          <span>-₹{order.discountAmount.toLocaleString()}</span>
+                        </div>
+                      )}
+                      <div className="flex justify-between font-bold border-t pt-1">
+                        <span>Final Total:</span>
+                        <span>₹{order.totalPrice.toLocaleString()}</span>
+                      </div>
+                    </div>
+                    
                     <h3 className="font-serif text-xl text-[#D4AF37] mb-2">Shipping Address</h3>
                     <div className="text-[#3e2d26] text-sm">
                       {order.shippingAddress ? (

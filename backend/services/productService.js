@@ -18,9 +18,20 @@ async function getProductById(id) {
 
 async function createProduct(data) {
   try {
-    return await Product.create(data);
+    console.log('Creating product with data:', JSON.stringify(data, null, 2));
+    const product = await Product.create(data);
+    console.log('Product created successfully:', product._id);
+    return product;
   } catch (error) {
-    throw new Error('Product creation failed');
+    console.error('Product creation error details:', error.message);
+    if (error.code === 11000) {
+      throw new Error(`Product with SKU ${data.sku} already exists`);
+    }
+    if (error.name === 'ValidationError') {
+      const validationErrors = Object.values(error.errors).map(err => err.message);
+      throw new Error(`Validation failed: ${validationErrors.join(', ')}`);
+    }
+    throw new Error(`Product creation failed: ${error.message}`);
   }
 }
 

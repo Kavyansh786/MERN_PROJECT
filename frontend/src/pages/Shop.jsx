@@ -25,9 +25,10 @@ export default function Shop() {
     setLoading(true);
     axios.get('http://localhost:5000/api/products')
       .then(res => {
-        console.log('Products fetched:', res.data);
-        setProducts(res.data);
-        setFilteredProducts(res.data);
+        // Exclude products with isRakhi true
+        const nonRakhiProducts = res.data.filter(product => !product.isRakhi);
+        setProducts(nonRakhiProducts);
+        setFilteredProducts(nonRakhiProducts);
         setLoading(false);
       })
       .catch(err => {
