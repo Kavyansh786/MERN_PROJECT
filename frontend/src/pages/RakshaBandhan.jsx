@@ -7,7 +7,6 @@ import { getUserId } from '../utils/userUtils';
 export default function RakshaBandhan() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState('all');
   const [addingToCart, setAddingToCart] = useState({});
   const navigate = useNavigate();
   const { showToast } = useToast();
@@ -44,16 +43,7 @@ export default function RakshaBandhan() {
     }
   };
 
-  const categories = [
-    { id: 'all', name: 'All Rakhis' },
-    { id: 'traditional', name: 'Traditional Rakhis' },
-    { id: 'designer', name: 'Designer Rakhis' },
-    { id: 'premium', name: 'Premium Rakhis' }
-  ];
-
-  const filteredProducts = selectedCategory === 'all' 
-    ? products 
-    : products.filter(product => product.rakhiType === selectedCategory);
+  const filteredProducts = products;
 
   const handleAddToCart = async (product) => {
     try {
@@ -189,26 +179,7 @@ export default function RakshaBandhan() {
         </div>
       </div>
 
-      {/* Category Filter */}
-      <div className="px-6 py-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
-                  selectedCategory === category.id
-                    ? 'bg-red-600 text-white shadow-lg scale-105'
-                    : 'bg-white text-red-600 border-2 border-red-200 hover:border-red-400 hover:bg-red-50'
-                }`}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
+
 
       {/* Products Grid */}
       <div className="px-6 pb-20">
@@ -227,13 +198,16 @@ export default function RakshaBandhan() {
                   className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
                 >
                   {/* Product Image */}
-                  <div className="relative overflow-hidden aspect-square">
+                  <div className="relative overflow-hidden aspect-square cursor-pointer" onClick={() => navigate(`/products/${product._id}`)}>
                     <img
                       src={product.imageUrl}
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      View Details
+                    </div>
                   </div>
 
                   {/* Product Info */}
@@ -265,17 +239,27 @@ export default function RakshaBandhan() {
                     {/* Price */}
                     <div className="flex items-center justify-between mb-6">
                       <span className="text-2xl font-bold text-red-600">
-                        ₹{product.price.toLocaleString()}
+                        ₹{(product.price || 0).toLocaleString()}
                       </span>
-                      {product.originalPrice && product.originalPrice > product.price && (
+                      {product.originalPrice && product.originalPrice > (product.price || 0) && (
                         <span className="text-gray-400 line-through">
-                          ₹{product.originalPrice.toLocaleString()}
+                          ₹{(product.originalPrice || 0).toLocaleString()}
                         </span>
                       )}
                     </div>
 
                     {/* Action Buttons */}
                     <div className="flex flex-col gap-3 mt-6">
+                      <button
+                        onClick={() => navigate(`/products/${product._id}`)}
+                        className="w-full py-3 px-6 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-all duration-300 text-base flex items-center justify-center gap-2"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                          <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                        View Details
+                      </button>
                       <button
                         onClick={() => handleAddToCart(product)}
                         disabled={addingToCart[product._id]}

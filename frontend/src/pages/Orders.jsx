@@ -18,8 +18,6 @@ export default function Orders() {
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-  const [expanded, setExpanded] = useState({});
-
   useEffect(() => {
     // Get user from localStorage
     const userId = getUserId();
@@ -47,9 +45,7 @@ export default function Orders() {
       });
   }, []);
 
-  const toggleExpand = (id) => {
-    setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
+
 
   return (
     <div className="relative min-h-screen flex flex-col justify-between px-2 sm:px-6 overflow-hidden">
@@ -117,69 +113,14 @@ export default function Orders() {
                   </div>
                   <div className="flex flex-col items-end gap-2">
                     <StatusBadge status={order.orderStatus} />
-                    <div className="flex gap-2">
-                      <button
-                        className="mt-2 px-4 py-1 rounded-full bg-[#D4AF37] text-[#4a2c2a] font-bold shadow hover:bg-[#fff6ee] hover:text-[#bfa14a] transition text-sm border border-[#D4AF37]"
-                        onClick={() => toggleExpand(order._id)}
-                      >
-                        {expanded[order._id] ? 'Hide Details' : 'View Details'}
-                      </button>
-                      <button
-                        className="mt-2 px-4 py-1 rounded-full bg-[#7c5c36] text-white font-bold shadow hover:bg-[#5a3a1b] transition text-sm border border-[#7c5c36]"
-                        onClick={() => navigate(`/orders/${order._id}`)}
-                      >
-                        Full Details
-                      </button>
-                    </div>
+                    <button
+                      className="mt-2 px-4 py-1 rounded-full bg-[#D4AF37] text-[#4a2c2a] font-bold shadow hover:bg-[#fff6ee] hover:text-[#bfa14a] transition text-sm border border-[#D4AF37]"
+                      onClick={() => navigate(`/orders/${order._id}`)}
+                    >
+                      View Details
+                    </button>
                   </div>
                 </div>
-                {expanded[order._id] && (
-                  <div className="mt-4 bg-white/80 rounded-xl p-4 border border-[#D4AF37]/30 animate-fade-in">
-                    <h3 className="font-serif text-xl text-[#D4AF37] mb-2">Order Items</h3>
-                    <ul className="mb-3 space-y-2">
-                      {order.orderItems?.map((item, idx) => (
-                        <li key={item._id || idx} className="flex items-center gap-3">
-                          <img src={item.product?.imageUrl} alt={item.product?.name} className="w-12 h-12 object-cover rounded shadow border border-[#D4AF37]/30" />
-                          <div>
-                            <p className="font-semibold text-[#3e2d26]">{item.product?.name}</p>
-                            <p className="text-sm text-[#a67c52]">Qty: {item.quantity} &bull; ₹{item.product?.price?.toLocaleString()}</p>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                    <h3 className="font-serif text-xl text-[#D4AF37] mb-2">Order Summary</h3>
-                    <div className="text-[#3e2d26] text-sm space-y-1 mb-4">
-                      {order.originalPrice && (
-                        <div className="flex justify-between">
-                          <span>Original Price:</span>
-                          <span>₹{order.originalPrice.toLocaleString()}</span>
-                        </div>
-                      )}
-                      {order.discountAmount && order.discountAmount > 0 && (
-                        <div className="flex justify-between text-green-600">
-                          <span>Discount ({order.couponCode}):</span>
-                          <span>-₹{order.discountAmount.toLocaleString()}</span>
-                        </div>
-                      )}
-                      <div className="flex justify-between font-bold border-t pt-1">
-                        <span>Final Total:</span>
-                        <span>₹{order.totalPrice.toLocaleString()}</span>
-                      </div>
-                    </div>
-                    
-                    <h3 className="font-serif text-xl text-[#D4AF37] mb-2">Shipping Address</h3>
-                    <div className="text-[#3e2d26] text-sm">
-                      {order.shippingAddress ? (
-                        <>
-                          <div>{order.shippingAddress.city} - {order.shippingAddress.postalCode}</div>
-                          <div>{order.shippingAddress.country}</div>
-                        </>
-                      ) : (
-                        <div>No address info</div>
-                      )}
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           ))}

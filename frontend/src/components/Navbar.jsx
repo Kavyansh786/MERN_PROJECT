@@ -10,6 +10,8 @@ export default function Navbar() {
   const timeoutRef = useRef(null);
 
   const user = JSON.parse(localStorage.getItem('user'));
+  
+
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -130,22 +132,22 @@ export default function Navbar() {
 
               {/* Beautiful Dropdown Menu */}
               {showMenu && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-52 max-w-xs bg-white/95 backdrop-blur-sm border border-[#e0c3a0] rounded-2xl shadow-2xl z-50 overflow-hidden transform transition-all duration-300 ease-out px-1">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 max-w-sm bg-white/95 backdrop-blur-sm border border-[#e0c3a0] rounded-2xl shadow-2xl z-50 overflow-hidden transform transition-all duration-300 ease-out px-1">
                   {/* Header */}
                   <div className="bg-gradient-to-r from-[#f7e1c7] to-[#e0c3a0] px-4 py-3 border-b border-[#e0c3a0]">
                     {user ? (
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-gradient-to-br from-[#D4AF37] to-[#a67c52] rounded-full flex items-center justify-center">
                           <span className="text-white font-bold text-sm">
-                            {user.user?.name?.charAt(0)?.toUpperCase() || 'U'}
+                            {user.name?.charAt(0)?.toUpperCase() || user.email?.charAt(0)?.toUpperCase() || 'U'}
                           </span>
                         </div>
-                        <div>
-                          <p className="font-semibold text-[#3e2d26] text-sm">
-                            {user.user?.name || 'User'}
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-[#3e2d26] text-sm truncate">
+                            {user.name || user.email?.split('@')[0] || 'User'}
                           </p>
-                          <p className="text-[#7c5c36] text-xs">
-                            {user.user?.email || 'user@example.com'}
+                          <p className="text-[#7c5c36] text-xs truncate">
+                            {user.email || 'user@example.com'}
                           </p>
                         </div>
                       </div>
@@ -157,9 +159,9 @@ export default function Navbar() {
                             <path d="M4 20c0-4 8-4 8-4s8 0 8 4" />
                           </svg>
                         </div>
-                        <div>
-                          <p className="font-semibold text-[#3e2d26] text-sm">Guest User</p>
-                          <p className="text-[#7c5c36] text-xs">Please login to continue</p>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-[#3e2d26] text-sm truncate">Guest User</p>
+                          <p className="text-[#7c5c36] text-xs truncate">Please login to continue</p>
                         </div>
                       </div>
                     )}

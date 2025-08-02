@@ -1,45 +1,67 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { getUserId } from '../utils/userUtils';
 
 export default function TrackOrder() {
   const [orderNumber, setOrderNumber] = useState("");
   const [isTracking, setIsTracking] = useState(false);
   const [orderFound, setOrderFound] = useState(false);
   const [trackingData, setTrackingData] = useState(null);
+  const [error, setError] = useState('');
 
   const handleTrackOrder = async () => {
+    if (!orderNumber.trim()) {
+      setError('Please enter an order ID');
+      return;
+    }
+
     setIsTracking(true);
+    setError('');
+    
     try {
-      // Simulate API call - replace with actual tracking API
-      setTimeout(() => {
-        setIsTracking(false);
+      const userId = getUserId();
+      const response = await axios.get(`http://localhost:5000/api/orders/${orderNumber}?userId=${userId}`);
+      
+      if (response.data.success) {
+        const order = response.data.order;
         setOrderFound(true);
         setTrackingData({
-          orderId: orderNumber,
-          status: 'In Transit',
-          estimatedDelivery: 'Dec 21, 2024',
-          trackingNumber: '1Z999AA1234567890',
-          shippingAddress: {
-            name: 'Sarah Johnson',
-            address: '123 Maple Street',
-            city: 'New York',
-            state: 'NY',
-            postalCode: '10001'
-          },
-          items: [
-            {
-              name: 'Diamond Solitaire Ring',
-              description: '18K White Gold, 1.2ct Diamond',
-              price: 2499,
-              quantity: 1,
-              sku: 'DSR-001'
-            }
-          ]
+          orderId: order._id,
+          status: order.orderStatus,
+          estimatedDelivery: getEstimatedDelivery(order.createdAt, order.orderStatus),
+          trackingNumber: `TRK${order._id.slice(-8).toUpperCase()}`,
+          order: order, // Store the full order data
+          shippingAddress: order.shippingAddress,
+          items: order.orderItems
         });
-      }, 1500);
+      } else {
+        setError('Order not found');
+        setOrderFound(false);
+      }
     } catch (error) {
       console.error('Tracking error:', error);
+      setError(error.response?.data?.message || 'Failed to track order');
+      setOrderFound(false);
+    } finally {
       setIsTracking(false);
+    }
+  };
+
+  const getEstimatedDelivery = (createdAt, status) => {
+    const orderDate = new Date(createdAt);
+    const deliveryDate = new Date(orderDate);
+    
+    if (status === 'Delivered') {
+      return 'Delivered';
+    } else if (status === 'Cancelled') {
+      return 'Cancelled';
+    } else {
+      deliveryDate.setDate(deliveryDate.getDate() + 3); // Add 3 days
+      return deliveryDate.toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric', 
+        year: 'numeric' 
+      });
     }
   };
 
@@ -142,6 +164,11 @@ export default function TrackOrder() {
                       />
                     </div>
                   </div>
+                  {error && (
+                    <div className="text-red-600 text-sm bg-red-50 p-3 rounded-lg border border-red-200">
+                      {error}
+                    </div>
+                  )}
                   <button
                     onClick={handleTrackOrder}
                     disabled={!orderNumber || isTracking}
@@ -205,13 +232,21 @@ export default function TrackOrder() {
                   </div>
                   <div className="space-y-2">
                     <h4 className="font-semibold text-gray-900">Shipping Address</h4>
-                    <p className="text-sm text-gray-600">
-                      {trackingData?.shippingAddress?.name}
-                      <br />
-                      {trackingData?.shippingAddress?.address}
-                      <br />
-                      {trackingData?.shippingAddress?.city}, {trackingData?.shippingAddress?.state} {trackingData?.shippingAddress?.postalCode}
-                    </p>
+                    {trackingData?.shippingAddress ? (
+                      <p className="text-sm text-gray-600">
+                        {trackingData.shippingAddress.fullName}
+                        <br />
+                        {trackingData.shippingAddress.phone}
+                        <br />
+                        {trackingData.shippingAddress.street}
+                        <br />
+                        {trackingData.shippingAddress.city}, {trackingData.shippingAddress.state} {trackingData.shippingAddress.postalCode}
+                        <br />
+                        {trackingData.shippingAddress.country}
+                      </p>
+                    ) : (
+                      <p className="text-sm text-gray-500">No shipping address available</p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <h4 className="font-semibold text-gray-900">Tracking Number</h4>
@@ -228,17 +263,27 @@ export default function TrackOrder() {
                 <h3 className="text-xl font-bold text-gray-900 mb-4">Order Items</h3>
                 <div className="space-y-4">
                   {trackingData?.items?.map((item, index) => (
-                    <div key={index} className="flex items-center space-x-4 p-4 bg-gradient-to-r from-[#f7e1c7] to-[#e0c3a0] rounded-lg">
-                      <div className="w-16 h-16 bg-gradient-to-br from-[#D4AF37] to-[#FFD700] rounded-lg flex items-center justify-center">
-                        <span className="text-2xl">💍</span>
+                    <div key={item._id || index} className="flex items-center space-x-4 p-4 bg-gradient-to-r from-[#f7e1c7] to-[#e0c3a0] rounded-lg">
+                      <div className="w-16 h-16 rounded-lg overflow-hidden">
+                        {item.product?.imageUrl ? (
+                          <img 
+                            src={item.product.imageUrl} 
+                            alt={item.product.name} 
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-[#D4AF37] to-[#FFD700] flex items-center justify-center">
+                            <span className="text-2xl">💍</span>
+                          </div>
+                        )}
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-semibold text-gray-900">{item.name}</h4>
-                        <p className="text-sm text-gray-600">{item.description}</p>
-                        <p className="text-sm text-gray-500">SKU: {item.sku}</p>
+                        <h4 className="font-semibold text-gray-900">{item.product?.name || item.name}</h4>
+                        <p className="text-sm text-gray-600">{item.product?.description || 'Premium jewelry item'}</p>
+                        <p className="text-sm text-gray-500">Product ID: {item.product?._id?.slice(-8) || 'N/A'}</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-semibold text-gray-900">₹{item.price?.toLocaleString()}</p>
+                        <p className="font-semibold text-gray-900">₹{item.product?.price?.toLocaleString() || item.price?.toLocaleString()}</p>
                         <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
                       </div>
                     </div>

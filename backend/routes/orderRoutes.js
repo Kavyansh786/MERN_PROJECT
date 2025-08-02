@@ -3,6 +3,7 @@ const router = express.Router();
 
 const Product = require('../models/product');
 const Order = require('../models/order');
+const Coupon = require('../models/coupon');
 
 // POST /api/orders
 router.post('/', async (req, res) => {
@@ -17,7 +18,7 @@ router.post('/', async (req, res) => {
       });
     }
 
-    const { orderItems, shippingAddress, paymentMethod, totalPrice, couponCode } = req.body;
+    const { orderItems, shippingAddress, paymentMethod, totalPrice, originalPrice, discountAmount, couponCode } = req.body;
 
     if (!orderItems || orderItems.length === 0) {
       return res.status(400).json({ message: 'No order items' });
@@ -53,11 +54,27 @@ router.post('/', async (req, res) => {
       shippingAddress,
       paymentMethod,
       totalPrice: calculatedTotalPrice,
+      originalPrice: originalPrice || calculatedTotalPrice,
+      discountAmount: discountAmount || 0,
+      couponCode: couponCode || null,
       paymentStatus: 'Pending',
       orderStatus: 'Processing'
     });
 
-
+    // If a coupon was used, increment its usage count
+    if (couponCode && discountAmount > 0) {
+      try {
+        const coupon = await Coupon.findOne({ code: couponCode.toUpperCase() });
+        if (coupon) {
+          coupon.usage += 1;
+          await coupon.save();
+          console.log(`Coupon ${couponCode} usage incremented to ${coupon.usage}`);
+        }
+      } catch (couponError) {
+        console.error('Error incrementing coupon usage:', couponError.message);
+        // Don't fail the order creation if coupon update fails
+      }
+    }
 
     res.status(201).json({
       success: true,
@@ -69,6 +86,20 @@ router.post('/', async (req, res) => {
       success: false,
       message: 'Failed to create order'
     });
+  }
+});
+
+// GET /api/orders - Get all orders (for admin)
+router.get('/', async (req, res) => {
+  try {
+    const orders = await Order.find()
+      .populate('user', 'name email')
+      .populate('orderItems.product', 'name price imageUrl')
+      .sort({ createdAt: -1 }); // Most recent first
+    res.json({ success: true, orders });
+  } catch (err) {
+    console.error('Error fetching all orders:', err.message);
+    res.status(500).json({ success: false, message: 'Failed to fetch orders' });
   }
 });
 
@@ -138,15 +169,86 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// GET /api/orders - Get all orders (for admin)
-router.get('/', async (req, res) => {
+// PUT /api/orders/:id/cancel - Cancel a specific order
+router.put('/:id/cancel', async (req, res) => {
   try {
-    const orders = await Order.find().populate('user', 'name email');
-    res.json({ orders });
+    const orderId = req.params.id;
+    const userId = req.query.userId || req.headers['user-id'];
+    const isAdmin = req.query.admin === 'true' || req.headers['admin'] === 'true';
+
+    let order;
+    if (isAdmin) {
+      // Admin can cancel any order
+      order = await Order.findById(orderId);
+    } else {
+      // Regular user can only cancel their own orders
+      if (!userId) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'User ID is required' 
+        });
+      }
+      order = await Order.findOne({ _id: orderId, user: userId });
+    }
+
+    if (!order) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Order not found' 
+      });
+    }
+
+    // Check if order can be cancelled
+    if (order.orderStatus === 'Cancelled') {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Order is already cancelled' 
+      });
+    }
+
+    if (order.orderStatus === 'Delivered') {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Cannot cancel a delivered order' 
+      });
+    }
+
+    // Update order status to cancelled
+    const updatedOrder = await Order.findByIdAndUpdate(
+      orderId,
+      { orderStatus: 'Cancelled' },
+      { new: true }
+    ).populate('orderItems.product', 'name price imageUrl');
+
+    // If order had a coupon, decrement its usage count
+    if (order.couponCode && order.discountAmount > 0) {
+      try {
+        const coupon = await Coupon.findOne({ code: order.couponCode.toUpperCase() });
+        if (coupon && coupon.usage > 0) {
+          coupon.usage -= 1;
+          await coupon.save();
+          console.log(`Coupon ${order.couponCode} usage decremented to ${coupon.usage}`);
+        }
+      } catch (couponError) {
+        console.error('Error decrementing coupon usage:', couponError.message);
+        // Don't fail the cancellation if coupon update fails
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Order cancelled successfully',
+      order: updatedOrder
+    });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch orders' });
+    console.error('Error cancelling order:', err.message);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Failed to cancel order'
+    });
   }
 });
+
 // PATCH /api/orders/:id - Update order status or other fields
 router.patch('/:id', async (req, res) => {
   try {

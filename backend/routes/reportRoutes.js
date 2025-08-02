@@ -3,165 +3,218 @@ const router = express.Router();
 const Order = require('../models/order');
 const Product = require('../models/product');
 const User = require('../models/user');
-const mongoose = require('mongoose');
+
+// Simple test endpoint
+router.get('/test', (req, res) => {
+  res.json({ message: 'Reports API is working', timestamp: new Date() });
+});
 
 // Get all reports data
 router.get('/', async (req, res) => {
   try {
-    // Get total revenue
-    const totalRevenue = await Order.aggregate([
-      { $match: { orderStatus: { $in: ['Delivered', 'Processing', 'Shipped'] } } },
-      { $group: { _id: null, total: { $sum: '$totalPrice' } } }
-    ]);
-
-    // Get total orders
-    const totalOrders = await Order.countDocuments({ 
-      orderStatus: { $in: ['Delivered', 'Processing', 'Shipped'] } 
-    });
-
-    // Get total customers
-    const totalCustomers = await User.countDocuments();
-
-    // Get sales by category
-    const salesByCategory = await Order.aggregate([
-      { $match: { orderStatus: { $in: ['Delivered', 'Processing', 'Shipped'] } } },
-      { $unwind: '$orderItems' },
-      {
-        $lookup: {
-          from: 'products',
-          localField: 'orderItems.product',
-          foreignField: '_id',
-          as: 'product'
-        }
-      },
-      { $unwind: '$product' },
-      {
-        $group: {
-          _id: '$product.category',
-          revenue: { $sum: { $multiply: ['$orderItems.quantity', '$product.price'] } }
-        }
-      },
-      { $sort: { revenue: -1 } }
-    ]);
-
-    // Get monthly revenue for last 6 months
-    const sixMonthsAgo = new Date();
-    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+    console.log('Reports API called with query:', req.query);
     
-    const monthlyRevenue = await Order.aggregate([
-      { 
-        $match: { 
-          createdAt: { $gte: sixMonthsAgo },
-          orderStatus: { $in: ['Delivered', 'Processing', 'Shipped'] }
-        } 
-      },
-      {
-        $group: {
-          _id: {
-            year: { $year: '$createdAt' },
-            month: { $month: '$createdAt' }
-          },
-          revenue: { $sum: '$totalPrice' }
+    // Get date range from query params (default to 30 days)
+    const days = parseInt(req.query.days) || 30;
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - days);
+    
+    // Basic filters
+    const dateFilter = { createdAt: { $gte: startDate } };
+    const validOrderStatuses = ['Delivered', 'Processing', 'Shipped', 'Pending'];
+    
+    // Get basic metrics
+    let totalRevenue = 0;
+    let totalOrders = 0;
+    let totalCustomers = 0;
+    
+    try {
+      // Count total orders in date range
+      totalOrders = await Order.countDocuments({
+        ...dateFilter,
+        orderStatus: { $in: validOrderStatuses }
+      });
+      
+      // Calculate total revenue
+      const revenueResult = await Order.aggregate([
+        {
+          $match: {
+            ...dateFilter,
+            orderStatus: { $in: validOrderStatuses }
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total: { $sum: '$totalPrice' }
+          }
         }
-      },
-      { $sort: { '_id.year': 1, '_id.month': 1 } }
-    ]);
-
-    // Get top selling products
-    const topProducts = await Order.aggregate([
-      { $match: { orderStatus: { $in: ['Delivered', 'Processing', 'Shipped'] } } },
-      { $unwind: '$orderItems' },
-      {
-        $lookup: {
-          from: 'products',
-          localField: 'orderItems.product',
-          foreignField: '_id',
-          as: 'product'
-        }
-      },
-      { $unwind: '$product' },
-      {
-        $group: {
-          _id: '$product._id',
-          name: { $first: '$product.name' },
-          sales: { $sum: '$orderItems.quantity' },
-          revenue: { $sum: { $multiply: ['$orderItems.quantity', '$product.price'] } }
-        }
-      },
-      { $sort: { revenue: -1 } },
-      { $limit: 4 }
-    ]);
-
-    // Get recent activity
-    const recentOrders = await Order.find({ 
-      orderStatus: { $in: ['Delivered', 'Processing', 'Shipped'] } 
-    })
-    .sort({ createdAt: -1 })
-    .limit(5)
-    .populate('user', 'name');
-
-    const recentCustomers = await User.find()
-    .sort({ createdAt: -1 })
-    .limit(3);
-
-    // Format the data
-    const formattedSalesByCategory = salesByCategory.map(category => ({
-      category: category._id,
-      revenue: category.revenue,
-      percentage: 0 // Will be calculated below
-    }));
-
-    // Calculate percentages for sales by category
-    const totalCategoryRevenue = formattedSalesByCategory.reduce((sum, cat) => sum + cat.revenue, 0);
-    formattedSalesByCategory.forEach(category => {
-      category.percentage = Math.round((category.revenue / totalCategoryRevenue) * 100);
-    });
-
-    // Format monthly revenue
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const formattedMonthlyRevenue = monthlyRevenue.map(month => ({
-      month: monthNames[month._id.month - 1],
-      revenue: month.revenue
-    }));
-
-    // Format top products
-    const formattedTopProducts = topProducts.map(product => ({
-      name: product.name,
-      sales: product.sales,
-      revenue: product.revenue
-    }));
-
-    // Format recent activity
-    const recentActivity = [
-      ...recentOrders.map(order => ({
-        type: 'order',
-        title: `New Order #${order._id.toString().slice(-4)}`,
-        description: `₹${order.totalPrice.toLocaleString()} • ${getTimeAgo(order.createdAt)}`,
-        icon: 'trending',
-        color: 'green'
-      })),
-      ...recentCustomers.map(customer => ({
-        type: 'customer',
-        title: 'New Customer',
-        description: `${customer.name} registered • ${getTimeAgo(customer.createdAt)}`,
-        icon: 'users',
-        color: 'blue'
-      }))
-    ].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).slice(0, 3);
-
-    res.json({
-      totalRevenue: totalRevenue[0]?.total || 0,
-      totalOrders,
-      totalCustomers,
-      salesByCategory: formattedSalesByCategory,
-      monthlyRevenue: formattedMonthlyRevenue,
-      topProducts: formattedTopProducts,
-      recentActivity
-    });
-
+      ]);
+      totalRevenue = revenueResult[0]?.total || 0;
+      
+      // Count total customers
+      totalCustomers = await User.countDocuments();
+      
+    } catch (dbError) {
+      console.error('Database query error:', dbError);
+    }
+    
+    // Get sales by category (simplified)
+    let salesByCategory = [];
+    try {
+      const categoryResults = await Order.aggregate([
+        {
+          $match: {
+            ...dateFilter,
+            orderStatus: { $in: validOrderStatuses }
+          }
+        },
+        { $unwind: '$orderItems' },
+        {
+          $lookup: {
+            from: 'products',
+            localField: 'orderItems.product',
+            foreignField: '_id',
+            as: 'productInfo'
+          }
+        },
+        { $unwind: { path: '$productInfo', preserveNullAndEmptyArrays: true } },
+        {
+          $group: {
+            _id: '$productInfo.category',
+            revenue: {
+              $sum: {
+                $multiply: [
+                  '$orderItems.quantity',
+                  { $ifNull: ['$productInfo.price', 0] }
+                ]
+              }
+            }
+          }
+        },
+        { $sort: { revenue: -1 } },
+        { $limit: 10 }
+      ]);
+      
+      const totalCategoryRevenue = categoryResults.reduce((sum, cat) => sum + cat.revenue, 0);
+      
+      salesByCategory = categoryResults.map(cat => ({
+        category: cat._id || 'Unknown',
+        revenue: cat.revenue,
+        percentage: totalCategoryRevenue > 0 ? Math.round((cat.revenue / totalCategoryRevenue) * 100) : 0
+      }));
+      
+    } catch (categoryError) {
+      console.error('Category aggregation error:', categoryError);
+      salesByCategory = [];
+    }
+    
+    // Get monthly revenue (last 6 months)
+    let monthlyRevenue = [];
+    try {
+      const sixMonthsAgo = new Date();
+      sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+      
+      const monthlyResults = await Order.aggregate([
+        {
+          $match: {
+            createdAt: { $gte: sixMonthsAgo },
+            orderStatus: { $in: validOrderStatuses }
+          }
+        },
+        {
+          $group: {
+            _id: {
+              year: { $year: '$createdAt' },
+              month: { $month: '$createdAt' }
+            },
+            revenue: { $sum: '$totalPrice' }
+          }
+        },
+        { $sort: { '_id.year': 1, '_id.month': 1 } }
+      ]);
+      
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      monthlyRevenue = monthlyResults.map(month => ({
+        month: monthNames[month._id.month - 1] || 'Unknown',
+        revenue: month.revenue || 0
+      }));
+      
+    } catch (monthlyError) {
+      console.error('Monthly revenue error:', monthlyError);
+      monthlyRevenue = [];
+    }
+    
+    // Get top products
+    let topProducts = [];
+    try {
+      const productResults = await Order.aggregate([
+        {
+          $match: {
+            ...dateFilter,
+            orderStatus: { $in: validOrderStatuses }
+          }
+        },
+        { $unwind: '$orderItems' },
+        {
+          $lookup: {
+            from: 'products',
+            localField: 'orderItems.product',
+            foreignField: '_id',
+            as: 'productInfo'
+          }
+        },
+        { $unwind: { path: '$productInfo', preserveNullAndEmptyArrays: true } },
+        {
+          $group: {
+            _id: '$orderItems.product',
+            name: { $first: '$productInfo.name' },
+            sales: { $sum: '$orderItems.quantity' },
+            revenue: {
+              $sum: {
+                $multiply: [
+                  '$orderItems.quantity',
+                  { $ifNull: ['$productInfo.price', 0] }
+                ]
+              }
+            }
+          }
+        },
+        { $sort: { revenue: -1 } },
+        { $limit: 4 }
+      ]);
+      
+      topProducts = productResults.map(product => ({
+        name: product.name || 'Unknown Product',
+        sales: product.sales || 0,
+        revenue: product.revenue || 0
+      }));
+      
+    } catch (productError) {
+      console.error('Top products error:', productError);
+      topProducts = [];
+    }
+    
+    // Prepare response
+    const responseData = {
+      totalRevenue: totalRevenue || 0,
+      totalOrders: totalOrders || 0,
+      totalCustomers: totalCustomers || 0,
+      salesByCategory: salesByCategory || [],
+      monthlyRevenue: monthlyRevenue || [],
+      topProducts: topProducts || [],
+      recentActivity: []
+    };
+    
+    console.log('Sending response:', responseData);
+    res.json(responseData);
+    
   } catch (error) {
     console.error('Error fetching reports:', error);
-    res.status(500).json({ message: 'Failed to fetch reports data' });
+    res.status(500).json({ 
+      message: 'Failed to fetch reports data',
+      error: error.message 
+    });
   }
 });
 
@@ -182,4 +235,4 @@ function getTimeAgo(date) {
   return date.toLocaleDateString();
 }
 
-module.exports = router; 
+module.exports = router;

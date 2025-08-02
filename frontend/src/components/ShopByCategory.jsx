@@ -16,7 +16,7 @@ const categories = [
     link: '/rings',
   },
   {
-    name: 'Elegant Bangles',
+    name: 'Elegant Bracelets',
     price: 'Starting from ₹36,200*',
     image: 'bangle.png',
     link: '/bracelets',
@@ -28,7 +28,7 @@ const categories = [
     link: '/earrings',
   },
   {
-    name: 'Stylish Mangalsutras',
+    name: 'Necklaces',
     price: 'Starting from ₹36,500*',
     image: 'mangal.png',
     link: '/necklaces', // Using necklaces page for mangalsutras

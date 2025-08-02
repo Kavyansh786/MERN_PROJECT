@@ -220,12 +220,19 @@ export default function Payment() {
           ? [{ product: buyNowProduct._id, quantity: buyNowProduct.quantity }]
           : cartItems.map(item => ({ product: item.product._id, quantity: item.quantity })),
         shippingAddress: {
+          fullName: selectedAddress.fullName,
+          phone: selectedAddress.phone,
+          email: selectedAddress.email,
+          street: selectedAddress.street,
           city: selectedAddress.city,
+          state: selectedAddress.state,
           postalCode: selectedAddress.pincode,
           country: 'India'
         },
         paymentMethod: selectedPaymentMethod,
-        totalPrice: calculateSubtotal(), // Send original subtotal, let backend handle discount
+        totalPrice: calculateTotal(), // Send final amount after discount
+        originalPrice: calculateSubtotal(), // Send original subtotal
+        discountAmount: discount, // Send discount amount
         couponCode: couponCode || null
       };
 

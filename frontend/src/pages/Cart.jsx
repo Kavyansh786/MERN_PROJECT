@@ -19,6 +19,14 @@ export default function Cart() {
 
   const userId = getUserId();
 
+  // Function to clean up invalid cart items
+  const cleanupInvalidItems = (items) => {
+    return items.filter(item => {
+      const product = item.product || item;
+      return product && product._id; // Keep only items with valid products
+    });
+  };
+
   useEffect(() => {
     if (!userId) {
       setLoading(false);
@@ -28,7 +36,19 @@ export default function Cart() {
     axios
       .get(`/cart/${userId}`)
       .then((res) => {
-        setCartItems(res.data.items || []);
+        const items = res.data.items || [];
+        const cleanedItems = cleanupInvalidItems(items);
+        
+        // Update cart if invalid items were found
+        if (cleanedItems.length !== items.length) {
+          console.log('Removed invalid cart items:', items.length - cleanedItems.length);
+          // Update the cart on the server
+          axios.put(`/cart/${userId}`, { items: cleanedItems }).catch(err => {
+            console.error('Failed to update cart after cleanup:', err);
+          });
+        }
+        
+        setCartItems(cleanedItems);
         setLoading(false);
       })
       .catch((err) => {
@@ -70,6 +90,12 @@ export default function Cart() {
   }, [cartItems]);
 
   const handleRemove = async (productId) => {
+    if (!productId) {
+      console.error('Cannot remove item: productId is undefined');
+      showToast({ type: 'error', message: 'Cannot remove this item. Please try the "Clean Invalid Items" button.' });
+      return;
+    }
+
     setRemovingItem(productId);
     try {
       const res = await axios.delete(
@@ -139,8 +165,22 @@ export default function Cart() {
   const subtotal = cartItems.reduce(
     (sum, item) => {
       const product = item.product || item;
+      
+      // Skip items with null/undefined products
+      if (!product) {
+        console.warn('Cart item with null product:', item);
+        return sum;
+      }
+      
       const quantity = item.quantity || 1;
-      return sum + quantity * product.price;
+      const price = product.price || 0;
+      
+      // Debug: Log products with missing prices
+      if (!product.price) {
+        console.warn('Product with missing price:', product.name || 'Unnamed product', product);
+      }
+      
+      return sum + quantity * price;
     },
     0
   );
@@ -298,12 +338,75 @@ export default function Cart() {
                 </div>
               </div>
             ) : (
-              cartItems.map((item) => {
-                // Handle both backend API structure { product, quantity } and localStorage structure { _id, name, price, etc., quantity }
-                const product = item.product || item;
-                const quantity = item.quantity || 1;
-                
-                return (
+              <>
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-2xl font-bold text-[#a67c52]">Cart Items</h2>
+                  <button
+                    onClick={() => {
+                      const cleanedItems = cleanupInvalidItems(cartItems);
+                      if (cleanedItems.length !== cartItems.length) {
+                        setCartItems(cleanedItems);
+                        showToast({ type: 'success', message: 'Invalid items removed from cart' });
+                      }
+                    }}
+                    className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                  >
+                    Clean Invalid Items
+                  </button>
+                </div>
+                                {cartItems.map((item, index) => {
+                  // Handle both backend API structure { product, quantity } and localStorage structure { _id, name, price, etc., quantity }
+                  const product = item.product || item;
+                  const quantity = item.quantity || 1;
+                  
+                  // Handle null products with a special UI
+                  if (!product) {
+                    console.warn('Rendering cart item with null product:', item);
+                    return (
+                      <div
+                        key={item._id || `invalid-${index}`}
+                        className="flex flex-col sm:flex-row items-center bg-red-50/95 backdrop-blur-sm rounded-3xl shadow-2xl p-4 sm:p-6 border-2 border-red-200 hover:shadow-3xl transition-all duration-500 gap-4 relative overflow-hidden group"
+                      >
+                        <div className="relative z-10 flex flex-col sm:flex-row items-center w-full gap-4">
+                          <div className="relative">
+                            <div className="w-24 h-24 sm:w-28 sm:h-28 bg-red-100 rounded-2xl border-2 border-red-300 flex items-center justify-center">
+                              <svg className="w-12 h-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                              </svg>
+                            </div>
+                          </div>
+                          
+                          <div className="flex-1 text-red-700 flex flex-col gap-2">
+                            <h3 className="text-xl sm:text-2xl font-bold tracking-tight">
+                              Invalid Product
+                            </h3>
+                            <p className="text-lg sm:text-xl font-semibold text-red-600">
+                              This product is no longer available
+                            </p>
+                          </div>
+                          
+                          <button
+                            onClick={() => {
+                              // Remove by index for invalid items
+                              const newCartItems = cartItems.filter((_, i) => i !== index);
+                              setCartItems(newCartItems);
+                              showToast({ type: 'success', message: 'Invalid item removed from cart.' });
+                            }}
+                            aria-label="Remove invalid item"
+                            className="px-4 py-2 bg-gradient-to-r from-red-400 to-red-600 text-white rounded-2xl shadow-lg hover:from-red-500 hover:to-red-700 font-semibold text-sm flex items-center gap-2 border transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+                            title="Remove invalid item"
+                          >
+                            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            <span className="hidden sm:inline">Remove</span>
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  }
+                  
+                  return (
                   <div
                     key={product._id}
                     className={`flex flex-col sm:flex-row items-center bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-4 sm:p-6 border-2 border-[#e0c3a0] hover:shadow-3xl hover:scale-[1.02] transition-all duration-500 gap-4 relative overflow-hidden group ${
@@ -328,7 +431,7 @@ export default function Cart() {
                         {product.name}
                       </h3>
                       <p className="text-lg sm:text-xl font-semibold text-[#7c5c36] bg-gradient-to-r from-[#7c5c36] to-[#a67c52] bg-clip-text text-transparent">
-                        ₹{product.price.toLocaleString()}
+                        ₹{(product.price || 0).toLocaleString()}
                       </p>
                       
                       <div className="flex items-center gap-3 mt-2">
@@ -372,7 +475,8 @@ export default function Cart() {
                   </div>
                 </div>
               );
-            })
+            })}
+                </>
             )}
 
             {/* Saved for Later */}
@@ -384,21 +488,29 @@ export default function Cart() {
                     Saved for Later
                   </h3>
                   <div className="space-y-4">
-                    {savedItems.map(({ product, quantity }) => (
-                      <div key={product._id} className="flex items-center bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-[#e0c3a0] hover:shadow-lg transition-all duration-300">
-                        <img src={product.imageUrl} alt={product.name} className="w-16 h-16 object-cover rounded-xl mr-4 shadow-md" />
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-[#a67c52]">{product.name}</h4>
-                          <p className="text-[#7c5c36]">₹{product.price.toLocaleString()}</p>
+                    {savedItems.map(({ product, quantity }) => {
+                      // Skip rendering items with null products
+                      if (!product) {
+                        console.warn('Skipping saved item with null product');
+                        return null;
+                      }
+                      
+                      return (
+                        <div key={product._id} className="flex items-center bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-[#e0c3a0] hover:shadow-lg transition-all duration-300">
+                          <img src={product.imageUrl} alt={product.name} className="w-16 h-16 object-cover rounded-xl mr-4 shadow-md" />
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-[#a67c52]">{product.name}</h4>
+                            <p className="text-[#7c5c36]">₹{(product.price || 0).toLocaleString()}</p>
+                          </div>
+                          <button
+                            onClick={() => handleMoveToCart({ product, quantity })}
+                            className="px-6 py-3 bg-gradient-to-r from-[#D4AF37] to-[#FFD700] text-white rounded-xl font-semibold hover:from-[#B8941F] hover:to-[#E6C200] transition-all duration-300 transform hover:scale-105 shadow-lg"
+                          >
+                            Move to Cart
+                          </button>
                         </div>
-                        <button
-                          onClick={() => handleMoveToCart({ product, quantity })}
-                          className="px-6 py-3 bg-gradient-to-r from-[#D4AF37] to-[#FFD700] text-white rounded-xl font-semibold hover:from-[#B8941F] hover:to-[#E6C200] transition-all duration-300 transform hover:scale-105 shadow-lg"
-                        >
-                          Move to Cart
-                        </button>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -417,7 +529,7 @@ export default function Cart() {
                       <div key={product._id} className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-[#e0c3a0] hover:shadow-xl transition-all duration-300 transform hover:scale-105 group">
                         <img src={product.imageUrl} alt={product.name} className="w-full h-40 object-cover rounded-xl mb-4 shadow-lg group-hover:shadow-xl transition-all duration-300" />
                         <h4 className="font-semibold text-[#a67c52] mb-2 text-lg">{product.name}</h4>
-                        <p className="text-[#7c5c36] mb-4 text-lg font-semibold">₹{product.price.toLocaleString()}</p>
+                        <p className="text-[#7c5c36] mb-4 text-lg font-semibold">₹{(product.price || 0).toLocaleString()}</p>
                         <button className="w-full bg-gradient-to-r from-[#D4AF37] to-[#FFD700] text-white py-3 rounded-xl font-semibold hover:from-[#B8941F] hover:to-[#E6C200] transition-all duration-300 transform hover:scale-105 shadow-lg">
                           Add to Cart
                         </button>
