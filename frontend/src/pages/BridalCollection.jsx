@@ -86,7 +86,7 @@ export default function BridalCollection() {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/cart', {
+      await axios.post('/cart', {
         user: userId,
         productId,
         quantity: 1,

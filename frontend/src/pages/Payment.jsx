@@ -4,6 +4,7 @@ import { useToast } from '../components/Toast';
 import Footer from '../components/Footer';
 import axios from 'axios';
 import { getUserId } from '../utils/userUtils';
+import { buildApiUrl } from '../config/api';
 
 // Load Razorpay script
 const loadRazorpay = () => {
@@ -74,7 +75,7 @@ export default function Payment() {
       }
 
       try {
-        const response = await axios.get(`http://localhost:5000/api/cart/${userId}`);
+        const response = await axios.get(buildApiUrl(`/cart/${userId}`));
         setCartItems(response.data.items || []);
       } catch (error) {
         console.error('Failed to fetch cart items:', error);
@@ -126,7 +127,7 @@ export default function Payment() {
 
     setProcessingPayment(true);
     try {
-      const orderResponse = await axios.post('http://localhost:5000/api/payment/create-order', {
+      const orderResponse = await axios.post(buildApiUrl('/payment/create-order'), {
         amount: calculateTotal(),
         currency: 'INR',
         receipt: `order_${Date.now()}`
@@ -159,7 +160,7 @@ export default function Payment() {
         handler: async function (response) {
           try {
             // Verify payment on backend
-            const verifyResponse = await axios.post('http://localhost:5000/api/payment/verify-payment', {
+            const verifyResponse = await axios.post(buildApiUrl('/payment/verify-payment'), {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature
@@ -245,7 +246,7 @@ export default function Payment() {
         couponCode: couponCode || null
       };
 
-      const response = await axios.post('http://localhost:5000/api/orders', {
+      const response = await axios.post(buildApiUrl('/orders'), {
         ...orderData,
         userId: userId
       });

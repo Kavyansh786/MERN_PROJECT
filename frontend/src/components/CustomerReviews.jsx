@@ -11,7 +11,7 @@ export default function CustomerReviews() {
     const fetchReviews = async () => {
       setLoading(true);
       try {
-        const res = await axios.get('http://localhost:5000/api/reviews?status=Approved');
+        const res = await axios.get('/reviews?status=Approved');
         const allReviews = Array.isArray(res.data) ? res.data : res.data.reviews || [];
         // Sort by creation date (newest first) and limit to 6 reviews
         const latestReviews = allReviews

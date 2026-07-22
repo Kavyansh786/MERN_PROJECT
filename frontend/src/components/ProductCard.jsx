@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useToast } from './Toast';
 import { getUserId } from '../utils/userUtils';
+import { buildApiUrl } from '../config/api';
 
 export default function ProductCard({ product, showNewBadge = false, viewMode = 'grid' }) {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
       if (!userId || !product._id) return;
 
       try {
-        const response = await axios.get(`http://localhost:5000/api/users/wishlist?id=${userId}`);
+        const response = await axios.get(buildApiUrl(`/users/wishlist?id=${userId}`));
         const wishlistItems = response.data;
         const isInWishlist = wishlistItems.some(item => item._id === product._id);
         setIsWishlisted(isInWishlist);
@@ -46,7 +47,7 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
     setIsLoading(true);
     try {
       await axios.post(
-        'http://localhost:5000/api/cart',
+        buildApiUrl('/cart'),
         { 
           user: userId, 
           productId: product._id, 
@@ -74,12 +75,12 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
       
       if (isWishlisted) {
         // Remove from wishlist
-        await axios.delete(`http://localhost:5000/api/users/wishlist/${userId}/${product._id}`);
+        await axios.delete(buildApiUrl(`/users/wishlist/${userId}/${product._id}`));
         setIsWishlisted(false);
         showToast({ type: 'success', message: 'Removed from wishlist!' });
       } else {
         // Add to wishlist
-        await axios.post(`http://localhost:5000/api/users/wishlist?id=${userId}`, {
+        await axios.post(buildApiUrl(`/users/wishlist?id=${userId}`), {
           productId: product._id
         });
         setIsWishlisted(true);

@@ -118,7 +118,7 @@ export default function ProductDetail() {
     setIsLoading(true);
     try {
       await axios.post(
-        'http://localhost:5000/api/cart',
+        '/cart',
         { 
           user: userId, 
           productId: product._id, 

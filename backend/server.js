@@ -13,12 +13,37 @@ const connectDB = require('./db/connect.js');
 // Initialize express
 const app = express();
 
+const defaultAllowedOrigins = [
+  'http://localhost:1512',
+  'http://localhost:5173',
+  'http://localhost:3000'
+];
+
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  ...(process.env.CORS_ORIGINS || '').split(',').map((origin) => origin.trim())
+]
+  .filter(Boolean)
+  .reduce((origins, origin) => {
+    if (!origins.includes(origin)) {
+      origins.push(origin);
+    }
+
+    return origins;
+  }, [...defaultAllowedOrigins]);
+
 // Connect to MongoDB
 connectDB();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:1512', 'http://localhost:5173', 'http://localhost:3000'],
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true
 }));
 app.use(express.json());

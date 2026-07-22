@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getUserId } from '../utils/userUtils';
 import { useToast } from '../components/Toast';
 import Footer from '../components/Footer';
+import { buildApiUrl } from '../config/api';
 
 function StatusBadge({ status }) {
   let color = 'bg-[#D4AF37] text-[#4a2c2a]';
@@ -35,7 +36,7 @@ export default function OrderDetail() {
       return;
     }
 
-    axios.get(`http://localhost:5000/api/orders/${orderId}?userId=${userId}`)
+    axios.get(buildApiUrl(`/orders/${orderId}?userId=${userId}`))
       .then((res) => {
         if (res.data.success) {
           setOrder(res.data.order);
@@ -58,7 +59,7 @@ export default function OrderDetail() {
 
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/orders/${orderId}/cancel?userId=${userId}`
+        buildApiUrl(`/orders/${orderId}/cancel?userId=${userId}`)
       );
 
       if (response.data.success) {

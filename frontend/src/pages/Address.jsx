@@ -68,7 +68,7 @@ export default function Address() {
 
   const fetchAddresses = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/address/${userId}`);
+      const response = await axios.get(`/address/${userId}`);
       setSavedAddresses(response.data.addresses || []);
     } catch (error) {
       console.error('Error fetching addresses:', error);
@@ -168,10 +168,10 @@ export default function Address() {
       };
 
       if (isEditing) {
-        await axios.put(`http://localhost:5000/api/address/${editingId}`, addressData);
+        await axios.put(`/address/${editingId}`, addressData);
         showToast({ type: 'success', message: 'Address updated successfully' });
       } else {
-        await axios.post('http://localhost:5000/api/address', addressData);
+        await axios.post('/address', addressData);
         showToast({ type: 'success', message: 'Address saved successfully' });
       }
 
@@ -221,7 +221,7 @@ export default function Address() {
   const handleDeleteAddress = async (addressId) => {
     if (window.confirm('Are you sure you want to delete this address?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/address/${addressId}`);
+        await axios.delete(`/address/${addressId}`);
         showToast({ type: 'success', message: 'Address deleted successfully' });
         fetchAddresses();
       } catch (error) {

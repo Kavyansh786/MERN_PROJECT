@@ -6,6 +6,7 @@ import { useToast } from '../components/Toast';
 import { getUserId } from '../utils/userUtils';
 import ProductCard from '../components/ProductCard';
 import Footer from '../components/Footer';
+import { buildApiUrl } from '../config/api';
 
 const SeasonalPage = () => {
   const { slug } = useParams();
@@ -29,12 +30,12 @@ const SeasonalPage = () => {
       setLoading(true);
       
       // Fetch seasonal page data
-      const seasonalResponse = await axios.get(`http://localhost:5000/api/seasonal-page/${slug}`);
+      const seasonalResponse = await axios.get(buildApiUrl(`/seasonal-page/${slug}`));
       const pageData = seasonalResponse.data.data;
       setSeasonalData(pageData);
 
       // Fetch products based on filter criteria
-      let productQuery = 'http://localhost:5000/api/products?';
+      let productQuery = buildApiUrl('/products?');
       
       // Filter by 'seasonal' categoryPage - all seasonal products use this common category
       productQuery += `categoryPage=seasonal&`;
@@ -107,7 +108,7 @@ const SeasonalPage = () => {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/cart', {
+      await axios.post(buildApiUrl('/cart'), {
         user: userId,
         productId,
         quantity: 1,

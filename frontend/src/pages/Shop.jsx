@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import axios from 'axios';
 import ProductCard from '../components/ProductCard';
+import { buildApiUrl } from '../config/api';
 
 export default function Shop() {
   const [products, setProducts] = useState([]);
@@ -24,7 +25,7 @@ export default function Shop() {
 
   useEffect(() => {
     setLoading(true);
-    axios.get('http://localhost:5000/api/products')
+    axios.get(buildApiUrl('/products'))
       .then(res => {
         // Exclude products with isRakhi true
         const nonRakhiProducts = res.data.filter(product => !product.isRakhi);

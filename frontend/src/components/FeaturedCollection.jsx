@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProductCard from './ProductCard';
+import { buildApiUrl } from '../config/api';
 
 export default function FeaturedCollection() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/products')
+    axios.get(buildApiUrl('/products'))
       .then(res => setProducts(res.data))
       .catch(err => {
         console.error('Failed to fetch featured products:', err);

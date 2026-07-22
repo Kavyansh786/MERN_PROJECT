@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { getUserId } from '../utils/userUtils';
 import Footer from '../components/Footer';
+import { buildApiUrl } from '../config/api';
 
 export default function TrackOrder() {
   const [orderNumber, setOrderNumber] = useState("");
@@ -21,7 +22,7 @@ export default function TrackOrder() {
     
     try {
       const userId = getUserId();
-      const response = await axios.get(`http://localhost:5000/api/orders/${orderNumber}?userId=${userId}`);
+      const response = await axios.get(buildApiUrl(`/orders/${orderNumber}?userId=${userId}`));
       
       if (response.data.success) {
         const order = response.data.order;

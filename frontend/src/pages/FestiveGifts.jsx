@@ -20,7 +20,7 @@ export default function FestiveGifts() {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:5000/api/products');
+        const response = await axios.get('/products');
         // Filter products that belong to the festive gifts page
         const festiveGiftsProducts = response.data.filter(product => product.categoryPage === 'festive-gifts');
         setProducts(festiveGiftsProducts);

@@ -37,7 +37,7 @@ export default function AddressManager({ userId, className = '' }) {
 
   const fetchAddresses = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/address/${userId}`);
+      const response = await axios.get(`/address/${userId}`);
       setSavedAddresses(response.data.addresses || []);
     } catch (error) {
       // Optionally handle error
@@ -90,9 +90,9 @@ export default function AddressManager({ userId, className = '' }) {
         isDefault: formData.isDefault
       };
       if (isEditing) {
-        await axios.put(`http://localhost:5000/api/address/${editingId}`, addressData);
+        await axios.put(`/address/${editingId}`, addressData);
       } else {
-        await axios.post('http://localhost:5000/api/address', addressData);
+        await axios.post('/address', addressData);
       }
       setFormData({
         fullName: '', phone: '', email: '', pincode: '', state: '', city: '', houseNo: '', area: '', addressType: 'Home', isDefault: false
@@ -129,7 +129,7 @@ export default function AddressManager({ userId, className = '' }) {
   const handleDeleteAddress = async (addressId) => {
     if (!window.confirm('Are you sure you want to delete this address?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/address/${addressId}`);
+      await axios.delete(`/address/${addressId}`);
       fetchAddresses();
     } catch (error) {
       // Optionally handle error

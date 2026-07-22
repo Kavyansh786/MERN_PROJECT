@@ -24,7 +24,7 @@ export default function AnniversaryGifts() {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:5000/api/products');
+        const response = await axios.get('/products');
         // Filter products that belong to the anniversary gifts page
         const anniversaryGiftsProducts = response.data.filter(product => product.categoryPage === 'anniversary-gifts');
         setProducts(anniversaryGiftsProducts);
@@ -88,7 +88,7 @@ export default function AnniversaryGifts() {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/cart', {
+      await axios.post('/cart', {
         user: userId,
         productId,
         quantity: 1,

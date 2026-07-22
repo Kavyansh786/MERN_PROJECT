@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from '../components/Toast';
 import axios from 'axios';
+import { buildApiUrl } from '../config/api';
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ export default function Navbar() {
   useEffect(() => {
     const fetchActiveSeasonalPage = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/seasonal-page/active');
+        const response = await axios.get(buildApiUrl('/seasonal-page/active'));
         if (response.data.success && response.data.data) {
           setActiveSeasonalPage(response.data.data);
         }
@@ -79,7 +80,7 @@ export default function Navbar() {
 
     setIsSearching(true);
     try {
-      const response = await axios.get(`http://localhost:5000/api/products/search?q=${encodeURIComponent(query)}`);
+      const response = await axios.get(buildApiUrl(`/products/search?q=${encodeURIComponent(query)}`));
       setSearchResults(response.data);
       setShowSearchDropdown(response.data.length > 0);
     } catch (error) {

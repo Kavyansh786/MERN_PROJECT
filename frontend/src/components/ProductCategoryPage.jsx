@@ -4,6 +4,7 @@ import { Heart, ShoppingCart, Star, Filter, Search, Eye } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { useToast } from './Toast';
 import { getUserId } from '../utils/userUtils';
+import axios from '../api/axios';
 
 const ProductCategoryPage = ({
   pageTitle,
@@ -32,7 +33,7 @@ const ProductCategoryPage = ({
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:5000/api/products');
+        const response = await axios.get('/products');
         const filtered = response.data.filter(product => product.categoryPage === categoryPage);
         setProducts(filtered);
         setFilteredProducts(filtered);
@@ -59,7 +60,7 @@ const ProductCategoryPage = ({
     if (!userId) return;
     
     try {
-      const response = await axios.get(`http://localhost:5000/api/wishlist/${userId}`);
+      const response = await axios.get(`/wishlist/${userId}`);
       setWishlist(response.data.items.map(item => item.product._id));
     } catch (err) {
       console.error('Error fetching wishlist:', err);
@@ -127,7 +128,7 @@ const ProductCategoryPage = ({
 
     try {
       if (wishlist.includes(productId)) {
-        await axios.delete(`http://localhost:5000/api/wishlist/${userId}/${productId}`);
+        await axios.delete(`/wishlist/${userId}/${productId}`);
         setWishlist(wishlist.filter(id => id !== productId));
         showToast({
           type: 'success',
@@ -135,7 +136,7 @@ const ProductCategoryPage = ({
           duration: 2000,
         });
       } else {
-        await axios.post(`http://localhost:5000/api/wishlist/${userId}`, { productId });
+        await axios.post(`/wishlist/${userId}`, { productId });
         setWishlist([...wishlist, productId]);
         showToast({
           type: 'success',

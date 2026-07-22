@@ -206,7 +206,7 @@ export default function Cart() {
     }
 
     try {
-      const response = await axios.get(`http://localhost:5000/api/coupons/validate/${coupon.trim()}`);
+      const response = await axios.get(`/coupons/validate/${coupon.trim()}`);
       
               if (response.data.valid) {
           const discountValue = Math.round(subtotal * (response.data.coupon.discount / 100));

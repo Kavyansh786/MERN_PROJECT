@@ -40,7 +40,7 @@ export default function PersonalizedGifts() {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:5000/api/products');
+        const response = await axios.get('/products');
         // Filter products that belong to the personalized gifts page
         const personalizedGiftsProducts = response.data.filter(product => product.categoryPage === 'personalized-gifts');
         setProducts(personalizedGiftsProducts);
@@ -106,7 +106,7 @@ export default function PersonalizedGifts() {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/cart', {
+      await axios.post('/cart', {
         user: userId,
         productId,
         quantity: 1,

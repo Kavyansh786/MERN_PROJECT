@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { buildApiUrl } from '../config/api';
 
 const Chatbot = () => {
     const location = useLocation();
@@ -36,7 +37,7 @@ const Chatbot = () => {
         setMessages(newMessages);
 
         try {
-            const response = await axios.post('http://localhost:5000/api/chatbot/chat', {
+            const response = await axios.post(buildApiUrl('/chatbot/chat'), {
                 message: userMessage,
                 conversationHistory: messages.slice(1) // Exclude initial greeting
             });

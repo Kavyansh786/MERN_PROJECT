@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { getUserId } from '../utils/userUtils';
 import Footer from '../components/Footer';
+import { buildApiUrl } from '../config/api';
 
 function StatusBadge({ status }) {
   let color = 'bg-[#D4AF37] text-[#4a2c2a]';
@@ -29,7 +30,7 @@ export default function Orders() {
       return;
     }
 
-    axios.get(`http://localhost:5000/api/orders/my?userId=${userId}`)
+    axios.get(buildApiUrl(`/orders/my?userId=${userId}`))
       .then((res) => {
         if (res.data.success) {
           setOrders(res.data.orders || []);

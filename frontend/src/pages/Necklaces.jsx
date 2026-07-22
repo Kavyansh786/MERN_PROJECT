@@ -24,7 +24,7 @@ export default function Necklaces() {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:5000/api/products');
+        const response = await axios.get('/products');
         // Filter products that belong to the necklaces page
         const necklacesProducts = response.data.filter(product => product.categoryPage === 'necklaces');
         setProducts(necklacesProducts);
@@ -88,7 +88,7 @@ export default function Necklaces() {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/cart', {
+      await axios.post('/cart', {
         user: userId,
         productId,
         quantity: 1,

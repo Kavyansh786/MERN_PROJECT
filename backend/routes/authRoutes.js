@@ -15,6 +15,7 @@ const {
 
 // JWT Secret (in production, use environment variable)
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-here';
+const FRONTEND_URL = (process.env.FRONTEND_URL || 'http://localhost:1512').replace(/\/+$/, '');
 
 // ✅ POST /api/auth/register - Customer registration with OTP
 router.post('/register', 
@@ -308,12 +309,12 @@ router.get('/google/callback',
     passport.authenticate('google', { session: false }, (err, user, info) => {
       if (err) {
         console.error('Google OAuth authentication error:', err);
-        return res.redirect('http://localhost:1512/login?error=oauth_failed');
+        return res.redirect(`${FRONTEND_URL}/login?error=oauth_failed`);
       }
       
       if (!user) {
         console.error('Google OAuth: No user returned', info);
-        return res.redirect('http://localhost:1512/login?error=oauth_failed');
+        return res.redirect(`${FRONTEND_URL}/login?error=oauth_failed`);
       }
       
       req.user = user;
@@ -327,14 +328,14 @@ router.get('/google/callback',
       
       if (!user) {
         console.error('No user found in callback');
-        return res.redirect('http://localhost:1512/login?error=oauth_failed');
+        return res.redirect(`${FRONTEND_URL}/login?error=oauth_failed`);
       }
       
       // Check if user's email is verified
       if (!user.isEmailVerified) {
         console.log('Google user needs OTP verification:', user.email);
         // Redirect to OTP verification page for unverified Google users
-        return res.redirect(`http://localhost:1512/verify-otp?email=${encodeURIComponent(user.email)}&source=google`);
+        return res.redirect(`${FRONTEND_URL}/verify-otp?email=${encodeURIComponent(user.email)}&source=google`);
       }
       
       // Generate JWT token for verified Google user
@@ -347,7 +348,7 @@ router.get('/google/callback',
       console.log('Generated token for verified Google user:', user.email);
       
       // Redirect to frontend with token for verified users
-      res.redirect(`http://localhost:1512/auth/google/success?token=${token}&user=${encodeURIComponent(JSON.stringify({
+      res.redirect(`${FRONTEND_URL}/auth/google/success?token=${token}&user=${encodeURIComponent(JSON.stringify({
         id: user._id,
         name: user.name,
         email: user.email,
@@ -356,7 +357,7 @@ router.get('/google/callback',
       }))}`);
     } catch (error) {
       console.error('Google OAuth callback error:', error);
-      res.redirect('http://localhost:1512/login?error=oauth_failed');
+      res.redirect(`${FRONTEND_URL}/login?error=oauth_failed`);
     }
   }
 );

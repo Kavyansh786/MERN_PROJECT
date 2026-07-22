@@ -46,7 +46,7 @@ export default function ZodiacJwellery() {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:5000/api/products');
+        const response = await axios.get('/products');
         // Filter products that belong to the zodiac jewelry page
         const zodiacProducts = response.data.filter(product => product.categoryPage === 'zodiac-jewelry');
         setProducts(zodiacProducts);
@@ -112,7 +112,7 @@ export default function ZodiacJwellery() {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/cart', {
+      await axios.post('/cart', {
         user: userId,
         productId,
         quantity: 1,

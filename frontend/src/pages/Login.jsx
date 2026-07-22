@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useToast } from '../components/Toast';
 import { ValidationRules, sanitizeInput, securityChecks } from '../utils/validation';
+import { GOOGLE_AUTH_URL } from '../config/api';
 
 // Key for localStorage
 const LOGIN_FORM_DATA = 'loginFormData';
@@ -338,7 +339,7 @@ export default function Login() {
 
         {/* Google Login Button */}
         <button
-          onClick={() => window.location.href = 'http://localhost:5000/api/auth/google'}
+          onClick={() => window.location.href = GOOGLE_AUTH_URL}
           className="w-full bg-white border-2 border-gray-300 text-gray-700 py-3 rounded-xl font-semibold text-lg shadow-md transition-all duration-200 flex items-center justify-center gap-3 hover:scale-105 active:scale-95 hover:shadow-lg hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">

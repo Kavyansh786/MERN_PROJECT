@@ -18,7 +18,7 @@ export default function RakshaBandhan() {
 
   const fetchRakhiProducts = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/products');
+      const response = await axios.get('/products');
       
       // Handle different response structures
       let allProducts = [];
@@ -58,7 +58,7 @@ export default function RakshaBandhan() {
       }
 
       // Add to cart using backend API
-      const response = await axios.post('http://localhost:5000/api/cart', {
+      const response = await axios.post('/cart', {
         user: userId,
         productId: product._id,
         quantity: 1
