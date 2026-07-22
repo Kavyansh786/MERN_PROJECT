@@ -12,6 +12,7 @@ const connectDB = require('./db/connect.js');
 
 // Initialize express
 const app = express();
+app.set('trust proxy', 1);
 
 const defaultAllowedOrigins = [
   'http://localhost:1512',
