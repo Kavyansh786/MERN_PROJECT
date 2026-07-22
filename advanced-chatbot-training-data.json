@@ -1,0 +1,327 @@
+[
+  {
+    "question": "What's the difference between lab-grown and natural diamonds?",
+    "answer": "Lab-grown diamonds are chemically identical to natural diamonds but created in controlled laboratory conditions. They offer the same brilliance, hardness, and beauty at 30-40% lower cost. Natural diamonds are formed over billions of years underground. Both are real diamonds - the choice depends on your preference for origin story and budget.",
+    "category": "education",
+    "keywords": ["lab grown diamonds", "natural diamonds", "diamond types", "synthetic diamonds", "diamond comparison"],
+    "priority": 1,
+    "followUpSuggestions": ["Browse diamond collection", "Compare diamond options", "Learn about diamond certification"],
+    "actionLinks": [
+      {"text": "Diamond Collection", "url": "/diamonds", "type": "internal"},
+      {"text": "Diamond Education", "url": "/diamond-guide", "type": "internal"},
+      {"text": "Contact Expert", "url": "/contact", "type": "internal"}
+    ]
+  },
+  {
+    "question": "How do I choose the right engagement ring style?",
+    "answer": "Consider her lifestyle, finger shape, and personal style. Classic solitaires suit traditional tastes, halo settings make stones appear larger, vintage styles offer unique character, and modern designs suit contemporary preferences. Consider her existing jewelry for style clues. Our experts can help you choose the perfect ring.",
+    "category": "consultation",
+    "keywords": ["engagement ring", "ring styles", "solitaire", "halo", "vintage", "modern", "ring selection"],
+    "priority": 1,
+    "followUpSuggestions": ["Browse engagement rings", "Schedule consultation", "View style guide"],
+    "actionLinks": [
+      {"text": "Engagement Rings", "url": "/engagement-rings", "type": "internal"},
+      {"text": "Style Guide", "url": "/ring-style-guide", "type": "internal"},
+      {"text": "Book Consultation", "url": "/consultation", "type": "internal"}
+    ]
+  },
+  {
+    "question": "What's the 4Cs of diamond quality?",
+    "answer": "The 4Cs are Cut (brilliance and sparkle), Color (D-Z scale, D being colorless), Clarity (internal flaws, FL to I3), and Carat (weight/size). Cut affects sparkle most, while color and clarity impact appearance. Carat determines size. Balance these factors based on your priorities and budget for the best value.",
+    "category": "education",
+    "keywords": ["4Cs", "diamond cut", "diamond color", "diamond clarity", "diamond carat", "diamond grading"],
+    "priority": 1,
+    "followUpSuggestions": ["Learn about diamond grading", "Compare diamond qualities", "View certified diamonds"],
+    "actionLinks": [
+      {"text": "Diamond Education", "url": "/diamond-guide", "type": "internal"},
+      {"text": "Certified Diamonds", "url": "/certified-diamonds", "type": "internal"},
+      {"text": "Contact Expert", "url": "/contact", "type": "internal"}
+    ]
+  },
+  {
+    "question": "How do I determine my partner's ring size secretly?",
+    "answer": "Try these discreet methods: 1) Borrow a ring she wears on her ring finger and trace it, 2) Ask her friends/family, 3) Use a ring sizer app when she's sleeping, 4) Casually visit a jewelry store together and try on rings 'for fun', 5) Estimate based on her height/weight (average is size 6-7). We also offer free resizing within 30 days.",
+    "category": "consultation",
+    "keywords": ["secret ring sizing", "partner ring size", "engagement surprise", "ring size tips", "discreet sizing"],
+    "priority": 1,
+    "followUpSuggestions": ["Get ring sizing tips", "Learn about resizing", "Browse engagement rings"],
+    "actionLinks": [
+      {"text": "Ring Size Guide", "url": "/ring-size-guide", "type": "internal"},
+      {"text": "Free Resizing Info", "url": "/resizing-policy", "type": "internal"},
+      {"text": "Engagement Rings", "url": "/engagement-rings", "type": "internal"}
+    ]
+  },
+  {
+    "question": "What's the best metal for sensitive skin?",
+    "answer": "Platinum is the best choice for sensitive skin - it's 95% pure, hypoallergenic, and doesn't tarnish. Sterling silver (92.5% pure) is also good. Avoid nickel-containing alloys. 18k gold is better than 14k for sensitive skin due to higher purity. Surgical steel and titanium are excellent budget-friendly hypoallergenic options.",
+    "category": "health",
+    "keywords": ["sensitive skin jewelry", "hypoallergenic metals", "platinum", "nickel-free", "skin allergies", "metal allergies"],
+    "priority": 1,
+    "followUpSuggestions": ["Browse hypoallergenic jewelry", "View platinum collection", "Learn about metal purity"],
+    "actionLinks": [
+      {"text": "Hypoallergenic Jewelry", "url": "/hypoallergenic", "type": "internal"},
+      {"text": "Platinum Collection", "url": "/platinum", "type": "internal"},
+      {"text": "Metal Guide", "url": "/metal-guide", "type": "internal"}
+    ]
+  },
+  {
+    "question": "How should I store my jewelry to prevent damage?",
+    "answer": "Store jewelry in individual soft pouches or compartments to prevent scratching. Keep in a cool, dry place away from sunlight. Use anti-tarnish strips for silver. Hang necklaces to prevent tangling. Store pearls separately as they're soft. Keep diamonds away from other gems to prevent scratching. Clean before storing for long periods.",
+    "category": "care",
+    "keywords": ["jewelry storage", "prevent damage", "anti-tarnish", "jewelry organization", "proper storage", "jewelry care"],
+    "priority": 2,
+    "followUpSuggestions": ["View jewelry care guide", "Shop jewelry boxes", "Learn cleaning tips"],
+    "actionLinks": [
+      {"text": "Jewelry Care Guide", "url": "/care-guide", "type": "internal"},
+      {"text": "Storage Solutions", "url": "/jewelry-boxes", "type": "internal"},
+      {"text": "Cleaning Services", "url": "/cleaning", "type": "internal"}
+    ]
+  },
+  {
+    "question": "What's the difference between white gold and platinum?",
+    "answer": "Platinum is naturally white, 95% pure, more durable, hypoallergenic, and develops a patina over time. White gold is yellow gold mixed with white metals, less expensive, requires rhodium plating for whiteness, and may cause allergies due to nickel content. Platinum is premium choice for engagement rings and fine jewelry.",
+    "category": "education",
+    "keywords": ["white gold vs platinum", "metal comparison", "platinum benefits", "white gold plating", "metal durability"],
+    "priority": 1,
+    "followUpSuggestions": ["Compare metal options", "View platinum jewelry", "Learn about rhodium plating"],
+    "actionLinks": [
+      {"text": "Metal Comparison", "url": "/metal-guide", "type": "internal"},
+      {"text": "Platinum Jewelry", "url": "/platinum", "type": "internal"},
+      {"text": "White Gold Collection", "url": "/white-gold", "type": "internal"}
+    ]
+  },
+  {
+    "question": "How do I clean my diamond jewelry at home?",
+    "answer": "Mix warm water with mild dish soap. Soak jewelry for 20-30 minutes. Gently scrub with soft toothbrush, especially under the stone. Rinse with clean water and dry with lint-free cloth. For extra sparkle, use jewelry cleaning solution. Avoid harsh chemicals, ultrasonic cleaners for treated diamonds, and cleaning over sink drains.",
+    "category": "care",
+    "keywords": ["clean diamond jewelry", "home cleaning", "jewelry maintenance", "diamond care", "cleaning solution"],
+    "priority": 1,
+    "followUpSuggestions": ["View detailed cleaning guide", "Shop cleaning products", "Book professional cleaning"],
+    "actionLinks": [
+      {"text": "Complete Care Guide", "url": "/jewelry-care", "type": "internal"},
+      {"text": "Cleaning Products", "url": "/cleaning-supplies", "type": "internal"},
+      {"text": "Professional Cleaning", "url": "/services", "type": "internal"}
+    ]
+  },
+  {
+    "question": "What's the best anniversary gift for each year?",
+    "answer": "Traditional gifts: 1st-Paper, 5th-Wood, 10th-Tin, 15th-Crystal, 20th-China, 25th-Silver, 50th-Gold. Modern alternatives: 1st-Clocks, 5th-Silverware, 10th-Diamond, 15th-Watches. We offer jewelry for every milestone - pearl for 30th, ruby for 40th, sapphire for 45th, diamond for 60th. Personalized pieces make any anniversary special.",
+    "category": "gifting",
+    "keywords": ["anniversary gifts", "milestone anniversaries", "traditional gifts", "modern gifts", "anniversary jewelry"],
+    "priority": 2,
+    "followUpSuggestions": ["Browse anniversary collection", "View milestone jewelry", "Personalize gifts"],
+    "actionLinks": [
+      {"text": "Anniversary Gifts", "url": "/anniversary", "type": "internal"},
+      {"text": "Milestone Jewelry", "url": "/milestone-gifts", "type": "internal"},
+      {"text": "Personalized Jewelry", "url": "/personalized", "type": "internal"}
+    ]
+  },
+  {
+    "question": "How do I know if a pearl is real or fake?",
+    "answer": "Real pearls feel gritty when rubbed against teeth, have irregular shapes, cool temperature, and weight. Fake pearls feel smooth, perfectly round, warm, and lightweight. Real pearls have lustrous, deep shine with color variations. Check for drill holes - real pearls have clean, precise holes. Our pearls come with authenticity certificates.",
+    "category": "authentication",
+    "keywords": ["real pearls", "fake pearls", "pearl authentication", "pearl quality", "pearl testing"],
+    "priority": 2,
+    "followUpSuggestions": ["Browse pearl collection", "Learn about pearl types", "View authenticity certificates"],
+    "actionLinks": [
+      {"text": "Pearl Collection", "url": "/pearls", "type": "internal"},
+      {"text": "Pearl Guide", "url": "/pearl-education", "type": "internal"},
+      {"text": "Authenticity Info", "url": "/authenticity", "type": "internal"}
+    ]
+  },
+  {
+    "question": "What jewelry trends are popular right now?",
+    "answer": "Current trends include: Layered necklaces, statement earrings, stackable rings, vintage-inspired pieces, colored gemstones, sustainable jewelry, personalized items, and mixed metals. Chunky chains, ear cuffs, and minimalist designs are also trending. We regularly update our collections to reflect current fashion while maintaining timeless appeal.",
+    "category": "trends",
+    "keywords": ["jewelry trends", "fashion jewelry", "current styles", "trending designs", "modern jewelry"],
+    "priority": 2,
+    "followUpSuggestions": ["View trending collection", "Browse new arrivals", "See fashion jewelry"],
+    "actionLinks": [
+      {"text": "Trending Now", "url": "/trending", "type": "internal"},
+      {"text": "New Arrivals", "url": "/new-arrivals", "type": "internal"},
+      {"text": "Fashion Jewelry", "url": "/fashion", "type": "internal"}
+    ]
+  },
+  {
+    "question": "How do I choose jewelry for different face shapes?",
+    "answer": "Round faces: Angular earrings, long necklaces. Square faces: Curved, soft designs, hoops. Heart-shaped: Wide earrings, chokers. Oval faces: Most styles work well. Long faces: Wide, horizontal designs, studs. Consider neckline too - V-necks suit most necklace lengths, high necks need longer chains. Our stylists can provide personalized recommendations.",
+    "category": "styling",
+    "keywords": ["face shape jewelry", "jewelry styling", "earring selection", "necklace length", "personal styling"],
+    "priority": 2,
+    "followUpSuggestions": ["Get styling consultation", "View styling guide", "Browse by style"],
+    "actionLinks": [
+      {"text": "Styling Guide", "url": "/styling-guide", "type": "internal"},
+      {"text": "Personal Consultation", "url": "/consultation", "type": "internal"},
+      {"text": "Browse Styles", "url": "/shop", "type": "internal"}
+    ]
+  },
+  {
+    "question": "What's the significance of birthstone jewelry?",
+    "answer": "Birthstones are believed to bring luck, protection, and healing properties to the wearer. Each month has a designated stone: January-Garnet, February-Amethyst, March-Aquamarine, April-Diamond, May-Emerald, June-Pearl, July-Ruby, August-Peridot, September-Sapphire, October-Opal, November-Topaz, December-Turquoise. Perfect for personalized gifts and self-expression.",
+    "category": "education",
+    "keywords": ["birthstones", "birthstone meaning", "monthly stones", "birthstone jewelry", "personalized birthstone"],
+    "priority": 2,
+    "followUpSuggestions": ["Find your birthstone", "Browse birthstone jewelry", "Learn birthstone meanings"],
+    "actionLinks": [
+      {"text": "Birthstone Collection", "url": "/birthstones", "type": "internal"},
+      {"text": "Birthstone Guide", "url": "/birthstone-guide", "type": "internal"},
+      {"text": "Personalized Jewelry", "url": "/personalized", "type": "internal"}
+    ]
+  },
+  {
+    "question": "How do I layer necklaces properly?",
+    "answer": "Start with different lengths: choker (14-16\"), princess (18\"), matinee (20-24\"), opera (28-36\"). Mix textures and weights - delicate with chunky. Vary pendant sizes. Keep metals cohesive or intentionally mixed. Odd numbers (3 or 5) work best. Consider neckline - V-necks showcase layers beautifully. Start simple and add complexity gradually.",
+    "category": "styling",
+    "keywords": ["layered necklaces", "necklace styling", "jewelry layering", "necklace lengths", "styling tips"],
+    "priority": 2,
+    "followUpSuggestions": ["View layering sets", "Browse necklace lengths", "Get styling tips"],
+    "actionLinks": [
+      {"text": "Layering Sets", "url": "/layering-sets", "type": "internal"},
+      {"text": "Necklace Collection", "url": "/necklaces", "type": "internal"},
+      {"text": "Styling Guide", "url": "/styling-guide", "type": "internal"}
+    ]
+  },
+  {
+    "question": "What's the best way to propose with a ring?",
+    "answer": "Choose a meaningful location, consider her preferences, have the ring sized properly, plan your words, capture the moment (photographer/friend), ensure privacy if she's shy, have a backup plan for weather, and most importantly - speak from the heart. The ring should reflect her style. We offer proposal planning assistance and ring customization services.",
+    "category": "consultation",
+    "keywords": ["marriage proposal", "proposal planning", "engagement ring", "proposal tips", "romantic proposal"],
+    "priority": 1,
+    "followUpSuggestions": ["Browse engagement rings", "Get proposal tips", "Schedule consultation"],
+    "actionLinks": [
+      {"text": "Engagement Rings", "url": "/engagement-rings", "type": "internal"},
+      {"text": "Proposal Guide", "url": "/proposal-guide", "type": "internal"},
+      {"text": "Expert Consultation", "url": "/consultation", "type": "internal"}
+    ]
+  },
+  {
+    "question": "How do I care for vintage or antique jewelry?",
+    "answer": "Handle gently, clean with soft brush and mild soap, avoid ultrasonic cleaners, store in stable temperature/humidity, check settings regularly for loose stones, have professional inspections annually, avoid harsh chemicals, and document with photos for insurance. Vintage pieces may need special care due to age and construction methods.",
+    "category": "care",
+    "keywords": ["vintage jewelry care", "antique jewelry", "vintage maintenance", "delicate jewelry", "heirloom care"],
+    "priority": 2,
+    "followUpSuggestions": ["View vintage collection", "Book professional inspection", "Learn restoration services"],
+    "actionLinks": [
+      {"text": "Vintage Collection", "url": "/vintage", "type": "internal"},
+      {"text": "Restoration Services", "url": "/restoration", "type": "internal"},
+      {"text": "Professional Care", "url": "/services", "type": "internal"}
+    ]
+  },
+  {
+    "question": "What's the difference between vermeil, gold-filled, and gold-plated?",
+    "answer": "Gold-plated: Thin gold layer (0.5 microns) over base metal, least durable, most affordable. Gold-filled: Thick gold layer (5% of total weight) mechanically bonded, durable, mid-range price. Vermeil: Gold-plated sterling silver (2.5+ microns), higher quality than regular plating, hypoallergenic base. Each offers different durability and price points.",
+    "category": "education",
+    "keywords": ["vermeil", "gold filled", "gold plated", "gold types", "jewelry construction", "gold quality"],
+    "priority": 2,
+    "followUpSuggestions": ["Compare gold options", "View vermeil collection", "Learn about gold quality"],
+    "actionLinks": [
+      {"text": "Gold Guide", "url": "/gold-guide", "type": "internal"},
+      {"text": "Vermeil Collection", "url": "/vermeil", "type": "internal"},
+      {"text": "Quality Information", "url": "/quality", "type": "internal"}
+    ]
+  },
+  {
+    "question": "How do I choose earrings for my ear shape?",
+    "answer": "Small ears: Delicate studs, small hoops, avoid oversized pieces. Large ears: Statement earrings, chandelier styles, bold designs. Attached lobes: Studs, small drops. Detached lobes: Hoops, dangles, heavy earrings. Consider hair length too - short hair showcases earrings more. Our stylists can help you find the perfect fit.",
+    "category": "styling",
+    "keywords": ["earring selection", "ear shape", "earring styles", "face framing", "earring fit"],
+    "priority": 2,
+    "followUpSuggestions": ["Browse earring styles", "Get styling advice", "View earring guide"],
+    "actionLinks": [
+      {"text": "Earring Collection", "url": "/earrings", "type": "internal"},
+      {"text": "Styling Consultation", "url": "/consultation", "type": "internal"},
+      {"text": "Earring Guide", "url": "/earring-guide", "type": "internal"}
+    ]
+  },
+  {
+    "question": "What jewelry is appropriate for professional settings?",
+    "answer": "Keep it simple and elegant: small stud earrings, delicate necklaces, classic watch, simple rings, minimal bracelets. Avoid: large hoops, statement pieces, noisy jewelry, excessive layering. Stick to precious metals like gold, silver, or platinum. Consider your industry - creative fields allow more expression than conservative sectors.",
+    "category": "styling",
+    "keywords": ["professional jewelry", "workplace appropriate", "business jewelry", "office wear", "conservative styling"],
+    "priority": 2,
+    "followUpSuggestions": ["Browse professional collection", "View minimalist designs", "Get workplace styling tips"],
+    "actionLinks": [
+      {"text": "Professional Collection", "url": "/professional", "type": "internal"},
+      {"text": "Minimalist Jewelry", "url": "/minimalist", "type": "internal"},
+      {"text": "Styling Guide", "url": "/styling-guide", "type": "internal"}
+    ]
+  },
+  {
+    "question": "How do I determine the value of inherited jewelry?",
+    "answer": "Get professional appraisal from certified gemologist, check for hallmarks and maker's marks, research similar pieces online, consider age, rarity, and condition, document with photos, check for precious metals/stones, and get multiple opinions for valuable pieces. We offer appraisal services and can help identify pieces.",
+    "category": "valuation",
+    "keywords": ["jewelry appraisal", "inherited jewelry", "jewelry value", "antique valuation", "gemologist appraisal"],
+    "priority": 2,
+    "followUpSuggestions": ["Book appraisal service", "Learn about valuation", "Contact jewelry expert"],
+    "actionLinks": [
+      {"text": "Appraisal Services", "url": "/appraisal", "type": "internal"},
+      {"text": "Valuation Guide", "url": "/valuation-guide", "type": "internal"},
+      {"text": "Contact Expert", "url": "/contact", "type": "internal"}
+    ]
+  },
+  {
+    "question": "What's the best jewelry for active lifestyles?",
+    "answer": "Choose durable metals like platinum or titanium, avoid prongs that catch, select smooth designs, consider silicone rings for sports, choose secure clasps, avoid delicate chains, opt for flush-set stones, and remove jewelry during intense activities. Sports-specific jewelry and fitness-friendly designs are available for active individuals.",
+    "category": "lifestyle",
+    "keywords": ["active lifestyle jewelry", "sports jewelry", "durable jewelry", "fitness friendly", "athletic jewelry"],
+    "priority": 2,
+    "followUpSuggestions": ["Browse active collection", "View sports jewelry", "Learn about durable options"],
+    "actionLinks": [
+      {"text": "Active Lifestyle Collection", "url": "/active", "type": "internal"},
+      {"text": "Durable Jewelry", "url": "/durable", "type": "internal"},
+      {"text": "Sports Jewelry", "url": "/sports", "type": "internal"}
+    ]
+  },
+  {
+    "question": "How do I choose jewelry as an investment?",
+    "answer": "Focus on precious metals (gold, platinum), high-quality gemstones (diamonds, rubies, sapphires, emeralds), classic designs that don't go out of style, reputable brands, proper certification, and pieces with resale value. Avoid fashion jewelry for investment. Consider rarity, craftsmanship, and market demand. Get professional advice for significant investments.",
+    "category": "investment",
+    "keywords": ["jewelry investment", "precious metals", "investment gems", "jewelry value", "collectible jewelry"],
+    "priority": 2,
+    "followUpSuggestions": ["View investment pieces", "Learn about precious metals", "Contact investment advisor"],
+    "actionLinks": [
+      {"text": "Investment Collection", "url": "/investment", "type": "internal"},
+      {"text": "Precious Metals Guide", "url": "/metals-guide", "type": "internal"},
+      {"text": "Expert Consultation", "url": "/consultation", "type": "internal"}
+    ]
+  },
+  {
+    "question": "What's the proper etiquette for wearing jewelry to weddings?",
+    "answer": "As a guest: Avoid white/ivory jewelry that competes with bride, choose elegant but not flashy pieces, consider venue formality, complement your outfit, avoid noisy jewelry during ceremony. As bride: Something old, new, borrowed, blue tradition, coordinate with dress style, consider photography, comfort for long day, and meaningful pieces.",
+    "category": "etiquette",
+    "keywords": ["wedding jewelry etiquette", "guest jewelry", "bridal jewelry", "wedding appropriate", "formal jewelry"],
+    "priority": 2,
+    "followUpSuggestions": ["Browse wedding guest jewelry", "View bridal collection", "Learn jewelry etiquette"],
+    "actionLinks": [
+      {"text": "Wedding Guest Collection", "url": "/wedding-guest", "type": "internal"},
+      {"text": "Bridal Jewelry", "url": "/bridal", "type": "internal"},
+      {"text": "Etiquette Guide", "url": "/etiquette", "type": "internal"}
+    ]
+  },
+  {
+    "question": "How do I travel safely with valuable jewelry?",
+    "answer": "Carry in carry-on luggage, never check valuable pieces, use hotel safes, wear minimal jewelry while traveling, bring copies of appraisals/photos, consider travel insurance, use jewelry travel cases, inform insurance company of travel, and avoid displaying expensive pieces in unfamiliar areas. We offer travel jewelry recommendations.",
+    "category": "travel",
+    "keywords": ["travel with jewelry", "jewelry safety", "travel insurance", "jewelry security", "travel tips"],
+    "priority": 2,
+    "followUpSuggestions": ["View travel jewelry", "Learn safety tips", "Get travel insurance info"],
+    "actionLinks": [
+      {"text": "Travel Jewelry", "url": "/travel", "type": "internal"},
+      {"text": "Safety Guide", "url": "/safety-guide", "type": "internal"},
+      {"text": "Insurance Information", "url": "/insurance", "type": "internal"}
+    ]
+  },
+  {
+    "question": "What's the difference between natural and treated gemstones?",
+    "answer": "Natural gemstones are unaltered from their mined state, while treated stones undergo enhancement processes like heating, irradiation, or filling to improve color, clarity, or durability. Treatments are common and acceptable when disclosed. Both can be beautiful and valuable. We clearly label all treatments and provide full disclosure.",
+    "category": "education",
+    "keywords": ["natural gemstones", "treated gemstones", "gemstone enhancement", "gemstone treatments", "stone disclosure"],
+    "priority": 2,
+    "followUpSuggestions": ["Learn about gemstone treatments", "Browse natural stones", "View treatment disclosure"],
+    "actionLinks": [
+      {"text": "Gemstone Education", "url": "/gemstone-guide", "type": "internal"},
+      {"text": "Natural Gemstones", "url": "/natural-gems", "type": "internal"},
+      {"text": "Treatment Information", "url": "/treatments", "type": "internal"}
+    ]
+  }
+]

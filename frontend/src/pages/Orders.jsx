@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { getUserId } from '../utils/userUtils';
+import Footer from '../components/Footer';
 
 function StatusBadge({ status }) {
   let color = 'bg-[#D4AF37] text-[#4a2c2a]';
@@ -48,7 +49,7 @@ export default function Orders() {
 
 
   return (
-    <div className="relative min-h-screen flex flex-col justify-between px-2 sm:px-6 overflow-hidden">
+    <div className="relative min-h-screen flex flex-col px-2 sm:px-6 overflow-hidden">
       {/* Background Image and Overlays */}
       <div className="absolute inset-0 z-0">
         <div 
@@ -59,7 +60,7 @@ export default function Orders() {
         <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent"></div>
       </div>
       {/* Content */}
-      <div className="relative z-10 w-full flex flex-col items-center justify-center flex-1 min-h-[70vh] pt-2 pb-10">
+      <div className="relative z-10 w-full flex flex-col items-center flex-1 pt-2 pb-10">
         {/* Heading and Tagline at the very top */}
         <div className="w-full">
           <div className="text-center mb-4">
@@ -126,6 +127,9 @@ export default function Orders() {
           ))}
         </div>
       )}
+      </div>
+      <div className="relative z-10 w-full">
+        <Footer />
       </div>
     </div>
   );

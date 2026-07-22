@@ -1,0 +1,6 @@
+name,price,category,material,stone,imageUrl,description,model3d,isPersonalized,engraving,fontStyle,nameText,metalFinish,currentStock,reserved,inStock,sku,isRakhi,isFeatured,isNewArrival,rakhiType
+Diwali Gold Ring,25000,Rings,Gold,Diamond,https://example.com/diwali-ring.jpg,Beautiful gold ring perfect for Diwali celebrations,,FALSE,TRUE,Script,TRUE,Polished,10,0,TRUE,DIWALI001,FALSE,TRUE,TRUE,traditional
+Festive Diamond Necklace,45000,Necklaces,Gold,Diamond,https://example.com/festive-necklace.jpg,Elegant diamond necklace for festive occasions,,FALSE,TRUE,Modern,FALSE,Polished,5,0,TRUE,DIWALI002,FALSE,TRUE,FALSE,traditional
+Traditional Gold Earrings,15000,Earrings,Gold,,https://example.com/traditional-earrings.jpg,Classic gold earrings for traditional celebrations,,FALSE,FALSE,,FALSE,Polished,15,0,TRUE,DIWALI003,FALSE,FALSE,TRUE,traditional
+Celebration Bracelet,12000,Bracelets,Gold,Ruby,https://example.com/celebration-bracelet.jpg,Stunning bracelet with ruby stones for special occasions,,TRUE,TRUE,Script,TRUE,Matte,8,0,TRUE,DIWALI004,FALSE,TRUE,FALSE,traditional
+Diwali Special Ring Set,35000,Rings,Gold,Emerald,https://example.com/diwali-ring-set.jpg,Complete ring set perfect for Diwali gifting,,FALSE,TRUE,Modern,FALSE,Polished,3,0,TRUE,DIWALI005,FALSE,TRUE,TRUE,traditional

@@ -24,17 +24,23 @@ export default function Footer() {
   };
 
   const handlePolicyClick = (policy) => {
+    // For now, show toast for policies that don't have dedicated pages
     showToast({ 
       type: 'info', 
       message: `${policy} page will be available soon!` 
     });
   };
 
+  const handleQuickLinkClick = (page) => {
+    navigate(page);
+  };
+
   const handleSizeGuideClick = (type) => {
-    showToast({ 
-      type: 'info', 
-      message: `${type} size guide will be available soon!` 
-    });
+    if (type === 'Ring') {
+      navigate('/ring-size-guide');
+    } else if (type === 'Bangle') {
+      navigate('/bangle-size-guide');
+    }
   };
 
   const handleAppointmentClick = () => {
@@ -53,7 +59,7 @@ export default function Footer() {
   };
 
   const handleTrackOrderClick = () => {
-    navigate('/orders');
+    navigate('/track-order');
   };
 
   const handleSocialClick = (platform) => {
@@ -184,10 +190,20 @@ export default function Footer() {
               <h4 className="font-semibold text-[#D4AF37] mb-4 border-b border-[#e0c3a0] pb-2">Quick Links</h4>
               <ul className="space-y-2 text-sm">
                 <li><Link to="/" className="text-[#7c5c36] hover:text-[#D4AF37] transition-colors">Home</Link></li>
-                <li><Link to="/shop" className="text-[#7c5c36] hover:text-[#D4AF37] transition-colors">Shop</Link></li>
+                <li><Link to="/shop" className="text-[#7c5c36] hover:text-[#D4AF37] transition-colors">Shop All</Link></li>
                 <li><Link to="/about" className="text-[#7c5c36] hover:text-[#D4AF37] transition-colors">About Us</Link></li>
                 <li><Link to="/contact" className="text-[#7c5c36] hover:text-[#D4AF37] transition-colors">Contact</Link></li>
-                <li><Link to="/bridal" className="text-[#7c5c36] hover:text-[#D4AF37] transition-colors">Bridal Collection</Link></li>
+                <li><Link to="/anniversary-gifts" className="text-[#7c5c36] hover:text-[#D4AF37] transition-colors">Anniversary Gifts</Link></li>
+                <li><Link to="/festive-gifts" className="text-[#7c5c36] hover:text-[#D4AF37] transition-colors">Festive Gifts</Link></li>
+                <li><Link to="/zodiac-jewelry" className="text-[#7c5c36] hover:text-[#D4AF37] transition-colors">Zodiac Jewelry</Link></li>
+                <li>
+                  <button 
+                    onClick={() => handleQuickLinkClick('/wishlist')}
+                    className="text-[#7c5c36] hover:text-[#D4AF37] transition-colors"
+                  >
+                    Wishlist
+                  </button>
+                </li>
               </ul>
             </div>
 
@@ -227,6 +243,22 @@ export default function Footer() {
                     className="text-[#7c5c36] hover:text-[#D4AF37] transition-colors"
                   >
                     Track My Order
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => handleQuickLinkClick('/orders')}
+                    className="text-[#7c5c36] hover:text-[#D4AF37] transition-colors"
+                  >
+                    My Orders
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => handleQuickLinkClick('/user/profile')}
+                    className="text-[#7c5c36] hover:text-[#D4AF37] transition-colors"
+                  >
+                    My Account
                   </button>
                 </li>
               </ul>
@@ -300,10 +332,10 @@ export default function Footer() {
                   Terms of Service
                 </button>
                 <button 
-                  onClick={handleCustomJewelryClick}
+                  onClick={() => handleQuickLinkClick('/personalized-gifts')}
                   className="hover:text-[#D4AF37] transition-colors"
                 >
-                  Custom Jewelry
+                  Personalized Gifts
                 </button>
               </div>
             </div>

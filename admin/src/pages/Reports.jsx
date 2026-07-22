@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  DollarSign, 
+  IndianRupee, 
   ShoppingCart, 
   Users, 
   TrendingUp, 
   RefreshCw, 
   Download, 
-  FileText,
-  BarChart3
+  BarChart3,
+  ChevronDown
 } from 'lucide-react';
 import * as XLSX from 'xlsx';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
 
 const Reports = () => {
   const [reports, setReports] = useState({
@@ -87,125 +85,81 @@ const Reports = () => {
 
   const avgOrderValue = reports.totalOrders > 0 ? Math.round(reports.totalRevenue / reports.totalOrders) : 0;
 
-  const handleExportPDF = () => {
-    const doc = new jsPDF();
-    
-    // Title
-    doc.setFontSize(20);
-    doc.text('Business Reports', 20, 30);
-    
-    // Date range
-    doc.setFontSize(12);
-    doc.text(`Date Range: Last ${dateRange} days`, 20, 45);
-    doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 20, 55);
-    
-    // Summary stats
-    doc.setFontSize(14);
-    doc.text('Summary Statistics', 20, 75);
-    
-    const summaryData = [
-      ['Total Revenue', `₹${reports.totalRevenue.toLocaleString()}`],
-      ['Total Orders', reports.totalOrders.toString()],
-      ['Total Customers', reports.totalCustomers.toString()],
-      ['Average Order Value', `₹${avgOrderValue.toLocaleString()}`]
-    ];
-    
-    doc.autoTable({
-      startY: 85,
-      head: [['Metric', 'Value']],
-      body: summaryData,
-      theme: 'grid'
-    });
-    
-    // Sales by Category
-    if (reports.salesByCategory && reports.salesByCategory.length > 0) {
-      doc.setFontSize(14);
-      doc.text('Sales by Category', 20, doc.lastAutoTable.finalY + 20);
-      
-      const categoryData = reports.salesByCategory.map(cat => [
-        cat.category,
-        `₹${cat.revenue.toLocaleString()}`,
-        `${cat.percentage}%`
-      ]);
-      
-      doc.autoTable({
-        startY: doc.lastAutoTable.finalY + 30,
-        head: [['Category', 'Revenue', 'Percentage']],
-        body: categoryData,
-        theme: 'grid'
-      });
-    }
-    
-    // Top Products
-    if (reports.topProducts && reports.topProducts.length > 0) {
-      doc.setFontSize(14);
-      doc.text('Top Products', 20, doc.lastAutoTable.finalY + 20);
-      
-      const productData = reports.topProducts.map(product => [
-        product.name,
-        product.sales.toString(),
-        `₹${product.revenue.toLocaleString()}`
-      ]);
-      
-      doc.autoTable({
-        startY: doc.lastAutoTable.finalY + 30,
-        head: [['Product', 'Units Sold', 'Revenue']],
-        body: productData,
-        theme: 'grid'
-      });
-    }
-    
-    doc.save(`business-reports-${new Date().toISOString().split('T')[0]}.pdf`);
-  };
-
-  const handleExportCSV = () => {
+  const handleExportExcel = () => {
     const wb = XLSX.utils.book_new();
     
-    // Summary sheet
-    const summaryData = [
-      ['Metric', 'Value'],
-      ['Total Revenue', reports.totalRevenue],
-      ['Total Orders', reports.totalOrders],
-      ['Total Customers', reports.totalCustomers],
-      ['Average Order Value', avgOrderValue],
-      ['Date Range', `Last ${dateRange} days`],
-      ['Generated On', new Date().toISOString()]
-    ];
-    
-    const summaryWS = XLSX.utils.aoa_to_sheet(summaryData);
-    XLSX.utils.book_append_sheet(wb, summaryWS, 'Summary');
-    
-    // Sales by Category sheet
+    // Sales by Category sheet with merged cells
     if (reports.salesByCategory && reports.salesByCategory.length > 0) {
       const categoryData = [
-        ['Category', 'Revenue', 'Percentage'],
-        ...reports.salesByCategory.map(cat => [cat.category, cat.revenue, cat.percentage])
+        ['Sales by Category Report', '', ''],
+        ['', '', ''],
+        ['Category', 'Revenue (₹)', 'Percentage (%)'],
+        ...reports.salesByCategory.map(cat => [
+          cat.category,
+          cat.revenue.toLocaleString(),
+          `${cat.percentage}%`
+        ])
       ];
+      
       const categoryWS = XLSX.utils.aoa_to_sheet(categoryData);
+      
+      // Merge cells for header
+      categoryWS['!merges'] = [
+        { s: { r: 0, c: 0 }, e: { r: 0, c: 2 } } // Merge A1:C1 for title
+      ];
+      
+      // Style the merged header
+      categoryWS['A1'] = { 
+        v: 'Sales by Category Report', 
+        t: 's', 
+        s: { 
+          font: { bold: true, sz: 14 },
+          alignment: { horizontal: 'center' }
+        } 
+      };
+      
       XLSX.utils.book_append_sheet(wb, categoryWS, 'Sales by Category');
     }
     
-    // Monthly Revenue sheet
+    // Monthly Revenue sheet with merged cells
     if (reports.monthlyRevenue && reports.monthlyRevenue.length > 0) {
       const monthlyData = [
-        ['Month', 'Revenue'],
-        ...reports.monthlyRevenue.map(month => [month.month, month.revenue])
+        ['Monthly Revenue Report', '', ''],
+        ['', '', ''],
+        ['Month', 'Revenue (₹)', 'Growth (%)'],
+        ...reports.monthlyRevenue.map((month, index) => {
+          const prevRevenue = index > 0 ? reports.monthlyRevenue[index - 1].revenue : month.revenue;
+          const growthRate = prevRevenue > 0 ? (((month.revenue - prevRevenue) / prevRevenue) * 100).toFixed(1) : '0.0';
+          return [
+            month.month,
+            month.revenue.toLocaleString(),
+            `${growthRate}%`
+          ];
+        })
       ];
+      
       const monthlyWS = XLSX.utils.aoa_to_sheet(monthlyData);
+      
+      // Merge cells for header
+      monthlyWS['!merges'] = [
+        { s: { r: 0, c: 0 }, e: { r: 0, c: 2 } } // Merge A1:C1 for title
+      ];
+      
+      // Style the merged header
+      monthlyWS['A1'] = { 
+        v: 'Monthly Revenue Report', 
+        t: 's', 
+        s: { 
+          font: { bold: true, sz: 14 },
+          alignment: { horizontal: 'center' }
+        } 
+      };
+      
       XLSX.utils.book_append_sheet(wb, monthlyWS, 'Monthly Revenue');
     }
     
-    // Top Products sheet
-    if (reports.topProducts && reports.topProducts.length > 0) {
-      const productData = [
-        ['Product Name', 'Units Sold', 'Revenue'],
-        ...reports.topProducts.map(product => [product.name, product.sales, product.revenue])
-      ];
-      const productWS = XLSX.utils.aoa_to_sheet(productData);
-      XLSX.utils.book_append_sheet(wb, productWS, 'Top Products');
-    }
-    
-    XLSX.writeFile(wb, `business-reports-${new Date().toISOString().split('T')[0]}.xlsx`);
+    // Save the clean report
+    XLSX.writeFile(wb, `sales-revenue-report-${new Date().toISOString().split('T')[0]}.xlsx`);
   };
 
   return (
@@ -220,17 +174,20 @@ const Reports = () => {
             </div>
             
             <div className="flex flex-wrap gap-3">
-              <select 
-                value={dateRange} 
-                onChange={(e) => setDateRange(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
-              >
-                <option value="7">Last 7 days</option>
-                <option value="30">Last 30 days</option>
-                <option value="90">Last 3 months</option>
-                <option value="180">Last 6 months</option>
-                <option value="365">Last year</option>
-              </select>
+              <div className="relative">
+                <select 
+                  value={dateRange} 
+                  onChange={(e) => setDateRange(e.target.value)}
+                  className="appearance-none px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white cursor-pointer hover:border-gray-400 transition-colors"
+                >
+                  <option value="7">Last 7 days</option>
+                  <option value="30">Last 30 days</option>
+                  <option value="90">Last 3 months</option>
+                  <option value="180">Last 6 months</option>
+                  <option value="365">Last year</option>
+                </select>
+                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500 pointer-events-none" />
+              </div>
               
               <button
                 onClick={fetchReports}
@@ -242,19 +199,11 @@ const Reports = () => {
               </button>
               
               <button
-                onClick={handleExportPDF}
-                className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-              >
-                <FileText className="h-4 w-4" />
-                Export PDF
-              </button>
-              
-              <button
-                onClick={handleExportCSV}
-                className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                onClick={handleExportExcel}
+                className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
               >
                 <Download className="h-4 w-4" />
-                Export CSV
+                Export Excel Report
               </button>
             </div>
           </div>
@@ -269,7 +218,7 @@ const Reports = () => {
                 <p className="text-3xl font-bold text-gray-900">₹{reports.totalRevenue.toLocaleString()}</p>
               </div>
               <div className="p-3 bg-blue-50 rounded-xl">
-                <DollarSign className="w-7 h-7 text-blue-600" />
+                <IndianRupee className="w-7 h-7 text-blue-600" />
               </div>
             </div>
           </div>

@@ -22,6 +22,7 @@ export default function Products() {
     material: "",
     imageUrl: "",
     description: "",
+    model3d: "",
     sku: "",
     currentStock: 0,
     reserved: 0,
@@ -92,7 +93,7 @@ export default function Products() {
       const submitForm = { ...form };
       if (customCategory) submitForm.category = customCategory;
       await api.post("/products", submitForm);
-      setForm({ name: "", price: "", category: "", material: "", imageUrl: "", description: "", sku: "", currentStock: 0, reserved: 0, isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false, categoryPage: "" });
+      setForm({ name: "", price: "", category: "", material: "", imageUrl: "", description: "", model3d: "", sku: "", currentStock: 0, reserved: 0, isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false, categoryPage: "" });
       setShowForm(false);
       fetchProducts();
       showToast("Product created successfully!", "success");
@@ -185,7 +186,7 @@ export default function Products() {
     { value: "earrings", label: "Earrings Page" },
     { value: "bracelets", label: "Bracelets Page" },
     { value: "bridal", label: "Bridal Collection Page" },
-    { value: "birthday-gifts", label: "Birthday Gifts Page" },
+    { value: "zodiac-jewelry", label: "Zodiac Jewelry Page" },
     { value: "anniversary-gifts", label: "Anniversary Gifts Page" },
     { value: "festive-gifts", label: "Festive Gifts Page" },
     { value: "personalized-gifts", label: "Personalized Gifts Page" },
@@ -215,7 +216,7 @@ export default function Products() {
           onClick={() => {
             setShowForm(true);
             setEditId(null);
-            setForm({ name: "", price: "", category: "", material: "", imageUrl: "", description: "", sku: "", currentStock: 0, reserved: 0, isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false, categoryPage: "" });
+            setForm({ name: "", price: "", category: "", material: "", imageUrl: "", description: "", model3d: "", sku: "", currentStock: 0, reserved: 0, isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false, categoryPage: "" });
             setCustomCategory("");
           }}
         >
@@ -413,6 +414,19 @@ export default function Products() {
               required
             />
           </div>
+          <div className="mb-4">
+            <label className="block mb-1 font-semibold">3D Model URL (Optional)</label>
+            <input
+              name="model3d"
+              value={form.model3d}
+              onChange={handleInput}
+              className="w-full border px-3 py-2 rounded"
+              placeholder="Enter 3D model URL (optional)"
+            />
+            <p className="text-sm text-gray-600 mt-1">
+              URL to the 3D model file for enhanced product visualization
+            </p>
+          </div>
           <div className="mb-4 flex gap-4 items-center">
             <label className="flex items-center gap-2">
               <input
@@ -466,7 +480,7 @@ export default function Products() {
               onClick={() => {
                 setShowForm(false);
                 setEditId(null);
-                setForm({ name: "", price: "", category: "", material: "", imageUrl: "", description: "", sku: "", currentStock: 0, reserved: 0, isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false, categoryPage: "" });
+                setForm({ name: "", price: "", category: "", material: "", imageUrl: "", description: "", model3d: "", sku: "", currentStock: 0, reserved: 0, isRakhi: false, rakhiType: "traditional", isFeatured: false, isNewArrival: false, categoryPage: "" });
                 setCustomCategory("");
               }}
             >

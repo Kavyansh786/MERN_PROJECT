@@ -12,7 +12,12 @@ export default function CustomerReviews() {
       setLoading(true);
       try {
         const res = await axios.get('http://localhost:5000/api/reviews?status=Approved');
-        setReviews(Array.isArray(res.data) ? res.data : res.data.reviews || []);
+        const allReviews = Array.isArray(res.data) ? res.data : res.data.reviews || [];
+        // Sort by creation date (newest first) and limit to 6 reviews
+        const latestReviews = allReviews
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .slice(0, 6);
+        setReviews(latestReviews);
       } catch (err) {
         setReviews([]);
       }

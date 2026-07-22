@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
       });
     }
 
-    const { orderItems, shippingAddress, paymentMethod, totalPrice, originalPrice, discountAmount, couponCode } = req.body;
+    const { orderItems, shippingAddress, paymentMethod, paymentStatus, totalPrice, originalPrice, discountAmount, couponCode } = req.body;
 
     if (!orderItems || orderItems.length === 0) {
       return res.status(400).json({ message: 'No order items' });
@@ -57,7 +57,7 @@ router.post('/', async (req, res) => {
       originalPrice: originalPrice || calculatedTotalPrice,
       discountAmount: discountAmount || 0,
       couponCode: couponCode || null,
-      paymentStatus: 'Pending',
+      paymentStatus: paymentStatus || 'Pending', // Use provided status or default to Pending
       orderStatus: 'Processing'
     });
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../api/axios";
-import { DollarSign, ShoppingCart, Users as UsersIcon, TrendingUp, TrendingDown, ChevronDown } from "lucide-react";
+import { IndianRupee, ShoppingCart, Users as UsersIcon, TrendingUp, TrendingDown, ChevronDown } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts";
 import { parseISO, format } from "date-fns";
 
@@ -27,23 +27,41 @@ export default function Dashboard() {
           api.get("/orders"),
           api.get("/users"),
         ]);
+        
         const products = productsRes.data;
-        const ordersFetched = ordersRes.data.orders || ordersRes.data;
+        const ordersData = ordersRes.data.success ? ordersRes.data.orders : [];
         const users = usersRes.data;
 
-        setOrders(ordersFetched);
+        setOrders(ordersData);
 
         setStats({
-          totalProducts: products.length,
-          totalOrders: ordersFetched.length,
-          totalUsers: users.length,
-          totalRevenue: ordersFetched.reduce((sum, order) => sum + (order.totalPrice || 0), 0),
+          totalProducts: Array.isArray(products) ? products.length : 0,
+          totalOrders: Array.isArray(ordersData) ? ordersData.length : 0,
+          totalUsers: Array.isArray(users) ? users.length : 0,
+          totalRevenue: Array.isArray(ordersData) ? 
+            ordersData.reduce((sum, order) => sum + (parseFloat(order.totalPrice) || 0), 0) : 0,
         });
-        setRecentOrders(ordersFetched.slice(-3).reverse());
+        
+        // Get the 3 most recent orders
+        const sortedOrders = [...ordersData].sort((a, b) => 
+          new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setRecentOrders(sortedOrders.slice(0, 3));
+        
       } catch (err) {
-        // handle error
+        console.error("Error fetching dashboard data:", err);
+        // Initialize with empty arrays to prevent errors
+        setOrders([]);
+        setRecentOrders([]);
+        setStats({
+          totalProducts: 0,
+          totalOrders: 0,
+          totalUsers: 0,
+          totalRevenue: 0,
+        });
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
     fetchData();
   }, []);
@@ -92,23 +110,29 @@ export default function Dashboard() {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <h2 className="text-4xl font-bold text-gray-900">Dashboard</h2>
         <div className="flex gap-2 items-center">
-          <select
-            value={dateFilter}
-            onChange={e => setDateFilter(e.target.value)}
-            className="appearance-none border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white shadow pr-8"
-          >
-            <option value="7days">Last 7 days</option>
-            <option value="30days">Last 30 days</option>
-            <option value="90days">Last 90 days</option>
-          </select>
-          <select
-            value={chartGranularity}
-            onChange={e => setChartGranularity(e.target.value)}
-            className="appearance-none border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white shadow pr-8"
-          >
-            <option value="monthly">Monthly</option>
-            <option value="daily">Daily</option>
-          </select>
+          <div className="relative">
+            <select
+              value={dateFilter}
+              onChange={e => setDateFilter(e.target.value)}
+              className="appearance-none border border-gray-300 rounded-lg px-4 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white shadow cursor-pointer hover:border-gray-400 transition-colors"
+            >
+              <option value="7days">Last 7 days</option>
+              <option value="30days">Last 30 days</option>
+              <option value="90days">Last 90 days</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500 pointer-events-none" />
+          </div>
+          <div className="relative">
+            <select
+              value={chartGranularity}
+              onChange={e => setChartGranularity(e.target.value)}
+              className="appearance-none border border-gray-300 rounded-lg px-4 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white shadow cursor-pointer hover:border-gray-400 transition-colors"
+            >
+              <option value="monthly">Monthly</option>
+              <option value="daily">Daily</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500 pointer-events-none" />
+          </div>
         </div>
       </div>
       {/* Stat Cards */}
@@ -123,7 +147,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="p-3 bg-blue-100 rounded-full">
-            <DollarSign className="w-6 h-6 text-blue-600" />
+            <IndianRupee className="w-6 h-6 text-blue-600" />
           </div>
         </div>
         {/* Total Orders */}

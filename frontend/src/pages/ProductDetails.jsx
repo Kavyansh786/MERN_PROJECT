@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import { useToast } from '../components/Toast';
+import Footer from '../components/Footer';
 import { getUserId } from '../utils/userUtils';
+import TryOnButton from '../components/VirtualTryOn/TryOnButton';
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -22,6 +24,7 @@ export default function ProductDetail() {
   const [showShareModal, setShowShareModal] = useState(false);
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' });
   const [submittingReview, setSubmittingReview] = useState(false);
+  const [selectedSize, setSelectedSize] = useState('');
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -82,8 +85,9 @@ export default function ProductDetail() {
     const userId = getUserId();
     if (userId) {
       try {
-        const response = await axios.get(`/wishlist/check/${product._id}?userId=${userId}`);
-        setIsInWishlist(response.data.isInWishlist);
+        const response = await axios.get(`/users/wishlist?id=${userId}`);
+        const wishlist = response.data;
+        setIsInWishlist(wishlist.some(item => item._id === product._id));
       } catch (err) {
         console.error('Error checking wishlist status:', err);
       }
@@ -142,11 +146,11 @@ export default function ProductDetail() {
     setWishlistLoading(true);
     try {
       if (isInWishlist) {
-        await axios.delete(`/wishlist/${product._id}?userId=${userId}`);
+        await axios.delete(`/users/wishlist/${userId}/${product._id}`);
         setIsInWishlist(false);
         showToast({ type: 'success', message: 'Removed from wishlist!' });
       } else {
-        await axios.post('/wishlist', { userId, productId: product._id });
+        await axios.post(`/users/wishlist?id=${userId}`, { productId: product._id });
         setIsInWishlist(true);
         showToast({ type: 'success', message: 'Added to wishlist!' });
       }
@@ -397,28 +401,55 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            {/* Stock Information */}
-            <div className="bg-white p-4 rounded-lg border border-gray-200">
-              <h3 className="font-semibold text-gray-900 mb-2">Stock Information</h3>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Available Stock:</span>
-                  <span className={`font-semibold ${product.available <= 0 ? 'text-red-600' : product.available < 10 ? 'text-yellow-600' : 'text-green-600'}`}>
-                    {product.available} units
-                  </span>
+            {/* Size Selector - Only for Rings and Bracelets */}
+            {(product.category?.toLowerCase().includes('ring') || product.category?.toLowerCase().includes('bracelet')) && (
+              <div className="bg-white p-4 rounded-lg border border-gray-200">
+                <h3 className="font-semibold text-gray-900 mb-3">Size</h3>
+                <div className="grid grid-cols-4 gap-2">
+                  {product.category?.toLowerCase().includes('ring') ? (
+                    // Ring sizes
+                    ['6', '7', '8', '9', '10', '11', '12', '13'].map((size) => (
+                      <button
+                        key={size}
+                        onClick={() => setSelectedSize(size)}
+                        className={`py-2 px-3 text-sm font-medium rounded-lg border transition-all duration-200 ${
+                          selectedSize === size
+                            ? 'bg-[#D4AF37] text-white border-[#D4AF37]'
+                            : 'bg-white text-gray-700 border-gray-300 hover:border-[#D4AF37] hover:text-[#D4AF37]'
+                        }`}
+                      >
+                        {size}
+                      </button>
+                    ))
+                  ) : (
+                    // Bracelet sizes
+                    ['XS', 'S', 'M', 'L', 'XL'].map((size) => (
+                      <button
+                        key={size}
+                        onClick={() => setSelectedSize(size)}
+                        className={`py-2 px-3 text-sm font-medium rounded-lg border transition-all duration-200 ${
+                          selectedSize === size
+                            ? 'bg-[#D4AF37] text-white border-[#D4AF37]'
+                            : 'bg-white text-gray-700 border-gray-300 hover:border-[#D4AF37] hover:text-[#D4AF37]'
+                        }`}
+                      >
+                        {size}
+                      </button>
+                    ))
+                  )}
                 </div>
-                {product.available <= 0 && (
-                  <div className="text-red-600 text-sm">
-                    This product is currently out of stock. Please check back later.
+                {product.category?.toLowerCase().includes('ring') && (
+                  <div className="mt-3 text-xs text-gray-500">
+                    <p>Ring sizes are in US standard. Need help? <button onClick={() => navigate('/ring-size-guide')} className="text-[#D4AF37] hover:underline">Size Guide</button></p>
                   </div>
                 )}
-                {product.available > 0 && product.available < 10 && (
-                  <div className="text-yellow-600 text-sm">
-                    Only a few items left in stock!
+                {product.category?.toLowerCase().includes('bracelet') && (
+                  <div className="mt-3 text-xs text-gray-500">
+                    <p>XS: 6-6.5", S: 6.5-7", M: 7-7.5", L: 7.5-8", XL: 8-8.5" - <button onClick={() => navigate('/bangle-size-guide')} className="text-[#D4AF37] hover:underline">Full Size Guide</button></p>
                   </div>
                 )}
               </div>
-            </div>
+            )}
 
             {/* Product Details */}
             <div className="bg-white p-4 rounded-lg border border-gray-200">
@@ -480,6 +511,8 @@ export default function ProductDetail() {
                   </div>
                 ) : product.available <= 0 ? 'Out of Stock' : `Add to Cart - ${formatPrice(product.price * quantity)}`}
               </button>
+
+              <TryOnButton product={product} className="w-full" />
 
               <button
                 onClick={() => navigate('/cart')}
@@ -679,7 +712,11 @@ export default function ProductDetail() {
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Related Products</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedProducts.map((relatedProduct) => (
-                <div key={relatedProduct._id} className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                <div 
+                  key={relatedProduct._id} 
+                  onClick={() => navigate(`/products/${relatedProduct._id}`)}
+                  className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:scale-105"
+                >
                   <img
                     src={relatedProduct.imageUrl}
                     alt={relatedProduct.name}
@@ -688,12 +725,9 @@ export default function ProductDetail() {
                   <div className="p-4">
                     <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">{relatedProduct.name}</h3>
                     <p className="text-[#D4AF37] font-bold mb-2">{formatPrice(relatedProduct.price)}</p>
-                    <button
-                      onClick={() => navigate(`/product/${relatedProduct._id}`)}
-                      className="w-full bg-[#D4AF37] text-white py-2 px-4 rounded-lg hover:bg-[#B8941F] transition-colors"
-                    >
-                      View Details
-                    </button>
+                    <div className="text-sm text-gray-600 hover:text-[#D4AF37] transition-colors">
+                      Click to view details →
+                    </div>
                   </div>
                 </div>
               ))}
@@ -733,6 +767,7 @@ export default function ProductDetail() {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }

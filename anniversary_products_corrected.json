@@ -1,0 +1,843 @@
+[
+      {
+        "sku": "AN001",
+        "name": "Eternal Love Diamond Ring",
+        "category": "Anniversary",
+        "price": 8999,
+        "material": "Sterling Silver",
+        "stone": "Ruby",
+        "description": "Elegant anniversary jewelry piece number 1, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/1200x/65/a3/0e/65a30e500364320221afb5b4e27d9494.jpg",
+        "isPersonalized": true,
+        "customizationOptions": {
+          "engraving": true,
+          "fontStyle": [
+            "Italic",
+            "Elegant"
+          ],
+          "nameText": true,
+          "metalFinish": [
+            "Gold",
+            "White Gold"
+          ]
+        },
+        "inStock": true,
+        "currentStock": 59,
+        "reserved": 1,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN002",
+        "name": "Ruby Heart Pendant Necklace",
+        "category": "Anniversary",
+        "price": 6499,
+        "material": "Platinum Plated",
+        "stone": "Ruby",
+        "description": "Elegant anniversary jewelry piece number 2, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/1200x/cf/a9/95/cfa995ef655c35e4f44856d8f33c4faa.jpg",
+        "isPersonalized": false,
+        "customizationOptions": {
+          "engraving": false,
+          "fontStyle": [],
+          "nameText": false,
+          "metalFinish": []
+        },
+        "inStock": true,
+        "currentStock": 58,
+        "reserved": 2,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN003",
+        "name": "Diamond Infinity Band Ring",
+        "category": "Anniversary",
+        "price": 12999,
+        "material": "Sterling Silver",
+        "stone": "Diamond Simulant",
+        "description": "Elegant anniversary jewelry piece number 3, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/1200x/82/1d/06/821d06ca4aaee0a13832660772098bac.jpg",
+        "isPersonalized": true,
+        "customizationOptions": {
+          "engraving": true,
+          "fontStyle": [
+            "Italic",
+            "Elegant"
+          ],
+          "nameText": true,
+          "metalFinish": [
+            "Gold",
+            "White Gold"
+          ]
+        },
+        "inStock": true,
+        "currentStock": 57,
+        "reserved": 3,
+        "isRakhi": false,
+        "isFeatured": true,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN004",
+        "name": "Ruby and Diamond Tennis Bracelet",
+        "category": "Anniversary",
+        "price": 18999,
+        "material": "Platinum Plated",
+        "stone": "Ruby",
+        "description": "Elegant anniversary jewelry piece number 4, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/736x/4c/8f/66/4c8f662085855181b7342503b6ddb53c.jpg",
+        "isPersonalized": false,
+        "customizationOptions": {
+          "engraving": false,
+          "fontStyle": [],
+          "nameText": false,
+          "metalFinish": []
+        },
+        "inStock": true,
+        "currentStock": 56,
+        "reserved": 0,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN005",
+        "name": "Eternity Diamond Stud Earrings",
+        "category": "Anniversary",
+        "price": 7999,
+        "material": "Sterling Silver",
+        "stone": "Ruby",
+        "description": "Elegant anniversary jewelry piece number 5, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/1200x/08/18/3d/08183daa87ede5e4749eefa714d90282.jpg",
+        "isPersonalized": true,
+        "customizationOptions": {
+          "engraving": true,
+          "fontStyle": [
+            "Italic",
+            "Elegant"
+          ],
+          "nameText": true,
+          "metalFinish": [
+            "Gold",
+            "White Gold"
+          ]
+        },
+        "inStock": true,
+        "currentStock": 55,
+        "reserved": 1,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": true,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN006",
+        "name": "Ruby Solitaire Pendant",
+        "category": "Anniversary",
+        "price": 9999,
+        "material": "Platinum Plated",
+        "stone": "Diamond Simulant",
+        "description": "Elegant anniversary jewelry piece number 6, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/1200x/26/e1/46/26e1468c948323b509e3505e36ada7b6.jpg",
+        "isPersonalized": false,
+        "customizationOptions": {
+          "engraving": false,
+          "fontStyle": [],
+          "nameText": false,
+          "metalFinish": []
+        },
+        "inStock": true,
+        "currentStock": 54,
+        "reserved": 2,
+        "isRakhi": false,
+        "isFeatured": true,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN007",
+        "name": "Diamond Anniversary Band",
+        "category": "Anniversary",
+        "price": 11999,
+        "material": "Sterling Silver",
+        "stone": "Ruby",
+        "description": "Elegant anniversary jewelry piece number 7, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/736x/3b/54/7a/3b547abb5dc0012db737661acedbab4c.jpg",
+        "isPersonalized": true,
+        "customizationOptions": {
+          "engraving": true,
+          "fontStyle": [
+            "Italic",
+            "Elegant"
+          ],
+          "nameText": true,
+          "metalFinish": [
+            "Gold",
+            "White Gold"
+          ]
+        },
+        "inStock": true,
+        "currentStock": 53,
+        "reserved": 3,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN008",
+        "name": "Ruby and Diamond Ring Set",
+        "category": "Anniversary",
+        "price": 24999,
+        "material": "Platinum Plated",
+        "stone": "Ruby",
+        "description": "Elegant anniversary jewelry piece number 8, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/1200x/d7/c6/fb/d7c6fb413e1ae857f81c71abbbd74984.jpg",
+        "isPersonalized": false,
+        "customizationOptions": {
+          "engraving": false,
+          "fontStyle": [],
+          "nameText": false,
+          "metalFinish": []
+        },
+        "inStock": true,
+        "currentStock": 52,
+        "reserved": 0,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN009",
+        "name": "Diamond Heart Ring",
+        "category": "Anniversary",
+        "price": 10999,
+        "material": "Sterling Silver",
+        "stone": "Diamond Simulant",
+        "description": "Elegant anniversary jewelry piece number 9, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/736x/7f/04/a8/7f04a835d2407dd0311cb132c4b8814d.jpg",
+        "isPersonalized": true,
+        "customizationOptions": {
+          "engraving": true,
+          "fontStyle": [
+            "Italic",
+            "Elegant"
+          ],
+          "nameText": true,
+          "metalFinish": [
+            "Gold",
+            "White Gold"
+          ]
+        },
+        "inStock": true,
+        "currentStock": 51,
+        "reserved": 1,
+        "isRakhi": false,
+        "isFeatured": true,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN010",
+        "name": "Ruby Eternity Ring",
+        "category": "Anniversary",
+        "price": 14999,
+        "material": "Platinum Plated",
+        "stone": "Ruby",
+        "description": "Elegant anniversary jewelry piece number 10, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/736x/9f/b9/56/9fb956baf0f4780f407750355dfb0935.jpg",
+        "isPersonalized": false,
+        "customizationOptions": {
+          "engraving": false,
+          "fontStyle": [],
+          "nameText": false,
+          "metalFinish": []
+        },
+        "inStock": true,
+        "currentStock": 60,
+        "reserved": 2,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": true,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN011",
+        "name": "Diamond Necklace",
+        "category": "Anniversary",
+        "price": 16999,
+        "material": "Sterling Silver",
+        "stone": "Ruby",
+        "description": "Elegant anniversary jewelry piece number 11, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/736x/37/a9/b0/37a9b0a64116c52b4526a32713516d60.jpg",
+        "isPersonalized": true,
+        "customizationOptions": {
+          "engraving": true,
+          "fontStyle": [
+            "Italic",
+            "Elegant"
+          ],
+          "nameText": true,
+          "metalFinish": [
+            "Gold",
+            "White Gold"
+          ]
+        },
+        "inStock": true,
+        "currentStock": 59,
+        "reserved": 3,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN012",
+        "name": "Ruby and Diamond Earrings",
+        "category": "Anniversary",
+        "price": 8999,
+        "material": "Platinum Plated",
+        "stone": "Diamond Simulant",
+        "description": "Elegant anniversary jewelry piece number 12, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/1200x/97/ea/bb/97eabbb72c3540e229fc7a71f0735a28.jpg",
+        "isPersonalized": false,
+        "customizationOptions": {
+          "engraving": false,
+          "fontStyle": [],
+          "nameText": false,
+          "metalFinish": []
+        },
+        "inStock": true,
+        "currentStock": 58,
+        "reserved": 0,
+        "isRakhi": false,
+        "isFeatured": true,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN013",
+        "name": "Diamond Set",
+        "category": "Anniversary",
+        "price": 32999,
+        "material": "Sterling Silver",
+        "stone": "Ruby",
+        "description": "Elegant anniversary jewelry piece number 13, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/736x/b6/c6/c8/b6c6c87ebc2512fdff1970d07ea9682c.jpg",
+        "isPersonalized": true,
+        "customizationOptions": {
+          "engraving": true,
+          "fontStyle": [
+            "Italic",
+            "Elegant"
+          ],
+          "nameText": true,
+          "metalFinish": [
+            "Gold",
+            "White Gold"
+          ]
+        },
+        "inStock": true,
+        "currentStock": 57,
+        "reserved": 1,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN014",
+        "name": "Ruby Infinity Pendant",
+        "category": "Anniversary",
+        "price": 7499,
+        "material": "Platinum Plated",
+        "stone": "Ruby",
+        "description": "Elegant anniversary jewelry piece number 14, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/1200x/dd/20/02/dd2002511bcbdef410c06c15ddb4f45d.jpg",
+        "isPersonalized": false,
+        "customizationOptions": {
+          "engraving": false,
+          "fontStyle": [],
+          "nameText": false,
+          "metalFinish": []
+        },
+        "inStock": true,
+        "currentStock": 56,
+        "reserved": 2,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN015",
+        "name": "Diamond Anniversary Ring",
+        "category": "Anniversary",
+        "price": 17999,
+        "material": "Sterling Silver",
+        "stone": "Diamond Simulant",
+        "description": "Elegant anniversary jewelry piece number 15, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/1200x/ad/62/42/ad6242478a987074f2d4795efb86f230.jpg",
+        "isPersonalized": true,
+        "customizationOptions": {
+          "engraving": true,
+          "fontStyle": [
+            "Italic",
+            "Elegant"
+          ],
+          "nameText": true,
+          "metalFinish": [
+            "Gold",
+            "White Gold"
+          ]
+        },
+        "inStock": true,
+        "currentStock": 55,
+        "reserved": 3,
+        "isRakhi": false,
+        "isFeatured": true,
+        "isNewArrival": true,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN016",
+        "name": "Ruby and Diamond Bracelet",
+        "category": "Anniversary",
+        "price": 15999,
+        "material": "Platinum Plated",
+        "stone": "Ruby",
+        "description": "Elegant anniversary jewelry piece number 16, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/1200x/fe/2c/35/fe2c35fcf505913a2595e6ddb780d274.jpg",
+        "isPersonalized": false,
+        "customizationOptions": {
+          "engraving": false,
+          "fontStyle": [],
+          "nameText": false,
+          "metalFinish": []
+        },
+        "inStock": true,
+        "currentStock": 54,
+        "reserved": 0,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN017",
+        "name": "Diamond Pendant",
+        "category": "Anniversary",
+        "price": 9499,
+        "material": "Sterling Silver",
+        "stone": "Ruby",
+        "description": "Elegant anniversary jewelry piece number 17, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/736x/4e/9c/d5/4e9cd51fe21c6e6dc48828effcb5487b.jpg",
+        "isPersonalized": true,
+        "customizationOptions": {
+          "engraving": true,
+          "fontStyle": [
+            "Italic",
+            "Elegant"
+          ],
+          "nameText": true,
+          "metalFinish": [
+            "Gold",
+            "White Gold"
+          ]
+        },
+        "inStock": true,
+        "currentStock": 53,
+        "reserved": 1,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN018",
+        "name": "Gold Band",
+        "category": "Anniversary",
+        "price": 6999,
+        "material": "Gold Plated",
+        "stone": "Diamond Simulant",
+        "description": "Elegant anniversary jewelry piece number 18, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/736x/b9/07/c3/b907c3b4c9dc5924befda5ad3516822c.jpg",
+        "isPersonalized": false,
+        "customizationOptions": {
+          "engraving": false,
+          "fontStyle": [],
+          "nameText": false,
+          "metalFinish": []
+        },
+        "inStock": true,
+        "currentStock": 52,
+        "reserved": 2,
+        "isRakhi": false,
+        "isFeatured": true,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN019",
+        "name": "Diamond Earrings",
+        "category": "Anniversary",
+        "price": 7499,
+        "material": "Sterling Silver",
+        "stone": "Ruby",
+        "description": "Elegant anniversary jewelry piece number 19, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/736x/85/75/9f/85759ff1a04a5c0d4425850e630c7454.jpg",
+        "isPersonalized": true,
+        "customizationOptions": {
+          "engraving": true,
+          "fontStyle": [
+            "Italic",
+            "Elegant"
+          ],
+          "nameText": true,
+          "metalFinish": [
+            "Gold",
+            "White Gold"
+          ]
+        },
+        "inStock": true,
+        "currentStock": 51,
+        "reserved": 3,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN020",
+        "name": "Oval Halo Engagement Ring",
+        "category": "Anniversary",
+        "price": 19999,
+        "material": "Platinum Plated",
+        "stone": "Opal",
+        "description": "Elegant anniversary jewelry piece number 20, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/1200x/7b/dc/09/7bdc0962a48a48d09afe61b6290f9726.jpg",
+        "isPersonalized": false,
+        "customizationOptions": {
+          "engraving": false,
+          "fontStyle": [],
+          "nameText": false,
+          "metalFinish": []
+        },
+        "inStock": true,
+        "currentStock": 60,
+        "reserved": 0,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": true,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN021",
+        "name": "Ocean's Oath Jewelry Set",
+        "category": "Anniversary",
+        "price": 39999,
+        "material": "Platinum Plated",
+        "stone": "Diamond Simulant",
+        "description": "Elegant anniversary jewelry piece number 21, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/736x/84/a7/34/84a7345122e32cdeb6d53d2f03156773.jpg",
+        "isPersonalized": true,
+        "customizationOptions": {
+          "engraving": true,
+          "fontStyle": [
+            "Italic",
+            "Elegant"
+          ],
+          "nameText": true,
+          "metalFinish": [
+            "Gold",
+            "White Gold"
+          ]
+        },
+        "inStock": true,
+        "currentStock": 59,
+        "reserved": 1,
+        "isRakhi": false,
+        "isFeatured": true,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN022",
+        "name": "Black Diamond Ring",
+        "category": "Anniversary",
+        "price": 13999,
+        "material": "Gold Plated",
+        "stone": "Black Diamond",
+        "description": "Elegant anniversary jewelry piece number 22, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/1200x/ad/be/56/adbe5678d50a84780a83254dc3fe29d0.jpg",
+        "isPersonalized": false,
+        "customizationOptions": {
+          "engraving": false,
+          "fontStyle": [],
+          "nameText": false,
+          "metalFinish": []
+        },
+        "inStock": true,
+        "currentStock": 58,
+        "reserved": 2,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN023",
+        "name": "Peacock Earrings",
+        "category": "Anniversary",
+        "price": 11499,
+        "material": "Gold Plated",
+        "stone": "Diamond Simulant",
+        "description": "Elegant anniversary jewelry piece number 23, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/1200x/89/db/fe/89dbfee7b7d02f5b4339554f0e8c82fd.jpg",
+        "isPersonalized": true,
+        "customizationOptions": {
+          "engraving": true,
+          "fontStyle": [
+            "Italic",
+            "Elegant"
+          ],
+          "nameText": true,
+          "metalFinish": [
+            "Gold",
+            "White Gold"
+          ]
+        },
+        "inStock": true,
+        "currentStock": 57,
+        "reserved": 3,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN024",
+        "name": "Heart-Shaped Gemstone Ring",
+        "category": "Anniversary",
+        "price": 8499,
+        "material": "Gold Plated",
+        "stone": "Diamond Simulant",
+        "description": "Elegant anniversary jewelry piece number 24, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/736x/f4/48/8a/f4488a63af503345510613fd3cac614e.jpg",
+        "isPersonalized": false,
+        "customizationOptions": {
+          "engraving": false,
+          "fontStyle": [],
+          "nameText": false,
+          "metalFinish": []
+        },
+        "inStock": true,
+        "currentStock": 56,
+        "reserved": 0,
+        "isRakhi": false,
+        "isFeatured": true,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN025",
+        "name": "Lotus Ring",
+        "category": "Anniversary",
+        "price": 7299,
+        "material": "Gold Plated",
+        "stone": "Diamond Simulant",
+        "description": "Elegant anniversary jewelry piece number 25, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/1200x/4b/2c/36/4b2c36fd169075e1340aacb41ac2ee3a.jpg",
+        "isPersonalized": true,
+        "customizationOptions": {
+          "engraving": true,
+          "fontStyle": [
+            "Italic",
+            "Elegant"
+          ],
+          "nameText": true,
+          "metalFinish": [
+            "Gold",
+            "White Gold"
+          ]
+        },
+        "inStock": true,
+        "currentStock": 55,
+        "reserved": 1,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": true,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN026",
+        "name": "Crystal Necklace",
+        "category": "Anniversary",
+        "price": 5999,
+        "material": "Gold Plated",
+        "stone": "Crystal",
+        "description": "Elegant anniversary jewelry piece number 26, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/736x/3c/6b/f9/3c6bf989e15549442d4feee045b76fff.jpg",
+        "isPersonalized": false,
+        "customizationOptions": {
+          "engraving": false,
+          "fontStyle": [],
+          "nameText": false,
+          "metalFinish": []
+        },
+        "inStock": true,
+        "currentStock": 54,
+        "reserved": 2,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN027",
+        "name": "Gold and Geemstone Necklace",
+        "category": "Anniversary",
+        "price": 10499,
+        "material": "Gold Plated",
+        "stone": "Gemstone",
+        "description": "Elegant anniversary jewelry piece number 27, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/1200x/a0/20/21/a020216871154883c95807d9ca42446e.jpg",
+        "isPersonalized": true,
+        "customizationOptions": {
+          "engraving": true,
+          "fontStyle": [
+            "Italic",
+            "Elegant"
+          ],
+          "nameText": true,
+          "metalFinish": [
+            "Gold",
+            "White Gold"
+          ]
+        },
+        "inStock": true,
+        "currentStock": 53,
+        "reserved": 3,
+        "isRakhi": false,
+        "isFeatured": true,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN028",
+        "name": " Resin Pendant",
+        "category": "Anniversary",
+        "price": 3999,
+        "material": "Gold Plated",
+        "stone": "Resin",
+        "description": "Elegant anniversary jewelry piece number 28, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/736x/59/f5/4d/59f54dc8548dad8c50f3755223f1dab2.jpg",
+        "isPersonalized": false,
+        "customizationOptions": {
+          "engraving": false,
+          "fontStyle": [],
+          "nameText": false,
+          "metalFinish": []
+        },
+        "inStock": true,
+        "currentStock": 52,
+        "reserved": 0,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN029",
+        "name": "Topaz Pendant",
+        "category": "Anniversary",
+        "price": 6999,
+        "material": "Gold Plated",
+        "stone": "Topaz",
+        "description": "Elegant anniversary jewelry piece number 29, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/1200x/c6/54/c9/c654c9dd070ed9e00dfcb9a0e7a5598e.jpg",
+        "isPersonalized": true,
+        "customizationOptions": {
+          "engraving": true,
+          "fontStyle": [
+            "Italic",
+            "Elegant"
+          ],
+          "nameText": true,
+          "metalFinish": [
+            "Gold",
+            "White Gold"
+          ]
+        },
+        "inStock": true,
+        "currentStock": 51,
+        "reserved": 1,
+        "isRakhi": false,
+        "isFeatured": false,
+        "isNewArrival": false,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      },
+      {
+        "sku": "AN030",
+        "name": "Sapphire Ring",
+        "category": "Anniversary",
+        "price": 22999,
+        "material": "Gold Plated",
+        "stone": "Diamond Simulant",
+        "description": "Elegant anniversary jewelry piece number 30, ideal for commemorating love.",
+        "imageUrl": "https://i.pinimg.com/1200x/d7/c8/6d/d7c86d59b3b40f084e1668b55dc2a664.jpg",
+        "isPersonalized": false,
+        "customizationOptions": {
+          "engraving": false,
+          "fontStyle": [],
+          "nameText": false,
+          "metalFinish": []
+        },
+        "inStock": true,
+        "currentStock": 60,
+        "reserved": 2,
+        "isRakhi": false,
+        "isFeatured": true,
+        "isNewArrival": true,
+        "rakhiType": null,
+        "categoryPage": "anniversary-gifts"
+      }
+]
+  

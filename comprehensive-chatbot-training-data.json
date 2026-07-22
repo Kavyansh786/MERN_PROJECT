@@ -1,0 +1,669 @@
+[
+    {
+    "question": "What types of jewelry do you sell?",
+    "answer": "We offer a wide range of exquisite jewelry including rings, necklaces, earrings, bracelets, and bangles. Our collection features bridal jewelry, festive collections, personalized gifts, zodiac jewelry, anniversary gifts, and birthday gifts. All our pieces are crafted with premium materials like gold, silver, and precious stones.",
+    "category": "products",
+    "keywords": ["jewelry types", "products", "collection", "rings", "necklaces", "earrings", "bracelets"],
+    "priority": 1,
+    "followUpSuggestions": ["Browse our rings collection", "View bridal jewelry", "See festive collection"],
+    "actionLinks": [
+      {"text": "Browse Rings", "url": "/rings", "type": "internal"},
+      {"text": "View Necklaces", "url": "/necklaces", "type": "internal"},
+      {"text": "Shop All Products", "url": "/shop", "type": "internal"}
+    ]
+  },
+    {
+      "question": "Do you have rings in my size?",
+      "answer": "Yes! We offer rings in sizes 6-13 (US standard). You can use our Ring Size Guide to find your perfect fit. We also provide sizing tips and can help you measure your finger correctly. If you need a custom size, please contact our customer service team.",
+      "category": "products",
+      "keywords": ["ring size", "sizing", "custom size", "size guide"],
+      "priority": 1,
+      "followUpSuggestions": ["View Ring Size Guide", "Browse rings collection", "Contact customer service"],
+      "actionLinks": [
+        {"text": "Ring Size Guide", "url": "/ring-size-guide", "type": "internal"},
+        {"text": "Browse Rings", "url": "/rings", "type": "internal"},
+        {"text": "Contact Support", "url": "/contact", "type": "internal"}
+      ]
+    },
+    {
+      "question": "What bangle sizes do you have?",
+      "answer": "Our bangles are available in sizes XS (6-6.5\"), S (6.5-7\"), M (7-7.5\"), L (7.5-8\"), XL (8-8.5\"), and XXL (8.5-9\"). We have both rigid bangles and adjustable cuffs. Check our Bangle Size Guide for detailed measurements and fitting tips.",
+      "category": "products",
+      "keywords": ["bangle size", "bracelet size", "sizing", "measurements"],
+      "priority": 1,
+      "followUpSuggestions": ["View Bangle Size Guide", "Browse bracelets", "See sizing tips"],
+      "actionLinks": [
+        {"text": "Bangle Size Guide", "url": "/bangle-size-guide", "type": "internal"},
+        {"text": "Browse Bracelets", "url": "/bracelets", "type": "internal"},
+        {"text": "Contact Support", "url": "/contact", "type": "internal"}
+      ]
+    },
+    {
+      "question": "What materials are your jewelry made from?",
+      "answer": "Our jewelry is crafted from premium materials including 14k and 18k gold, sterling silver, platinum, and high-quality alloys. We use genuine gemstones, pearls, and crystals. All our gold jewelry is hallmarked for authenticity and quality assurance.",
+      "category": "products",
+      "keywords": ["materials", "gold", "silver", "platinum", "hallmarked", "quality"],
+      "priority": 1,
+      "followUpSuggestions": ["View quality certificates", "Browse gold jewelry", "See gemstone collection"],
+      "actionLinks": [
+        {"text": "About Quality", "url": "/about", "type": "internal"},
+        {"text": "Shop All Jewelry", "url": "/shop", "type": "internal"},
+        {"text": "Contact Us", "url": "/contact", "type": "internal"}
+      ]
+    },
+    {
+      "question": "Do you have bridal jewelry?",
+      "answer": "Yes! Our bridal collection features elegant necklace sets, earrings, bangles, and rings perfect for weddings. We offer traditional and contemporary designs in gold and silver. Our bridal pieces are crafted to make your special day unforgettable.",
+      "category": "products",
+      "keywords": ["bridal", "wedding", "bridal collection", "wedding jewelry"],
+      "priority": 1,
+      "followUpSuggestions": ["Browse bridal collection", "View wedding sets", "See traditional designs"],
+      "actionLinks": [
+        {"text": "Bridal Collection", "url": "/bridal", "type": "internal"},
+        {"text": "Shop All Jewelry", "url": "/shop", "type": "internal"},
+        {"text": "Contact Us", "url": "/contact", "type": "internal"}
+      ]
+    },
+    {
+      "question": "What is zodiac jewelry?",
+      "answer": "Our zodiac jewelry collection features pieces designed specifically for each astrological sign. Each design incorporates symbols, stones, and elements associated with your zodiac sign. It's perfect for personal wear or as meaningful gifts for loved ones.",
+      "category": "products",
+      "keywords": ["zodiac", "astrological", "zodiac signs", "personalized"],
+      "priority": 1,
+      "followUpSuggestions": ["Browse zodiac collection", "Find your zodiac sign", "View personalized gifts"],
+      "actionLinks": [
+        {"text": "Zodiac Jewelry", "url": "/zodiac-jewelry", "type": "internal"},
+        {"text": "Personalized Gifts", "url": "/personalized-gifts", "type": "internal"},
+        {"text": "Shop All Jewelry", "url": "/shop", "type": "internal"}
+      ]
+    },
+    {
+      "question": "How do I place an order?",
+      "answer": "To place an order: 1) Browse our collection and select items, 2) Add items to your cart, 3) Review your cart and proceed to checkout, 4) Enter your details and choose payment method, 5) Confirm your order. You'll receive an order confirmation email with tracking details.",
+      "category": "orders",
+      "keywords": ["place order", "checkout", "ordering process", "how to order"],
+      "priority": 1,
+      "followUpSuggestions": ["Start shopping", "View cart", "Track existing order"]
+    },
+    {
+      "question": "What payment methods do you accept?",
+      "answer": "We accept multiple payment methods including credit/debit cards (Visa, MasterCard, American Express), UPI, net banking, digital wallets, and Cash on Delivery (COD). All online payments are processed securely through Razorpay with 256-bit SSL encryption.",
+      "category": "payment",
+      "keywords": ["payment methods", "credit card", "UPI", "COD", "secure payment"],
+      "priority": 1,
+      "followUpSuggestions": ["View payment security", "Place an order", "Learn about COD"]
+    },
+    {
+      "question": "Do you offer Cash on Delivery?",
+      "answer": "Yes, we offer Cash on Delivery (COD) for your convenience. You can pay in cash when your jewelry is delivered to your doorstep. COD is available for most locations across India. The payment status will show as 'Pending' until delivery is completed.",
+      "category": "payment",
+      "keywords": ["COD", "cash on delivery", "payment on delivery"],
+      "priority": 1,
+      "followUpSuggestions": ["Check COD availability", "Place COD order", "View delivery areas"]
+    },
+    {
+      "question": "How long does shipping take?",
+      "answer": "Standard shipping takes 3-7 business days within India. We offer free shipping on orders above ₹2000. Express shipping (1-3 days) is available for urgent orders. You'll receive tracking information via email and SMS once your order is dispatched.",
+      "category": "shipping",
+      "keywords": ["shipping time", "delivery", "free shipping", "express shipping"],
+      "priority": 1,
+      "followUpSuggestions": ["Track my order", "View shipping policy", "Check delivery status"]
+    },
+    {
+      "question": "How can I track my order?",
+      "answer": "You can track your order by: 1) Using the tracking link in your confirmation email, 2) Logging into your account and viewing 'My Orders', 3) Using our 'Track Order' feature with your order ID, or 4) Contacting our customer service team. You'll receive real-time updates on your order status.",
+      "category": "orders",
+      "keywords": ["track order", "order status", "order tracking", "delivery status"],
+      "priority": 1,
+      "followUpSuggestions": ["Track order now", "View my orders", "Contact support"]
+    },
+    {
+      "question": "What is your return policy?",
+      "answer": "We offer a 30-day return policy for unused jewelry in original condition with tags and packaging. Returns are free and easy - just contact our customer service to initiate the process. Refunds are processed within 5-7 business days after we receive the returned item.",
+      "category": "returns",
+      "keywords": ["return policy", "returns", "refund", "30 day return"],
+      "priority": 1,
+      "followUpSuggestions": ["Start return process", "View return conditions", "Contact customer service"]
+    },
+    {
+      "question": "Can I exchange jewelry?",
+      "answer": "Yes, we offer exchanges within 30 days of purchase. The item must be in original condition with tags and packaging. You can exchange for a different size, style, or design. If there's a price difference, you'll need to pay the additional amount or receive a refund for the difference.",
+      "category": "returns",
+      "keywords": ["exchange", "exchange policy", "size exchange", "style exchange"],
+      "priority": 1,
+      "followUpSuggestions": ["Start exchange process", "View exchange conditions", "Contact support"]
+    },
+    {
+      "question": "How do I create an account?",
+      "answer": "Creating an account is easy! Click 'Register' on our website, enter your name, email, and phone number, create a password, and verify your email with the OTP sent to you. You can also sign up using your Google account for quick registration.",
+      "category": "account",
+      "keywords": ["create account", "register", "sign up", "account creation"],
+      "priority": 1,
+      "followUpSuggestions": ["Register now", "Sign in with Google", "Login to existing account"]
+    },
+    {
+      "question": "I forgot my password. How do I reset it?",
+      "answer": "To reset your password: 1) Go to the login page, 2) Click 'Forgot Password', 3) Enter your registered email address, 4) Check your email for reset instructions, 5) Follow the link to create a new password. If you don't receive the email, check your spam folder or contact support.",
+      "category": "account",
+      "keywords": ["forgot password", "reset password", "password recovery"],
+      "priority": 1,
+      "followUpSuggestions": ["Reset password now", "Contact support", "Try login again"]
+    },
+    {
+      "question": "How do I add items to my wishlist?",
+      "answer": "To add items to your wishlist, simply click the heart icon on any product. You need to be logged in to use the wishlist feature. You can view your saved items by going to 'My Wishlist' in your account menu. From there, you can easily move items to your cart or remove them.",
+      "category": "account",
+      "keywords": ["wishlist", "save items", "favorite items", "heart icon"],
+      "priority": 1,
+      "followUpSuggestions": ["View my wishlist", "Browse products", "Login to account"]
+    },
+    {
+      "question": "What are your store hours?",
+      "answer": "Our online store is available 24/7 for your convenience. Our customer service team is available Monday to Saturday, 10 AM to 7 PM IST. You can reach us via phone, WhatsApp, or email during these hours for immediate assistance.",
+      "category": "support",
+      "keywords": ["store hours", "customer service hours", "contact hours"],
+      "priority": 1,
+      "followUpSuggestions": ["Contact customer service", "Send WhatsApp message", "Email support"]
+    },
+    {
+      "question": "How can I contact customer service?",
+      "answer": "You can reach our customer service team through: Phone: +91 22 62300916, WhatsApp: +91 9167780916, Email: support@aurea.com. We're available Monday to Saturday, 10 AM to 7 PM IST. We typically respond to emails within 24 hours.",
+      "category": "support",
+      "keywords": ["customer service", "contact", "phone", "whatsapp", "email"],
+      "priority": 1,
+      "followUpSuggestions": ["Call now", "Send WhatsApp", "Email support"]
+    },
+    {
+      "question": "Do you offer jewelry cleaning services?",
+      "answer": "Yes, we provide professional jewelry cleaning and maintenance services. Bring your jewelry to our store for complimentary cleaning. We also offer repair services for damaged pieces. For valuable items, we recommend professional cleaning every 6 months to maintain their shine and condition.",
+      "category": "services",
+      "keywords": ["jewelry cleaning", "maintenance", "repair", "professional cleaning"],
+      "priority": 2,
+      "followUpSuggestions": ["Book cleaning service", "View care tips", "Find store location"]
+    },
+    {
+      "question": "How should I care for my jewelry?",
+      "answer": "To care for your jewelry: 1) Store pieces separately to prevent scratching, 2) Clean with soft cloth and mild soap, 3) Remove before swimming, exercising, or applying lotions, 4) Keep away from harsh chemicals, 5) Have professional cleaning done regularly. Proper care will keep your jewelry beautiful for years.",
+      "category": "care",
+      "keywords": ["jewelry care", "maintenance", "cleaning", "storage"],
+      "priority": 2,
+      "followUpSuggestions": ["View detailed care guide", "Book cleaning service", "Browse jewelry"]
+    },
+    {
+      "question": "Are your diamonds certified?",
+      "answer": "Yes, all our diamonds come with proper certification from recognized gemological institutes. We provide certificates of authenticity for diamond jewelry, ensuring you receive genuine, high-quality stones. Each certificate includes details about cut, clarity, color, and carat weight.",
+      "category": "products",
+      "keywords": ["diamond certification", "certified diamonds", "authenticity", "gemological"],
+      "priority": 2,
+      "followUpSuggestions": ["View diamond collection", "See certificates", "Learn about diamond quality"]
+    },
+    {
+      "question": "Do you offer custom jewelry design?",
+      "answer": "Yes, we offer custom jewelry design services! Our skilled artisans can create unique pieces based on your specifications. The process includes consultation, design approval, and crafting. Custom orders typically take 2-4 weeks depending on complexity. Contact our design team to discuss your vision.",
+      "category": "services",
+      "keywords": ["custom jewelry", "custom design", "personalized", "bespoke"],
+      "priority": 2,
+      "followUpSuggestions": ["Contact design team", "View custom examples", "Book consultation"]
+    },
+    {
+      "question": "What is your price range?",
+      "answer": "Our jewelry ranges from affordable fashion pieces starting at ₹500 to premium gold and diamond jewelry up to ₹50,000+. We offer something for every budget and occasion. You can filter products by price range on our website to find pieces within your budget.",
+      "category": "products",
+      "keywords": ["price range", "budget", "affordable", "premium"],
+      "priority": 2,
+      "followUpSuggestions": ["Browse by price", "View affordable options", "See premium collection"]
+    },
+    {
+      "question": "Do you have gift wrapping?",
+      "answer": "Yes, we offer complimentary gift wrapping for all orders! Your jewelry will be beautifully packaged in our signature boxes with elegant wrapping. We also include gift cards where you can add personal messages. Perfect for birthdays, anniversaries, and special occasions.",
+      "category": "services",
+      "keywords": ["gift wrapping", "gift packaging", "gift card", "special occasions"],
+      "priority": 2,
+      "followUpSuggestions": ["Add gift wrapping", "Browse gift collections", "Write gift message"]
+    },
+    {
+      "question": "Can I cancel my order?",
+      "answer": "Yes, you can cancel your order before it's dispatched. Once dispatched, you can return the item using our 30-day return policy. To cancel, contact our customer service immediately with your order number. Refunds for cancelled orders are processed within 3-5 business days.",
+      "category": "orders",
+      "keywords": ["cancel order", "order cancellation", "refund", "before dispatch"],
+      "priority": 1,
+      "followUpSuggestions": ["Contact customer service", "View order status", "Start return process"]
+    },
+    {
+      "question": "Do you ship internationally?",
+      "answer": "Currently, we ship within India only. We're working on expanding our shipping to international locations. If you're outside India, please contact our customer service team - we may be able to arrange special shipping for your order.",
+      "category": "shipping",
+      "keywords": ["international shipping", "shipping locations", "India shipping"],
+      "priority": 2,
+      "followUpSuggestions": ["Contact for international shipping", "View shipping areas", "Check delivery locations"]
+    },
+    {
+      "question": "What occasions do you have jewelry for?",
+      "answer": "We have jewelry for all occasions! Our collections include wedding and bridal jewelry, anniversary gifts, birthday presents, festive collections for Diwali and other celebrations, Valentine's Day specials, and everyday wear pieces. Each collection is thoughtfully curated for the occasion.",
+      "category": "products",
+      "keywords": ["occasions", "wedding", "anniversary", "birthday", "festive", "celebrations"],
+      "priority": 1,
+      "followUpSuggestions": ["Browse occasion collections", "View festive jewelry", "See anniversary gifts"]
+    },
+    {
+      "question": "How do I know if jewelry is in stock?",
+      "answer": "Product availability is shown on each item's page. If an item shows 'In Stock', it's available for immediate shipping. 'Low Stock' means limited quantities remain. 'Out of Stock' items can't be ordered currently. You can sign up for restock notifications on out-of-stock items.",
+      "category": "products",
+      "keywords": ["stock", "availability", "in stock", "out of stock", "restock"],
+      "priority": 1,
+      "followUpSuggestions": ["Check product availability", "Set restock alert", "Browse similar items"]
+    },
+    {
+      "question": "Do you offer discounts or promotions?",
+      "answer": "Yes! We regularly offer seasonal discounts, festive promotions, and special deals. Sign up for our newsletter to receive exclusive offers and early access to sales. We also have loyalty rewards for frequent customers and special discounts for bulk orders.",
+      "category": "promotions",
+      "keywords": ["discounts", "promotions", "offers", "sales", "newsletter"],
+      "priority": 2,
+      "followUpSuggestions": ["Subscribe to newsletter", "View current offers", "Check seasonal sales"]
+    },
+    {
+      "question": "What is your quality guarantee?",
+      "answer": "We guarantee the quality of all our jewelry. Each piece is carefully inspected before shipping. We offer a quality assurance certificate with gold jewelry and provide hallmarking certificates. If you're not satisfied with the quality, you can return the item within 30 days for a full refund.",
+      "category": "quality",
+      "keywords": ["quality guarantee", "quality assurance", "hallmarking", "satisfaction guarantee"],
+      "priority": 1,
+      "followUpSuggestions": ["View quality certificates", "Read quality policy", "Contact quality team"]
+    },
+    {
+      "question": "Can I see jewelry before buying?",
+      "answer": "Our website features high-quality images and detailed descriptions of each piece. We also provide 360-degree views for selected items. If you're unsure about a purchase, you can use our 30-day return policy to return items that don't meet your expectations.",
+      "category": "products",
+      "keywords": ["view jewelry", "product images", "360 view", "before buying"],
+      "priority": 2,
+      "followUpSuggestions": ["Browse detailed images", "Read product descriptions", "View return policy"]
+    },
+    {
+      "question": "Do you have men's jewelry?",
+      "answer": "Yes, we have a dedicated men's jewelry collection including rings, chains, bracelets, and cufflinks. Our men's pieces feature masculine designs in gold, silver, and platinum. Perfect for everyday wear, special occasions, or as gifts for the men in your life.",
+      "category": "products",
+      "keywords": ["men's jewelry", "men's rings", "men's chains", "masculine designs"],
+      "priority": 2,
+      "followUpSuggestions": ["Browse men's collection", "View men's rings", "See men's chains"]
+    },
+    {
+      "question": "What is the difference between 14k and 18k gold?",
+      "answer": "14k gold contains 58.3% pure gold mixed with other metals, making it more durable and affordable. 18k gold contains 75% pure gold, giving it a richer color and higher value but slightly softer. Both are excellent choices - 14k for everyday wear, 18k for special occasions.",
+      "category": "education",
+      "keywords": ["14k gold", "18k gold", "gold purity", "gold difference"],
+      "priority": 2,
+      "followUpSuggestions": ["Browse 14k collection", "View 18k jewelry", "Learn about gold"]
+    },
+    {
+      "question": "How do I measure my ring size at home?",
+      "answer": "To measure your ring size at home: 1) Wrap a string around your finger, 2) Mark where it overlaps, 3) Measure the length in millimeters, 4) Use our Ring Size Guide to convert to your size. Alternatively, measure an existing ring's inner diameter. For best results, measure at the end of the day when fingers are largest.",
+      "category": "sizing",
+      "keywords": ["measure ring size", "ring size at home", "size measurement", "ring fitting"],
+      "priority": 1,
+      "followUpSuggestions": ["View Ring Size Guide", "See measurement tips", "Browse rings"]
+    },
+    {
+      "question": "What if my jewelry breaks?",
+      "answer": "If your jewelry breaks within the warranty period, we'll repair or replace it free of charge. For items outside warranty, we offer affordable repair services. Contact our customer service with photos of the damage for assessment. We stand behind the quality of our craftsmanship.",
+      "category": "warranty",
+      "keywords": ["jewelry breaks", "repair", "warranty", "replacement"],
+      "priority": 1,
+      "followUpSuggestions": ["Contact repair service", "View warranty terms", "Send damage photos"]
+    },
+    {
+      "question": "Do you buy back jewelry?",
+      "answer": "We offer a buyback program for jewelry purchased from us. The buyback value depends on current market rates, condition, and original purchase details. Contact our team with your purchase receipt for evaluation. This service helps you upgrade to new pieces or get value from unused jewelry.",
+      "category": "services",
+      "keywords": ["buyback", "sell jewelry", "jewelry exchange", "upgrade"],
+      "priority": 2,
+      "followUpSuggestions": ["Contact buyback team", "Get jewelry evaluated", "View upgrade options"]
+    },
+    {
+      "question": "Are your prices negotiable?",
+      "answer": "Our prices are fixed and competitive, reflecting the quality and craftsmanship of our jewelry. However, we offer regular promotions, bulk discounts, and loyalty rewards. Sign up for our newsletter to receive exclusive offers and be notified of sales events.",
+      "category": "pricing",
+      "keywords": ["negotiable prices", "fixed prices", "bulk discount", "promotions"],
+      "priority": 2,
+      "followUpSuggestions": ["View current promotions", "Subscribe for offers", "Check bulk discounts"]
+    },
+    {
+      "question": "What payment security do you have?",
+      "answer": "We use industry-standard security measures including 256-bit SSL encryption, secure payment gateways (Razorpay), and PCI DSS compliance. Your payment information is never stored on our servers. All transactions are monitored for fraud protection, ensuring your financial data is completely secure.",
+      "category": "security",
+      "keywords": ["payment security", "SSL encryption", "secure payment", "fraud protection"],
+      "priority": 1,
+      "followUpSuggestions": ["Learn about security", "View payment methods", "Read privacy policy"]
+    },
+    {
+      "question": "Can I change my delivery address?",
+      "answer": "Yes, you can change your delivery address before the order is dispatched. Contact our customer service immediately with your order number and new address. Once dispatched, address changes may not be possible, but we can coordinate with the courier for address corrections.",
+      "category": "shipping",
+      "keywords": ["change address", "delivery address", "shipping address", "address update"],
+      "priority": 1,
+      "followUpSuggestions": ["Contact customer service", "Update address", "Track order status"]
+    },
+    {
+      "question": "Do you offer insurance for expensive jewelry?",
+      "answer": "Yes, we offer shipping insurance for high-value orders automatically. For purchases above ₹10,000, insurance is included at no extra cost. We also recommend getting personal jewelry insurance for valuable pieces. Our team can guide you on insurance options and coverage details.",
+      "category": "insurance",
+      "keywords": ["jewelry insurance", "shipping insurance", "valuable jewelry", "coverage"],
+      "priority": 2,
+      "followUpSuggestions": ["Learn about insurance", "View coverage details", "Contact insurance team"]
+    },
+    {
+      "question": "What is your most popular jewelry?",
+      "answer": "Our most popular items include diamond stud earrings, gold chain necklaces, engagement rings, and traditional bangles. The bridal collection and zodiac jewelry are also customer favorites. You can see our 'Best Sellers' section on the website for currently trending pieces.",
+      "category": "products",
+      "keywords": ["popular jewelry", "best sellers", "trending", "customer favorites"],
+      "priority": 2,
+      "followUpSuggestions": ["View best sellers", "Browse popular items", "See trending jewelry"]
+    },
+    {
+      "question": "Do you have jewelry for sensitive skin?",
+      "answer": "Yes! We offer hypoallergenic jewelry made from sterling silver, surgical steel, and platinum - perfect for sensitive skin. These metals are nickel-free and less likely to cause allergic reactions. Look for our 'Hypoallergenic' tag on product pages or contact us for recommendations.",
+      "category": "products",
+      "keywords": ["sensitive skin", "hypoallergenic", "nickel-free", "allergic reactions"],
+      "priority": 2,
+      "followUpSuggestions": ["Browse hypoallergenic jewelry", "View sterling silver", "Contact for recommendations"]
+    },
+    {
+      "question": "How often should I clean my jewelry?",
+      "answer": "Clean your jewelry regularly based on wear frequency: Daily wear pieces should be cleaned weekly with a soft cloth, while occasional wear pieces can be cleaned monthly. Professional cleaning is recommended every 6 months for valuable pieces. Avoid harsh chemicals and use mild soap solutions.",
+      "category": "care",
+      "keywords": ["jewelry cleaning frequency", "cleaning schedule", "professional cleaning"],
+      "priority": 2,
+      "followUpSuggestions": ["View cleaning guide", "Book professional cleaning", "Learn care tips"]
+    },
+    {
+      "question": "What is your fastest delivery option?",
+      "answer": "Our fastest delivery option is Express Shipping, which delivers within 1-3 business days in major cities. Same-day delivery is available in select metro areas for orders placed before 2 PM. Express shipping charges apply, and availability depends on your location and product availability.",
+      "category": "shipping",
+      "keywords": ["fastest delivery", "express shipping", "same day delivery", "quick delivery"],
+      "priority": 1,
+      "followUpSuggestions": ["Check express delivery", "View delivery options", "Place urgent order"]
+    },
+    {
+      "question": "Can I get a gift receipt?",
+      "answer": "Yes, we can provide gift receipts that show the item details without displaying the price. Simply request a gift receipt during checkout or contact customer service after placing your order. Gift receipts make returns and exchanges easier for the recipient while maintaining gift privacy.",
+      "category": "services",
+      "keywords": ["gift receipt", "gift purchase", "price privacy", "gift returns"],
+      "priority": 2,
+      "followUpSuggestions": ["Request gift receipt", "View gift options", "Browse gift collections"]
+    },
+    {
+      "question": "Do you have a loyalty program?",
+      "answer": "Yes! Our loyalty program rewards frequent customers with points for every purchase, exclusive discounts, early access to sales, and special birthday offers. Points can be redeemed for discounts on future purchases. Join automatically when you create an account - no additional signup required!",
+      "category": "loyalty",
+      "keywords": ["loyalty program", "rewards", "points", "exclusive discounts"],
+      "priority": 2,
+      "followUpSuggestions": ["Join loyalty program", "View rewards", "Check point balance"]
+    },
+    {
+      "question": "What if I receive damaged jewelry?",
+      "answer": "If you receive damaged jewelry, contact us immediately with photos of the damage and your order number. We'll arrange for immediate replacement or full refund at no cost to you. Don't worry about return shipping - we'll handle everything to ensure you're completely satisfied.",
+      "category": "quality",
+      "keywords": ["damaged jewelry", "replacement", "refund", "quality issue"],
+      "priority": 1,
+      "followUpSuggestions": ["Report damage", "Contact customer service", "Send damage photos"]
+    },
+    {
+      "question": "Can I schedule a video call to see jewelry?",
+      "answer": "Yes! We offer virtual consultations where our jewelry experts can show you pieces over video call. This helps you see the jewelry up close, ask questions, and make informed decisions. Schedule a video consultation through our customer service team - it's like having a personal jewelry viewing session!",
+      "category": "services",
+      "keywords": ["video call", "virtual consultation", "jewelry viewing", "personal consultation"],
+      "priority": 2,
+      "followUpSuggestions": ["Schedule video call", "Book consultation", "Contact jewelry expert"],
+      "actionLinks": [
+        {"text": "Contact Us", "url": "/contact", "type": "internal"},
+        {"text": "About Us", "url": "/about", "type": "internal"},
+        {"text": "Shop Jewelry", "url": "/shop", "type": "internal"}
+      ]
+    },
+    {
+      "question": "How do I track my order?",
+      "answer": "You can easily track your order by logging into your account and visiting the 'My Orders' section. There you'll find real-time tracking information, estimated delivery dates, and order status updates. You can also use your order number to track without logging in.",
+      "category": "orders",
+      "keywords": ["track order", "order status", "delivery tracking", "my orders"],
+      "priority": 1,
+      "followUpSuggestions": ["View my orders", "Check delivery status", "Contact support"],
+      "actionLinks": [
+        {"text": "Track Order", "url": "/track-order", "type": "internal"},
+        {"text": "My Orders", "url": "/orders", "type": "internal"},
+        {"text": "Contact Support", "url": "/contact", "type": "internal"}
+      ]
+    },
+    {
+      "question": "What payment methods do you accept?",
+      "answer": "We accept all major payment methods including credit/debit cards (Visa, MasterCard, American Express), UPI, net banking, digital wallets (Paytm, PhonePe, Google Pay), and cash on delivery. All payments are processed securely with 256-bit SSL encryption.",
+      "category": "payment",
+      "keywords": ["payment methods", "credit card", "UPI", "cash on delivery", "secure payment"],
+      "priority": 1,
+      "followUpSuggestions": ["View payment security", "Check COD availability", "Payment help"],
+      "actionLinks": [
+        {"text": "About Payment", "url": "/about", "type": "internal"},
+        {"text": "Contact Support", "url": "/contact", "type": "internal"},
+        {"text": "Shop Now", "url": "/shop", "type": "internal"}
+      ]
+    },
+    {
+      "question": "Do you offer free shipping?",
+      "answer": "Yes! We offer free shipping on orders above ₹2,000. For orders below ₹2,000, shipping charges are ₹99. We provide fast and secure delivery across India with tracking information. Express delivery options are also available.",
+      "category": "shipping",
+      "keywords": ["free shipping", "delivery charges", "shipping cost", "express delivery"],
+      "priority": 1,
+      "followUpSuggestions": ["Check shipping rates", "View delivery areas", "Express delivery"],
+      "actionLinks": [
+        {"text": "About Shipping", "url": "/about", "type": "internal"},
+        {"text": "Contact Support", "url": "/contact", "type": "internal"},
+        {"text": "Shop Now", "url": "/shop", "type": "internal"}
+      ]
+    },
+    {
+      "question": "What is your return policy?",
+      "answer": "We offer a 30-day hassle-free return policy. Items must be in original condition with tags attached. We provide free return pickup and full refund within 7-10 business days. Custom/personalized items are not eligible for returns unless defective.",
+      "category": "returns",
+      "keywords": ["return policy", "refund", "exchange", "return pickup"],
+      "priority": 1,
+      "followUpSuggestions": ["Start return process", "View return conditions", "Contact return support"],
+      "actionLinks": [
+        {"text": "About Returns", "url": "/about", "type": "internal"},
+        {"text": "Contact Support", "url": "/contact", "type": "internal"},
+        {"text": "My Orders", "url": "/orders", "type": "internal"}
+      ]
+    },
+    {
+      "question": "Do you offer jewelry repair services?",
+      "answer": "Yes! We provide professional jewelry repair services including ring resizing, chain repair, stone replacement, and cleaning. Our skilled craftsmen ensure your precious pieces are restored to their original beauty. Contact us for repair estimates.",
+      "category": "services",
+      "keywords": ["repair", "resizing", "maintenance", "restoration", "cleaning", "stone replacement"],
+      "priority": 1,
+      "followUpSuggestions": ["Contact repair service", "Get repair estimate", "Schedule repair"],
+      "actionLinks": [
+        {"text": "Contact Us", "url": "/contact", "type": "internal"},
+        {"text": "About Services", "url": "/about", "type": "internal"},
+        {"text": "Shop Jewelry", "url": "/shop", "type": "internal"}
+      ]
+    },
+    {
+      "question": "What's your best selling jewelry?",
+      "answer": "Our best sellers include diamond rings, gold necklace sets, pearl earrings, and personalized name bracelets. These pieces are popular for their timeless designs, quality craftsmanship, and versatility for both daily wear and special occasions.",
+      "category": "products",
+      "keywords": ["best selling", "popular", "diamond rings", "gold necklaces", "pearl earrings", "bestsellers"],
+      "priority": 1,
+      "followUpSuggestions": ["View bestsellers", "Browse popular items", "See customer favorites"],
+      "actionLinks": [
+        {"text": "Shop All Jewelry", "url": "/shop", "type": "internal"},
+        {"text": "Browse Rings", "url": "/rings", "type": "internal"},
+        {"text": "View Necklaces", "url": "/necklaces", "type": "internal"}
+      ]
+    },
+    {
+      "question": "Can I customize my jewelry?",
+      "answer": "Absolutely! We offer extensive customization options including engraving names/dates, choosing gemstones, selecting metal types, and creating unique designs. Our personalized jewelry makes perfect gifts for special occasions.",
+      "category": "customization",
+      "keywords": ["customize", "personalize", "engraving", "custom design", "personalized jewelry"],
+      "priority": 1,
+      "followUpSuggestions": ["View customization options", "See personalized gifts", "Contact for custom design"],
+      "actionLinks": [
+        {"text": "Personalized Gifts", "url": "/personalized-gifts", "type": "internal"},
+        {"text": "Contact Us", "url": "/contact", "type": "internal"},
+        {"text": "Shop All Jewelry", "url": "/shop", "type": "internal"}
+      ]
+    },
+    {
+      "question": "What jewelry is good for Diwali?",
+      "answer": "For Diwali, we recommend our festive gold collection including traditional necklace sets, jhumkas, bangles, and rings. Our pieces feature intricate designs perfect for the festival of lights celebration and family gatherings.",
+      "category": "promotions",
+      "keywords": ["diwali", "festival", "traditional", "gold", "festive", "celebration"],
+      "priority": 1,
+      "followUpSuggestions": ["Browse festive collection", "View traditional designs", "See gold jewelry"],
+      "actionLinks": [
+        {"text": "Festive Gifts", "url": "/festive-gifts", "type": "internal"},
+        {"text": "Shop All Jewelry", "url": "/shop", "type": "internal"},
+        {"text": "Browse Earrings", "url": "/earrings", "type": "internal"}
+      ]
+    },
+    {
+      "question": "I have a complaint about my order",
+      "answer": "I'm sorry to hear about the issue with your order. Please contact our customer service team immediately with your order number and details of the problem. We'll resolve this quickly and ensure your complete satisfaction.",
+      "category": "support",
+      "keywords": ["complaint", "issue", "problem", "customer service", "order problem"],
+      "priority": 1,
+      "followUpSuggestions": ["Contact customer service", "View order details", "Get help"],
+      "actionLinks": [
+        {"text": "Contact Support", "url": "/contact", "type": "internal"},
+        {"text": "My Orders", "url": "/orders", "type": "internal"},
+        {"text": "Track Order", "url": "/track-order", "type": "internal"}
+      ]
+    },
+    {
+      "question": "Do you have earrings for sensitive ears?",
+      "answer": "Yes! We offer hypoallergenic earrings made from surgical steel, sterling silver, and 14k gold that are perfect for sensitive ears. These materials are nickel-free and gentle on sensitive skin.",
+      "category": "products",
+      "keywords": ["sensitive ears", "hypoallergenic", "nickel-free", "surgical steel", "sterling silver"],
+      "priority": 1,
+      "followUpSuggestions": ["Browse hypoallergenic earrings", "View sterling silver", "See gold earrings"],
+      "actionLinks": [
+        {"text": "Browse Earrings", "url": "/earrings", "type": "internal"},
+        {"text": "Contact Us", "url": "/contact", "type": "internal"},
+        {"text": "Shop All Jewelry", "url": "/shop", "type": "internal"}
+      ]
+    },
+    {
+      "question": "What's the difference between 14k and 18k gold?",
+      "answer": "14k gold contains 58.3% pure gold mixed with other metals, making it more durable and affordable. 18k gold contains 75% pure gold, giving it a richer color and higher value but slightly softer. Both are excellent choices depending on your preference and budget.",
+      "category": "education",
+      "keywords": ["14k gold", "18k gold", "gold purity", "karat", "gold difference"],
+      "priority": 1,
+      "followUpSuggestions": ["Learn about gold", "View gold jewelry", "Compare gold options"],
+      "actionLinks": [
+        {"text": "About Quality", "url": "/about", "type": "internal"},
+        {"text": "Shop All Jewelry", "url": "/shop", "type": "internal"},
+        {"text": "Contact Us", "url": "/contact", "type": "internal"}
+      ]
+    },
+    {
+      "question": "Can I exchange my jewelry?",
+      "answer": "Yes, we offer exchanges within 30 days of purchase. Items must be in original condition with tags attached. You can exchange for a different size, style, or receive store credit. Custom/personalized items cannot be exchanged unless defective.",
+      "category": "returns",
+      "keywords": ["exchange", "swap", "return", "store credit", "30 days"],
+      "priority": 1,
+      "followUpSuggestions": ["Start exchange process", "View exchange policy", "Contact support"],
+      "actionLinks": [
+        {"text": "About Returns", "url": "/about", "type": "internal"},
+        {"text": "Contact Support", "url": "/contact", "type": "internal"},
+        {"text": "My Orders", "url": "/orders", "type": "internal"}
+      ]
+    },
+    {
+      "question": "Do you offer gift wrapping?",
+      "answer": "Yes! We provide complimentary elegant gift wrapping for all orders. Choose from our beautiful jewelry boxes, silk pouches, or festive wrapping options. Perfect for birthdays, anniversaries, and special occasions.",
+      "category": "services",
+      "keywords": ["gift wrapping", "gift box", "packaging", "complimentary", "special occasions"],
+      "priority": 1,
+      "followUpSuggestions": ["View gift options", "Browse gift collections", "Contact for special requests"],
+      "actionLinks": [
+        {"text": "Birthday Gifts", "url": "/birthday-gifts", "type": "internal"},
+        {"text": "Anniversary Gifts", "url": "/anniversary-gifts", "type": "internal"},
+        {"text": "Shop All Jewelry", "url": "/shop", "type": "internal"}
+      ]
+    },
+    {
+      "question": "How do I care for my jewelry?",
+      "answer": "To keep your jewelry beautiful: Store pieces separately in soft pouches, clean with mild soap and soft brush, avoid chemicals and perfumes, remove before swimming/exercising, and have professional cleaning annually for precious pieces.",
+      "category": "care",
+      "keywords": ["jewelry care", "cleaning", "maintenance", "storage", "preserve"],
+      "priority": 1,
+      "followUpSuggestions": ["Learn more care tips", "Professional cleaning", "Storage solutions"],
+      "actionLinks": [
+        {"text": "About Quality", "url": "/about", "type": "internal"},
+        {"text": "Contact Us", "url": "/contact", "type": "internal"},
+        {"text": "Shop All Jewelry", "url": "/shop", "type": "internal"}
+      ]
+    },
+    {
+      "question": "What's your warranty policy?",
+      "answer": "We offer a 1-year warranty covering manufacturing defects, stone loosening, and craftsmanship issues. The warranty doesn't cover normal wear, damage from misuse, or lost items. Keep your purchase receipt for warranty claims.",
+      "category": "warranty",
+      "keywords": ["warranty", "guarantee", "manufacturing defects", "craftsmanship", "1 year"],
+      "priority": 1,
+      "followUpSuggestions": ["View warranty details", "Make warranty claim", "Contact support"],
+      "actionLinks": [
+        {"text": "About Quality", "url": "/about", "type": "internal"},
+        {"text": "Contact Support", "url": "/contact", "type": "internal"},
+        {"text": "My Orders", "url": "/orders", "type": "internal"}
+      ]
+    },
+    {
+      "question": "Do you have jewelry for men?",
+      "answer": "Yes! Our men's collection includes rings, chains, bracelets, and cufflinks. We offer both classic and contemporary designs in gold, silver, and platinum. Perfect for everyday wear or special occasions.",
+      "category": "products",
+      "keywords": ["men's jewelry", "men's rings", "men's chains", "men's bracelets", "masculine"],
+      "priority": 1,
+      "followUpSuggestions": ["Browse men's collection", "View men's rings", "See men's chains"],
+      "actionLinks": [
+        {"text": "Browse Rings", "url": "/rings", "type": "internal"},
+        {"text": "Browse Bracelets", "url": "/bracelets", "type": "internal"},
+        {"text": "Shop All Jewelry", "url": "/shop", "type": "internal"}
+      ]
+    },
+    {
+      "question": "Can I see jewelry before buying?",
+      "answer": "Absolutely! We offer virtual consultations where you can see jewelry pieces up close via video call. You can also visit our showroom by appointment, or use our detailed photos and 360° views online to examine pieces thoroughly.",
+      "category": "services",
+      "keywords": ["see before buying", "virtual consultation", "showroom", "appointment", "360 view"],
+      "priority": 1,
+      "followUpSuggestions": ["Schedule consultation", "Book showroom visit", "View detailed photos"],
+      "actionLinks": [
+        {"text": "Contact Us", "url": "/contact", "type": "internal"},
+        {"text": "About Us", "url": "/about", "type": "internal"},
+        {"text": "Shop All Jewelry", "url": "/shop", "type": "internal"}
+      ]
+    },
+    {
+      "question": "What's trending in jewelry right now?",
+      "answer": "Current trends include layered necklaces, statement earrings, stackable rings, minimalist designs, and vintage-inspired pieces. Rose gold and mixed metals are very popular, along with personalized and sustainable jewelry options.",
+      "category": "education",
+      "keywords": ["trending", "fashion", "layered", "statement", "minimalist", "rose gold", "vintage"],
+      "priority": 1,
+      "followUpSuggestions": ["View trending pieces", "Browse new arrivals", "See fashion jewelry"],
+      "actionLinks": [
+        {"text": "Shop All Jewelry", "url": "/shop", "type": "internal"},
+        {"text": "Browse Necklaces", "url": "/necklaces", "type": "internal"},
+        {"text": "Browse Earrings", "url": "/earrings", "type": "internal"}
+      ]
+    },
+    {
+      "question": "Do you offer installment payments?",
+      "answer": "Yes! We offer flexible payment options including EMI through major banks and digital payment platforms. You can choose 3, 6, or 12-month installment plans with competitive interest rates. Check eligibility at checkout.",
+      "category": "payment",
+      "keywords": ["installment", "EMI", "flexible payment", "monthly payments", "payment plans"],
+      "priority": 1,
+      "followUpSuggestions": ["Check EMI options", "View payment methods", "Calculate EMI"],
+      "actionLinks": [
+        {"text": "About Payment", "url": "/about", "type": "internal"},
+        {"text": "Contact Support", "url": "/contact", "type": "internal"},
+        {"text": "Shop Now", "url": "/shop", "type": "internal"}
+      ]
+    }
+  ]
+  

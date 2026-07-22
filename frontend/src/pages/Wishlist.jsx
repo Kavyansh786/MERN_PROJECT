@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from '../api/axios';
 import ProductCard from '../components/ProductCard';
 import { getUserId } from '../utils/userUtils';
+import Footer from '../components/Footer';
 
 export default function Wishlist() {
   const [wishlist, setWishlist] = useState([]);
@@ -55,6 +56,7 @@ export default function Wishlist() {
           ))}
         </div>
       )}
+      <Footer />
     </div>
   );
 }

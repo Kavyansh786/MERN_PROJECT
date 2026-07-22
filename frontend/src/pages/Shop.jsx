@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Footer from '../components/Footer';
 import axios from 'axios';
 import ProductCard from '../components/ProductCard';
 
@@ -429,6 +430,7 @@ export default function Shop() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getUserId } from '../utils/userUtils';
+import { useToast } from '../components/Toast';
+import Footer from '../components/Footer';
 
 function StatusBadge({ status }) {
   let color = 'bg-[#D4AF37] text-[#4a2c2a]';
@@ -16,6 +18,7 @@ function StatusBadge({ status }) {
 export default function OrderDetail() {
   const navigate = useNavigate();
   const { orderId } = useParams();
+  const { showToast } = useToast();
   const [order, setOrder] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -63,12 +66,25 @@ export default function OrderDetail() {
         setOrder(response.data.order);
         setShowCancelModal(false);
         setError('');
+        // Show success toast
+        showToast({
+          type: 'success',
+          message: 'Order cancellation successful! Refund will be transferred in 2-3 business days.'
+        });
       } else {
         setError(response.data.message || 'Failed to cancel order');
+        showToast({
+          type: 'error',
+          message: response.data.message || 'Failed to cancel order'
+        });
       }
     } catch (err) {
       console.error('Error cancelling order:', err);
       setError(err.response?.data?.message || 'Failed to cancel order');
+      showToast({
+        type: 'error',
+        message: err.response?.data?.message || 'Failed to cancel order'
+      });
     } finally {
       setCancelling(false);
       setShowCancelModal(false);
@@ -294,6 +310,7 @@ export default function OrderDetail() {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 } 

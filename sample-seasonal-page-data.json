@@ -1,0 +1,94 @@
+[
+  {
+    "title": "Raksha Bandhan Collection",
+    "slug": "raksha-bandhan",
+    "subtitle": "Celebrate the Sacred Bond of Love and Protection",
+    "description": "Discover our exquisite Raksha Bandhan collection featuring traditional and contemporary jewelry pieces that symbolize the eternal bond between siblings. From elegant rakhis to stunning gift sets, make this festival truly memorable.",
+    "colors": {
+      "primary": "#dc2626",
+      "secondary": "#ec4899",
+      "background": "from-red-50 via-pink-50 to-red-100",
+      "text": "#7f1d1d"
+    },
+    "productFilter": {
+      "category": "",
+      "isSpecial": "isRakhi",
+      "tags": ["rakhi", "sibling", "festival"]
+    },
+    "ctaSection": {
+      "title": "Make This Raksha Bandhan Unforgettable",
+      "description": "Browse our complete collection of Raksha Bandhan jewelry and gifts. From traditional designs to modern interpretations, find the perfect piece to celebrate your sibling bond.",
+      "buttonText": "Explore All Collections"
+    },
+    "isActive": true
+  },
+  {
+    "title": "Diwali Sparkle Collection",
+    "slug": "diwali-sparkle",
+    "subtitle": "Illuminate Your Festivities with Golden Elegance",
+    "description": "Welcome the festival of lights with our stunning Diwali collection. Featuring gold-plated jewelry, traditional designs, and contemporary pieces that capture the essence of this auspicious celebration.",
+    "colors": {
+      "primary": "#f59e0b",
+      "secondary": "#d97706",
+      "background": "from-yellow-50 via-orange-50 to-yellow-100",
+      "text": "#92400e"
+    },
+    "productFilter": {
+      "category": "",
+      "isSpecial": "isDiwali",
+      "tags": ["diwali", "festival", "gold", "traditional"]
+    },
+    "ctaSection": {
+      "title": "Light Up Your Diwali Celebrations",
+      "description": "Discover our exclusive Diwali jewelry collection featuring traditional motifs, gold finishes, and designs that embody the spirit of prosperity and joy.",
+      "buttonText": "Shop Diwali Collection"
+    },
+    "isActive": false
+  },
+  {
+    "title": "Valentine's Romance Collection",
+    "slug": "valentines-romance",
+    "subtitle": "Express Your Love with Timeless Elegance",
+    "description": "Celebrate love with our romantic Valentine's collection. Featuring heart-shaped pendants, couple rings, and elegant pieces designed to express your deepest emotions and create lasting memories.",
+    "colors": {
+      "primary": "#ec4899",
+      "secondary": "#be185d",
+      "background": "from-pink-50 via-rose-50 to-pink-100",
+      "text": "#9f1239"
+    },
+    "productFilter": {
+      "category": "",
+      "isSpecial": "isValentine",
+      "tags": ["valentine", "love", "romance", "couple"]
+    },
+    "ctaSection": {
+      "title": "Make This Valentine's Day Special",
+      "description": "Find the perfect jewelry to express your love. From romantic pendants to couple rings, our Valentine's collection has something for every love story.",
+      "buttonText": "Discover Love Collection"
+    },
+    "isActive": false
+  },
+  {
+    "title": "Christmas Joy Collection",
+    "slug": "christmas-joy",
+    "subtitle": "Spread Holiday Cheer with Festive Jewelry",
+    "description": "Celebrate the magic of Christmas with our festive jewelry collection. Featuring snowflake designs, winter motifs, and elegant pieces perfect for holiday gifting and celebrations.",
+    "colors": {
+      "primary": "#dc2626",
+      "secondary": "#16a34a",
+      "background": "from-red-50 via-green-50 to-red-100",
+      "text": "#7f1d1d"
+    },
+    "productFilter": {
+      "category": "",
+      "isSpecial": "isChristmas",
+      "tags": ["christmas", "holiday", "winter", "festive"]
+    },
+    "ctaSection": {
+      "title": "Celebrate Christmas in Style",
+      "description": "Make your Christmas celebrations sparkle with our festive jewelry collection. Perfect for gifting or adding holiday glamour to your look.",
+      "buttonText": "Shop Christmas Collection"
+    },
+    "isActive": false
+  }
+]

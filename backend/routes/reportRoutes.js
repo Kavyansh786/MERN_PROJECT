@@ -4,11 +4,6 @@ const Order = require('../models/order');
 const Product = require('../models/product');
 const User = require('../models/user');
 
-// Simple test endpoint
-router.get('/test', (req, res) => {
-  res.json({ message: 'Reports API is working', timestamp: new Date() });
-});
-
 // Get all reports data
 router.get('/', async (req, res) => {
   try {

@@ -8,19 +8,25 @@ import {
   Boxes,
   Ticket,
   BarChart2,
+  MessageSquare,
+  Calendar,
+  Upload,
   Settings
 } from "lucide-react";
 
 const navItems = [
-  { label: "Dashboard", icon: LayoutDashboard, path: "/admin" },
-  { label: "Products", icon: Package, path: "/admin/products" },
-  { label: "Orders", icon: ShoppingCart, path: "/admin/orders" },
-  { label: "Users", icon: UsersIcon, path: "/admin/users" },
-  { label: "Reviews", icon: Star, path: "/admin/reviews" },
-  { label: "Inventory", icon: Boxes, path: "/admin/inventory" },
-  { label: "Coupons", icon: Ticket, path: "/admin/coupons" },
-  { label: "Reports", icon: BarChart2, path: "/admin/reports" },
-  { label: "Settings", icon: Settings, path: "/admin/settings" },
+  { label: "Dashboard", icon: LayoutDashboard, path: "/" },
+  { label: "Products", icon: Package, path: "/products" },
+  { label: "Bulk Upload", icon: Upload, path: "/bulk-upload" },
+  { label: "Orders", icon: ShoppingCart, path: "/orders" },
+  { label: "Users", icon: UsersIcon, path: "/users" },
+  { label: "Reviews", icon: Star, path: "/reviews" },
+  { label: "Inventory", icon: Boxes, path: "/inventory" },
+  { label: "Coupons", icon: Ticket, path: "/coupons" },
+  { label: "Reports", icon: BarChart2, path: "/reports" },
+  { label: "Chatbot Training", icon: MessageSquare, path: "/chatbot-training" },
+  { label: "Seasonal Pages", icon: Calendar, path: "/seasonal-pages" },
+  { label: "Settings", icon: Settings, path: "/settings" },
 ];
 
 export default function Sidebar() {
@@ -39,8 +45,8 @@ export default function Sidebar() {
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path || 
-                           (item.path === "/admin" && location.pathname === "/admin") ||
-                           (item.path !== "/admin" && location.pathname.startsWith(item.path));
+                           (item.path === "/" && location.pathname === "/") ||
+                           (item.path !== "/" && location.pathname.startsWith(item.path));
             return (
               <li key={item.label}>
                 <Link

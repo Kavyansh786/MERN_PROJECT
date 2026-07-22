@@ -1,0 +1,122 @@
+[
+  {
+    "question": "What types of jewelry do you sell?",
+    "answer": "We offer a wide range of jewelry including rings, necklaces, earrings, bracelets, and pendants. Our collection features gold, silver, and platinum pieces with various gemstones and diamonds.",
+    "keywords": ["jewelry", "types", "collection", "what do you sell"],
+    "category": "products",
+    "priority": 8,
+    "followUpSuggestions": ["Would you like to see our featured collections?", "Are you looking for a specific type of jewelry?"]
+  },
+  {
+    "question": "Do you offer custom jewelry design?",
+    "answer": "Yes! We offer custom jewelry design services. You can personalize rings, necklaces, and other pieces with custom engraving, choose your preferred metals and gemstones, and create unique designs for special occasions.",
+    "keywords": ["custom", "personalized", "design", "engraving", "bespoke"],
+    "category": "customization",
+    "priority": 7,
+    "followUpSuggestions": ["What type of custom piece are you interested in?", "Would you like to know about our engraving options?"]
+  },
+  {
+    "question": "What is your return policy?",
+    "answer": "We offer a 30-day return policy for unworn items in original condition with tags and packaging. Custom and personalized items are non-returnable unless there's a manufacturing defect. Please contact our support team to initiate a return.",
+    "keywords": ["return", "policy", "refund", "exchange", "30 days"],
+    "category": "returns",
+    "priority": 9,
+    "followUpSuggestions": ["How do I start a return?", "What items cannot be returned?"]
+  },
+  {
+    "question": "How long does shipping take?",
+    "answer": "Standard shipping takes 3-5 business days within India. Express shipping is available for 1-2 business days. International shipping takes 7-14 business days. Free shipping is available on orders above ₹2000.",
+    "keywords": ["shipping", "delivery", "how long", "time", "fast"],
+    "category": "shipping",
+    "priority": 8,
+    "followUpSuggestions": ["Do you offer express shipping?", "What are the shipping charges?"]
+  },
+  {
+    "question": "How can I track my order?",
+    "answer": "You can track your order by logging into your account and visiting the 'My Orders' section. You'll receive a tracking number via email once your order ships. You can also use this number on our courier partner's website.",
+    "keywords": ["track", "order", "tracking", "status", "where is my order"],
+    "category": "orders",
+    "priority": 9,
+    "followUpSuggestions": ["I can't find my tracking number", "My order status hasn't updated"]
+  },
+  {
+    "question": "What metals do you use in your jewelry?",
+    "answer": "We use high-quality metals including 14K and 18K gold (yellow, white, and rose), sterling silver 925, and platinum. All our metals are certified for purity and come with quality guarantees.",
+    "keywords": ["metals", "gold", "silver", "platinum", "quality", "purity"],
+    "category": "materials",
+    "priority": 6,
+    "followUpSuggestions": ["What's the difference between 14K and 18K gold?", "Do you have silver jewelry?"]
+  },
+  {
+    "question": "Do you have bridal jewelry collections?",
+    "answer": "Yes! Our bridal collection features elegant necklace sets, stunning earrings, beautiful rings, and complete jewelry sets perfect for weddings and special occasions. We also offer matching sets for the entire bridal party.",
+    "keywords": ["bridal", "wedding", "bride", "marriage", "special occasion"],
+    "category": "products",
+    "priority": 8,
+    "followUpSuggestions": ["Can I see your bridal necklace sets?", "Do you have matching jewelry sets?"]
+  },
+  {
+    "question": "What are your price ranges?",
+    "answer": "Our jewelry ranges from ₹500 for simple pieces to ₹50,000+ for premium collections. We have options for every budget including affordable daily wear, mid-range special occasion pieces, and luxury collections.",
+    "keywords": ["price", "cost", "budget", "expensive", "cheap", "affordable"],
+    "category": "pricing",
+    "priority": 7,
+    "followUpSuggestions": ["Do you have jewelry under ₹2000?", "What's included in your premium collection?"]
+  },
+  {
+    "question": "How do I care for my jewelry?",
+    "answer": "Store jewelry in a dry place, clean with a soft cloth, avoid chemicals and perfumes, and remove before swimming or exercising. Gold and silver pieces should be cleaned professionally every 6 months for best results.",
+    "keywords": ["care", "maintenance", "clean", "store", "protect"],
+    "category": "care_instructions",
+    "priority": 5,
+    "followUpSuggestions": ["How often should I clean my jewelry?", "What should I avoid when wearing jewelry?"]
+  },
+  {
+    "question": "Do you offer gift wrapping?",
+    "answer": "Yes! We provide complimentary gift wrapping for all orders. Choose from elegant boxes, gift bags, or premium packaging. We can also include personalized gift messages with your order.",
+    "keywords": ["gift", "wrapping", "packaging", "present", "gift box"],
+    "category": "general",
+    "priority": 6,
+    "followUpSuggestions": ["Can you add a gift message?", "What gift wrapping options do you have?"]
+  },
+  {
+    "question": "Hello",
+    "answer": "Hello! Welcome to our jewelry store. I'm here to help you find the perfect piece. Whether you're looking for rings, necklaces, earrings, or something special, I can assist you. What can I help you with today?",
+    "keywords": ["hello", "hi", "hey", "greetings"],
+    "category": "greetings",
+    "priority": 10,
+    "followUpSuggestions": ["Browse our collections", "Tell me about your jewelry types", "I'm looking for a gift"]
+  },
+  {
+    "question": "What payment methods do you accept?",
+    "answer": "We accept all major credit cards, debit cards, UPI payments, net banking, and digital wallets like Paytm, PhonePe, and Google Pay. We also offer EMI options on orders above ₹10,000.",
+    "keywords": ["payment", "credit card", "UPI", "EMI", "pay"],
+    "category": "general",
+    "priority": 7,
+    "followUpSuggestions": ["Do you offer EMI options?", "Is online payment secure?"]
+  },
+  {
+    "question": "Do you have diamond jewelry?",
+    "answer": "Yes! We have a beautiful collection of diamond jewelry including rings, earrings, necklaces, and pendants. All our diamonds are certified and come with quality assurance. We offer both solitaire and multi-stone designs.",
+    "keywords": ["diamond", "solitaire", "certified", "precious stones"],
+    "category": "products",
+    "priority": 8,
+    "followUpSuggestions": ["Can I see diamond rings?", "Are your diamonds certified?"]
+  },
+  {
+    "question": "What sizes do you have for rings?",
+    "answer": "We offer ring sizes from 4 to 12 (Indian sizing). If you're unsure about your size, we provide a free ring sizing guide and can help you measure at home. We also offer resizing services for most rings.",
+    "keywords": ["ring size", "sizing", "measure", "resize"],
+    "category": "products",
+    "priority": 6,
+    "followUpSuggestions": ["How do I measure my ring size?", "Can you resize rings?"]
+  },
+  {
+    "question": "Do you have men's jewelry?",
+    "answer": "Absolutely! Our men's collection includes rings, chains, bracelets, cufflinks, and pendants. We have both traditional and contemporary designs in gold, silver, and platinum.",
+    "keywords": ["men", "mens", "male", "guys", "masculine"],
+    "category": "products",
+    "priority": 6,
+    "followUpSuggestions": ["Show me men's rings", "Do you have men's chains?"]
+  }
+]

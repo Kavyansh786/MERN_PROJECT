@@ -167,7 +167,7 @@ export default function Payment() {
 
             if (verifyResponse.data.success) {
               // Create order in database after successful payment
-              await createOrderInDatabase();
+              await createOrderInDatabase(true); // Pass true for verified payment
               showToast({ type: 'success', message: 'Payment successful! Your order has been placed.' });
               navigate('/orders');
             } else {
@@ -206,12 +206,20 @@ export default function Payment() {
     }
   };
 
-  const createOrderInDatabase = async () => {
+  const createOrderInDatabase = async (paymentVerified = false) => {
     try {
       const userId = getUserId();
 
       if (!userId) {
         throw new Error('User not logged in');
+      }
+
+      // Determine payment status based on payment method and verification
+      let paymentStatus = 'Pending';
+      if (selectedPaymentMethod === 'cod') {
+        paymentStatus = 'Pending'; // COD remains pending until delivery
+      } else if (selectedPaymentMethod === 'razorpay' && paymentVerified) {
+        paymentStatus = 'Paid'; // Razorpay payment verified
       }
 
       // Prepare order data
@@ -230,6 +238,7 @@ export default function Payment() {
           country: 'India'
         },
         paymentMethod: selectedPaymentMethod,
+        paymentStatus: paymentStatus, // Add payment status
         totalPrice: calculateTotal(), // Send final amount after discount
         originalPrice: calculateSubtotal(), // Send original subtotal
         discountAmount: discount, // Send discount amount
@@ -254,7 +263,7 @@ export default function Payment() {
 
   const handlePaymentSuccess = async () => {
     try {
-      await createOrderInDatabase();
+      await createOrderInDatabase(false); // COD is not pre-paid
       // Clear coupon from localStorage after successful order
       localStorage.removeItem('appliedCoupon');
       showToast({ type: 'success', message: 'Order placed successfully! You will receive a confirmation soon.' });

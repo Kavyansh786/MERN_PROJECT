@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Lock, Mail, Package } from "lucide-react";
-import api from "../api/axios";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Login() {
   const [form, setForm] = useState({
@@ -12,6 +12,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleInput = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -24,15 +25,15 @@ export default function Login() {
     setError("");
 
     try {
-      const res = await api.post("/auth/login", form);
+      const result = await login(form.email, form.password);
       
-      if (res.data.token) {
-        localStorage.setItem("adminToken", res.data.token);
-        localStorage.setItem("adminUser", JSON.stringify(res.data.user));
-        navigate("/admin");
+      if (result.success) {
+        navigate("/"); // Navigate to admin dashboard
+      } else {
+        setError(result.error || "Login failed. Please try again.");
       }
     } catch (error) {
-      setError(error.response?.data?.message || "Login failed. Please try again.");
+      setError("Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -122,15 +123,6 @@ export default function Login() {
             </button>
           </form>
 
-          {/* Additional Info */}
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Demo Credentials:
-            </p>
-            <p className="text-xs text-gray-500 mt-1">
-              Email: admin@jewelry.com | Password: admin123
-            </p>
-          </div>
         </div>
 
         {/* Footer */}

@@ -1,39 +1,53 @@
 import { useState } from "react";
-import { Moon, Sun, Bell, User, Search } from "lucide-react";
+import { Bell, User, Search, LogOut } from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Topbar() {
-  const [theme, setTheme] = useState("light");
+  const [showDropdown, setShowDropdown] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
   return (
     <header className="flex items-center justify-between p-4 bg-white shadow w-full">
-      {/* Search Bar */}
-      <div className="flex-1 max-w-xs">
-        <div className="relative w-full">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-200 text-sm"
-          />
-          <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
-        </div>
-      </div>
+      
       {/* Right Controls */}
       <div className="flex items-center space-x-4 ml-auto">
-        {/* Theme Toggle */}
-        <button
-          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-          className="p-2 rounded-full hover:bg-gray-100 transition"
-          aria-label="Toggle theme"
-        >
-          {theme === "light" ? <Moon className="w-5 h-5 text-gray-600" /> : <Sun className="w-5 h-5 text-yellow-500" />}
-        </button>
-        {/* Notifications */}
-        <button className="relative p-2 rounded-full hover:bg-gray-100 transition" aria-label="Notifications">
-          <Bell className="w-5 h-5 text-gray-600" />
-          <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">3</span>
-        </button>
-        {/* Profile */}
-        <div className="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center border-2 border-blue-600">
-          <User className="w-5 h-5 text-white" />
+        {/* Profile Dropdown */}
+        <div className="relative">
+          <button
+            onClick={() => setShowDropdown(!showDropdown)}
+            className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition"
+          >
+            <div className="w-8 h-8 rounded-full bg-[#D4AF37] flex items-center justify-center">
+              <User className="w-4 h-4 text-white" />
+            </div>
+            <div className="hidden md:block text-left">
+              <p className="text-sm font-medium text-gray-700">{user?.name || 'Admin'}</p>
+              <p className="text-xs text-gray-500">{user?.email}</p>
+            </div>
+          </button>
+          
+          {/* Dropdown Menu */}
+          {showDropdown && (
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+              <div className="px-4 py-2 border-b border-gray-100">
+                <p className="text-sm font-medium text-gray-900">{user?.name || 'Admin'}</p>
+                <p className="text-xs text-gray-500">{user?.email}</p>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center space-x-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition"
+              >
+                <LogOut className="w-4 h-4" />
+                <span>Logout</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>

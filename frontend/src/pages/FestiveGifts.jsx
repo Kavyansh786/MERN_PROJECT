@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
-import { useToast } from '../components/Toast';
-import { getUserId } from '../utils/userUtils';
-import { Heart, ShoppingCart, Star, Filter, Search, Eye } from 'lucide-react';
+import { Search } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
+import Footer from '../components/Footer';
 
 export default function FestiveGifts() {
   const [products, setProducts] = useState([]);
@@ -12,27 +10,11 @@ export default function FestiveGifts() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [priceRange, setPriceRange] = useState([0, 100000]);
   const [sortBy, setSortBy] = useState('featured');
-  const [wishlist, setWishlist] = useState([]);
-  const [showFilters, setShowFilters] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [showQuickView, setShowQuickView] = useState(false);
 
-  const navigate = useNavigate();
-  const { showToast } = useToast();
 
-  // Festive gifts sub-categories
-  const categories = [
-    { id: 'all', name: 'All Festive Gifts', icon: '🎊' },
-    { id: 'diwali', name: 'Diwali', icon: '🪔' },
-    { id: 'holi', name: 'Holi', icon: '🎨' },
-    { id: 'rakhi', name: 'Raksha Bandhan', icon: '🪢' },
-    { id: 'karwachauth', name: 'Karwa Chauth', icon: '🌙' },
-    { id: 'navratri', name: 'Navratri', icon: '🕉️' },
-    { id: 'christmas', name: 'Christmas', icon: '🎄' }
-  ];
+
+
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -47,27 +29,21 @@ export default function FestiveGifts() {
       } catch (err) {
         console.error('Failed to fetch festive gifts:', err);
         setError('Failed to load festive gifts collection.');
-        showToast({
-          type: 'error',
-          message: 'Failed to load festive gifts collection.'
-        });
       } finally {
         setLoading(false);
       }
     };
 
     fetchProducts();
-  }, [showToast]);
+  }, []);
 
   // Filter and sort products
   useEffect(() => {
     let filtered = products.filter(product => {
       const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            product.description.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
-      const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
       
-      return matchesSearch && matchesCategory && matchesPrice;
+      return matchesSearch;
     });
 
     // Sort products
@@ -90,65 +66,9 @@ export default function FestiveGifts() {
     }
 
     setFilteredProducts(filtered);
-  }, [products, searchTerm, selectedCategory, priceRange, sortBy]);
+  }, [products, searchTerm, sortBy]);
 
-  const handleAddToCart = async (productId) => {
-    const userId = getUserId();
-    if (!userId) {
-      showToast({
-        type: 'error',
-        message: 'Please login to add items to your cart.'
-      });
-      navigate('/login');
-      return;
-    }
 
-    try {
-      await axios.post('http://localhost:5000/api/cart', {
-        user: userId,
-        productId,
-        quantity: 1,
-      });
-      showToast({
-        type: 'success',
-        message: 'Added to cart!'
-      });
-    } catch (error) {
-      console.error('Add to cart error:', error);
-      showToast({
-        type: 'error',
-        message: error.response?.data?.message || 'Failed to add to cart.'
-      });
-    }
-  };
-
-  const toggleWishlist = (productId) => {
-    setWishlist(prev => 
-      prev.includes(productId) 
-        ? prev.filter(id => id !== productId)
-        : [...prev, productId]
-    );
-    
-    const isInWishlist = wishlist.includes(productId);
-    showToast({
-      type: isInWishlist ? 'info' : 'success',
-      message: isInWishlist ? 'Removed from wishlist' : 'Added to wishlist!'
-    });
-  };
-
-  const handleQuickView = (product) => {
-    setSelectedProduct(product);
-    setShowQuickView(true);
-  };
-
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(price);
-  };
 
   if (loading) {
     return (
@@ -180,27 +100,27 @@ export default function FestiveGifts() {
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 md:px-8 pt-10 pb-2">
         <h1 className="text-4xl md:text-5xl font-extrabold font-serif text-[#3e2d26] mb-2 text-left">Festive Gifts Collection</h1>
-        <p className="text-lg md:text-xl text-[#8D6E63] mb-6 text-left max-w-2xl">Celebrate every festival with our special collection of festive jewelry gifts. Perfect for spreading joy and blessings during special occasions.</p>
+        <p className="text-lg md:text-xl text-[#8D6E63] mb-6 text-left max-w-2xl">Celebrate every festival with our special collection of festive jewelry gifts. From traditional celebrations to modern festivities, find the perfect piece to mark every special occasion.</p>
       </section>
 
-      {/* Filter/Sort Bar */}
+      {/* Search and Sort Bar */}
       <div className="max-w-7xl mx-auto px-4 md:px-8 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div className="flex gap-2 items-center">
-          <button className="border border-[#D4AF37] text-[#3e2d26] font-semibold rounded-lg px-5 py-2.5 bg-white hover:bg-[#f7e1c7] transition-all flex items-center gap-2">
-            <svg className="w-5 h-5 text-[#D4AF37]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
-            Filters
-          </button>
+        {/* Search Bar */}
+        <div className="relative flex-1 max-w-md">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search className="h-5 w-5 text-[#8D6E63]" />
+          </div>
+          <input
+            type="text"
+            placeholder="Search festive gifts..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="block w-full pl-10 pr-3 py-2 border border-[#D4AF37] rounded-lg focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent text-[#3e2d26] bg-white placeholder-[#8D6E63]"
+          />
         </div>
-        <div className="flex gap-2 items-center">
-          {/* Grid/List Toggle (Grid active) */}
-          <button className="border border-[#D4AF37] bg-[#D4AF37] text-white rounded-lg px-3 py-2 flex items-center focus:outline-none">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-          </button>
-          <button className="border border-[#D4AF37] text-[#3e2d26] rounded-lg px-3 py-2 flex items-center focus:outline-none bg-white">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4"/><rect x="3" y="10" width="18" height="4"/><rect x="3" y="16" width="18" height="4"/></svg>
-          </button>
-        </div>
-        <div className="flex items-center gap-2 ml-auto">
+        
+        {/* Sort Dropdown */}
+        <div className="flex items-center gap-2">
           <span className="text-[#8D6E63] font-medium">Sort by:</span>
           <select
             value={sortBy}
@@ -216,22 +136,32 @@ export default function FestiveGifts() {
         </div>
       </div>
 
-      {/* Product Grid */}
+      {/* Products Grid */}
       <div className="max-w-7xl mx-auto px-4 md:px-8 pb-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-items-center">
-          {filteredProducts.length === 0 ? (
-            <div className="col-span-full text-center py-12">
-              <div className="text-gray-400 text-6xl mb-4">🎊</div>
-              <p className="text-gray-500 text-lg mb-2">No festive gifts available yet</p>
-              <p className="text-gray-400">Products will be added soon!</p>
-            </div>
-          ) : (
-            filteredProducts.map(product => (
-              <ProductCard key={product._id} product={product} />
-            ))
-          )}
-        </div>
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#D4AF37]"></div>
+          </div>
+        ) : error ? (
+          <div className="text-center text-red-500 py-8">{error}</div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-items-center">
+            {filteredProducts.length === 0 ? (
+              <div className="col-span-full text-center py-12">
+                <div className="text-gray-400 text-6xl mb-4">🎊</div>
+                <p className="text-gray-500 text-lg mb-2">No festive gifts found</p>
+                <p className="text-gray-400">Try adjusting your search terms</p>
+              </div>
+            ) : (
+              filteredProducts.map(product => (
+                <ProductCard key={product._id} product={product} />
+              ))
+            )}
+          </div>
+        )}
       </div>
+      
+      <Footer />
     </div>
   );
-} 
+}

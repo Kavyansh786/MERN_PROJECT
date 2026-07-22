@@ -19,6 +19,10 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Material is required']
   },
+  stone: {
+    type: String,
+    required: false
+  },
   imageUrl: {
     type: String,
     required: [true, 'Image URL is required']
@@ -27,6 +31,39 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Product description is required'],
     minlength: [10, 'Description must be at least 10 characters']
+  },
+  model3d: {
+    type: String,
+    default: null,
+    validate: {
+      validator: function(v) {
+        if (!v) return true; // Allow null/empty
+        return /\.(glb|gltf)$/i.test(v); // Must be GLB or GLTF file
+      },
+      message: '3D model must be a .glb or .gltf file'
+    }
+  },
+  isPersonalized: {
+    type: Boolean,
+    default: false
+  },
+  customizationOptions: {
+    engraving: {
+      type: Boolean,
+      default: false
+    },
+    fontStyle: {
+      type: [String],
+      default: []
+    },
+    nameText: {
+      type: Boolean,
+      default: false
+    },
+    metalFinish: {
+      type: [String],
+      default: []
+    }
   },
   // Inventory fields
   currentStock: {
@@ -38,6 +75,10 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
     min: [0, 'Reserved cannot be negative']
+  },
+  inStock: {
+    type: Boolean,
+    default: true
   },
   sku: {
     type: String,
@@ -63,7 +104,7 @@ const productSchema = new mongoose.Schema({
   },
   categoryPage: {
     type: String,
-    enum: ['rings', 'necklaces', 'earrings', 'bracelets', 'bridal', 'birthday-gifts', 'anniversary-gifts', 'festive-gifts', 'personalized-gifts', 'raksha-bandhan', 'shop'],
+    enum: ['rings', 'necklaces', 'earrings', 'bracelets', 'bridal', 'birthday-gifts', 'zodiac-jewelry', 'anniversary-gifts', 'anniversary', 'festive-gifts', 'personalized-gifts', 'raksha-bandhan', 'shop', 'seasonal'],
     default: 'shop'
   },
   createdAt: {

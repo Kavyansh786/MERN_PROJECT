@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { getUserId } from '../utils/userUtils';
+import Footer from '../components/Footer';
 
 export default function TrackOrder() {
   const [orderNumber, setOrderNumber] = useState("");
@@ -388,6 +389,7 @@ export default function TrackOrder() {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 } 

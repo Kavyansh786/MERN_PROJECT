@@ -5,32 +5,32 @@ import { Link } from 'react-router-dom'; // Required for linking
 const categories = [
   {
     name: 'Bridal Collection',
-    price: 'Starting from ₹32,400*',
-    image: 'neck.png',
+    price: '',
+    image: 'https://media.istockphoto.com/id/1193254381/photo/indian-jewellery-necklace.jpg?s=612x612&w=0&k=20&c=MjshmVTxUDD8HlZnj0KlSaM4GfGmLZEVSWUAQDuMaB8=',
     link: '/bridal',
   },
   {
     name: 'Sleek Rings',
-    price: 'Starting from ₹10,080*',
-    image: 'gring.png',
+    price: '',
+    image: 'https://t3.ftcdn.net/jpg/06/00/94/30/360_F_600943040_ZNSw3baDu0x4WqLAIT5eHIVZP9UMzBib.jpg',
     link: '/rings',
   },
   {
     name: 'Elegant Bracelets',
-    price: 'Starting from ₹36,200*',
-    image: 'bangle.png',
+    price: '',
+    image: 'https://media.istockphoto.com/id/1163145560/photo/fancy-designer-bracelets-jewelry-for-woman-fashion.jpg?s=612x612&w=0&k=20&c=PcONJpu5bEmvcv5x1OCHV5BmgM9T-K_scye7C8zdH-c=',
     link: '/bracelets',
   },
   {
     name: 'Stunning Earrings',
-    price: 'Starting from ₹10,817*',
-    image: 'ear.png',
+    price: '',
+    image: 'https://media.istockphoto.com/id/954397602/photo/two-golden-sapphire-earrings-with-small-diamonds.jpg?s=612x612&w=0&k=20&c=QxkA9ZCAQHDicBpV8g5As_05tbPpaJqZoPvlfSTnQ78=',
     link: '/earrings',
   },
   {
     name: 'Necklaces',
-    price: 'Starting from ₹36,500*',
-    image: 'mangal.png',
+    price: '',
+    image: 'https://rebaari.com/cdn/shop/files/DSC_6024.jpg?v=1719468111&width=1946',
     link: '/necklaces', // Using necklaces page for mangalsutras
   },
 ];

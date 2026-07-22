@@ -172,7 +172,6 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
                     </svg>
                   ))}
                 </div>
-                <span className="text-sm text-[#7c5c36]">({reviewCount})</span>
               </div>
 
               {/* Material & Category */}
@@ -199,7 +198,7 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
               <button
                 onClick={handleAddToCart}
                 disabled={isLoading || product.available <= 0}
-                className={`flex-1 font-bold py-2 px-4 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm ${
+                className={`w-full font-bold py-2 px-4 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm ${
                   product.available <= 0 
                     ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
                     : 'bg-gradient-to-r from-[#a67c52] to-[#7c5c36] text-white hover:from-[#8d6a43] hover:to-[#6b4a2a]'
@@ -218,13 +217,6 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
                   </svg>
                 )}
                 {isLoading ? 'Adding...' : product.available <= 0 ? 'Out of Stock' : 'Add to Cart'}
-              </button>
-              
-              <button className="bg-gradient-to-r from-[#D4AF37] to-[#FFD700] text-white font-bold py-2 px-4 rounded-lg shadow-lg hover:from-[#B8941F] hover:to-[#E6C200] transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 text-sm">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                Try On
               </button>
             </div>
           </div>
@@ -309,7 +301,6 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
                 </svg>
               ))}
             </div>
-            <span className="text-sm text-[#7c5c36]">({reviewCount})</span>
           </div>
 
           {/* Material & Category */}
@@ -337,7 +328,7 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
           <button
             onClick={handleAddToCart}
             disabled={isLoading || product.available <= 0}
-            className={`flex-1 font-bold py-2 px-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1 text-xs ${
+            className={`w-full font-bold py-2 px-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1 text-xs ${
               product.available <= 0 
                 ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
                 : 'bg-gradient-to-r from-[#a67c52] to-[#7c5c36] text-white hover:from-[#8d6a43] hover:to-[#6b4a2a]'
@@ -356,13 +347,6 @@ export default function ProductCard({ product, showNewBadge = false, viewMode = 
               </svg>
             )}
             <span className="truncate">{isLoading ? 'Adding...' : product.available <= 0 ? 'Out of Stock' : 'Add to Cart'}</span>
-          </button>
-          
-          <button className="w-20 bg-gradient-to-r from-[#D4AF37] to-[#FFD700] text-white font-bold py-2 px-3 rounded-lg shadow-lg hover:from-[#B8941F] hover:to-[#E6C200] transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-1 text-xs">
-            <svg className="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            <span>Try On</span>
           </button>
         </div>
       </div>

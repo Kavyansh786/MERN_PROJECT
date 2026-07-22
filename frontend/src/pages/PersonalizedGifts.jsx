@@ -5,6 +5,8 @@ import { useToast } from '../components/Toast';
 import { getUserId } from '../utils/userUtils';
 import { Heart, ShoppingCart, Star, Filter, Search, Eye } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
+import FilterSidebar from '../components/FilterSidebar';
+import Footer from '../components/Footer';
 
 export default function PersonalizedGifts() {
   const [products, setProducts] = useState([]);
@@ -177,61 +179,84 @@ export default function PersonalizedGifts() {
 
   return (
     <div className="min-h-screen bg-[#fdf8f6]">
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 md:px-8 pt-10 pb-2">
-        <h1 className="text-4xl md:text-5xl font-extrabold font-serif text-[#3e2d26] mb-2 text-left">Personalized Gifts Collection</h1>
-        <p className="text-lg md:text-xl text-[#8D6E63] mb-6 text-left max-w-2xl">Create something truly special with our personalized jewelry collection. Add names, initials, birthstones, or custom designs to make every piece uniquely yours.</p>
-      </section>
-
-      {/* Filter/Sort Bar */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div className="flex gap-2 items-center">
-          <button className="border border-[#D4AF37] text-[#3e2d26] font-semibold rounded-lg px-5 py-2.5 bg-white hover:bg-[#f7e1c7] transition-all flex items-center gap-2">
-            <svg className="w-5 h-5 text-[#D4AF37]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
-            Filters
-          </button>
-        </div>
-        <div className="flex gap-2 items-center">
-          {/* Grid/List Toggle (Grid active) */}
-          <button className="border border-[#D4AF37] bg-[#D4AF37] text-white rounded-lg px-3 py-2 flex items-center focus:outline-none">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-          </button>
-          <button className="border border-[#D4AF37] text-[#3e2d26] rounded-lg px-3 py-2 flex items-center focus:outline-none bg-white">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4"/><rect x="3" y="10" width="18" height="4"/><rect x="3" y="16" width="18" height="4"/></svg>
-          </button>
-        </div>
-        <div className="flex items-center gap-2 ml-auto">
-          <span className="text-[#8D6E63] font-medium">Sort by:</span>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="border border-[#D4AF37] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent text-[#3e2d26] bg-white"
-          >
-            <option value="featured">Featured</option>
-            <option value="priceLow">Price: Low to High</option>
-            <option value="priceHigh">Price: High to Low</option>
-            <option value="rating">Top Rated</option>
-            <option value="newest">Newest</option>
-          </select>
+      {/* Header */}
+      <div className="bg-white/95 backdrop-blur-sm border-b border-[#e0c3a0] py-8">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-8">
+            <h1 className="text-5xl font-extrabold tracking-wide text-[#D4AF37] drop-shadow-lg mb-4">
+              Personalized Gifts Collection
+            </h1>
+            <p className="text-[#7c5c36] text-lg font-medium">
+              Create something truly special with our personalized jewelry collection
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Product Grid */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 pb-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-items-center">
-          {filteredProducts.length === 0 ? (
-            <div className="col-span-full text-center py-12">
-              <div className="text-gray-400 text-6xl mb-4">🎁</div>
-              <p className="text-gray-500 text-lg mb-2">No personalized gifts available yet</p>
-              <p className="text-gray-400">Products will be added soon!</p>
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Filter Sidebar */}
+          <FilterSidebar
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
+            categories={categories}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            showFilters={showFilters}
+            setShowFilters={setShowFilters}
+            minPrice={0}
+            maxPrice={100000}
+          />
+
+          {/* Products Grid */}
+          <div className="flex-1">
+            {/* Results Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="text-[#7c5c36]">
+                <span className="font-medium">{filteredProducts.length}</span> products found
+              </div>
+              <div className="flex gap-2 items-center">
+                {/* Grid/List Toggle */}
+                <button className="border border-[#D4AF37] bg-[#D4AF37] text-white rounded-lg px-3 py-2 flex items-center focus:outline-none">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                  </svg>
+                </button>
+                <button className="border border-[#D4AF37] text-[#3e2d26] rounded-lg px-3 py-2 flex items-center focus:outline-none bg-white hover:bg-[#f7e1c7] transition-all">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="4"/>
+                    <rect x="3" y="10" width="18" height="4"/>
+                    <rect x="3" y="16" width="18" height="4"/>
+                  </svg>
+                </button>
+              </div>
             </div>
-          ) : (
-            filteredProducts.map(product => (
-              <ProductCard key={product._id} product={product} />
-            ))
-          )}
+
+            {/* Products Grid - Fixed 3-column layout to maintain original card size */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-300">
+              {filteredProducts.length === 0 ? (
+                <div className="col-span-full text-center py-12">
+                  <div className="text-gray-400 text-6xl mb-4">🎁</div>
+                  <p className="text-gray-500 text-lg mb-2">No personalized gifts found</p>
+                  <p className="text-gray-400">Try adjusting your filters or search terms</p>
+                </div>
+              ) : (
+                filteredProducts.map(product => (
+                  <ProductCard key={product._id} product={product} />
+                ))
+              )}
+            </div>
+          </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
-} 
+}

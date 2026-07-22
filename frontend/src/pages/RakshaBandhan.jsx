@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import { useToast } from '../components/Toast';
 import { getUserId } from '../utils/userUtils';
+import Footer from '../components/Footer';
 
 export default function RakshaBandhan() {
   const [products, setProducts] = useState([]);
@@ -316,6 +317,7 @@ export default function RakshaBandhan() {
           </button>
         </div>
       </div>
+      <Footer />
     </div>
   );
-} 
+}

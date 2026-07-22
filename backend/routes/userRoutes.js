@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
 const {
   getUserById,
   updateUserProfile,
@@ -100,10 +101,49 @@ router.delete('/wishlist/:userId/:productId', async (req, res) => {
 // GET /api/users
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find().select('-password');
     res.json(users);
   } catch (err) {
     res.status(500).json({ message: 'Failed to fetch users' });
+  }
+});
+
+// POST /api/users - Create new user (Admin only)
+router.post('/', async (req, res) => {
+  try {
+    const { name, email, phone, password, isAdmin } = req.body;
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User with this email already exists' });
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create new user
+    const newUser = new User({
+      name,
+      email,
+      phone,
+      password: hashedPassword,
+      isAdmin: isAdmin || false
+    });
+
+    const savedUser = await newUser.save();
+    
+    // Return user without password
+    const userResponse = savedUser.toObject();
+    delete userResponse.password;
+    
+    res.status(201).json({
+      message: 'User created successfully',
+      user: userResponse
+    });
+  } catch (err) {
+    console.error('Failed to create user:', err.message);
+    res.status(500).json({ message: 'Failed to create user' });
   }
 });
 

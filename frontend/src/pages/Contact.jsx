@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 export default function Contact() {
   return (
     <div className="min-h-screen bg-white p-6 text-gray-800 max-w-lg mx-auto">

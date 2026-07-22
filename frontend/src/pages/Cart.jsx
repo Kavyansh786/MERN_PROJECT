@@ -92,7 +92,7 @@ export default function Cart() {
   const handleRemove = async (productId) => {
     if (!productId) {
       console.error('Cannot remove item: productId is undefined');
-      showToast({ type: 'error', message: 'Cannot remove this item. Please try the "Clean Invalid Items" button.' });
+      showToast({ type: 'error', message: 'Cannot remove this item. Please refresh the page and try again.' });
       return;
     }
 
@@ -124,7 +124,12 @@ export default function Cart() {
     
     const quantity = updatedItem.quantity || (updatedItem.product ? updatedItem.product.quantity : 1);
     const newQuantity = quantity + delta;
-    if (newQuantity < 1) return;
+    
+    // If quantity reaches 0, remove the item
+    if (newQuantity <= 0) {
+      handleRemove(productId);
+      return;
+    }
 
     try {
       const res = await axios.put(
@@ -186,10 +191,7 @@ export default function Cart() {
   );
   const total = Math.max(subtotal - discount, 0);
 
-  // Calculate progress for free shipping
-  const freeShippingThreshold = 5000;
-  const progress = Math.min((subtotal / freeShippingThreshold) * 100, 100);
-  const remainingForFreeShipping = Math.max(freeShippingThreshold - subtotal, 0);
+
 
   // Real coupon validation
   const handleApplyCoupon = async () => {
@@ -339,21 +341,6 @@ export default function Cart() {
               </div>
             ) : (
               <>
-                <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-2xl font-bold text-[#a67c52]">Cart Items</h2>
-                  <button
-                    onClick={() => {
-                      const cleanedItems = cleanupInvalidItems(cartItems);
-                      if (cleanedItems.length !== cartItems.length) {
-                        setCartItems(cleanedItems);
-                        showToast({ type: 'success', message: 'Invalid items removed from cart' });
-                      }
-                    }}
-                    className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-                  >
-                    Clean Invalid Items
-                  </button>
-                </div>
                                 {cartItems.map((item, index) => {
                   // Handle both backend API structure { product, quantity } and localStorage structure { _id, name, price, etc., quantity }
                   const product = item.product || item;
@@ -554,26 +541,22 @@ export default function Cart() {
                     <span className="font-medium">Subtotal ({cartItems.length} items)</span>
                     <span className="font-bold">₹{subtotal.toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between text-lg bg-white/60 backdrop-blur-sm rounded-xl p-3">
-                    <span className="font-medium">Discount</span>
-                    <span className="text-green-600 font-bold">-₹{discount.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between text-lg bg-white/60 backdrop-blur-sm rounded-xl p-3">
-                    <span className="font-medium">Shipping</span>
-                    <span className={`font-bold ${remainingForFreeShipping > 0 ? 'text-[#7c5c36]' : 'text-green-600'}`}>
-                      {remainingForFreeShipping > 0 ? '₹200' : 'FREE'}
-                    </span>
-                  </div>
+                  {discount > 0 && (
+                    <div className="flex justify-between text-lg bg-white/60 backdrop-blur-sm rounded-xl p-3">
+                      <span className="font-medium">Discount</span>
+                      <span className="text-green-600 font-bold">-₹{discount.toLocaleString()}</span>
+                    </div>
+                  )}
                   <div className="border-t-2 border-[#e0c3a0] pt-4 bg-gradient-to-r from-[#f7e1c7] to-[#e0c3a0] rounded-xl p-4">
                     <div className="flex justify-between text-2xl font-bold">
                       <span>Total</span>
-                      <span>₹{(total + (remainingForFreeShipping > 0 ? 200 : 0)).toLocaleString()}</span>
+                      <span>₹{total.toLocaleString()}</span>
                     </div>
                     <p className="text-sm text-[#7c5c36] mt-2 flex items-center gap-2">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      Estimated delivery: 3-5 business days
+                      Free delivery on all orders
                     </p>
                   </div>
                 </div>

@@ -1,17 +1,129 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from '../components/Toast';
+import axios from 'axios';
 
 export default function Navbar() {
   const navigate = useNavigate();
   const { showToast } = useToast();
   const [showMenu, setShowMenu] = useState(false);
+  const [user, setUser] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const [activeSeasonalPage, setActiveSeasonalPage] = useState(null);
   const dropdownRef = useRef(null);
   const timeoutRef = useRef(null);
+  const searchRef = useRef(null);
+  const searchDropdownRef = useRef(null);
 
-  const user = JSON.parse(localStorage.getItem('user'));
-  
+  // Load user data on component mount and listen for changes
+  useEffect(() => {
+    const loadUser = () => {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        try {
+          const parsedUser = JSON.parse(userData);
+          setUser(parsedUser);
+        } catch (error) {
+          console.error('Error parsing user data:', error);
+          setUser(null);
+        }
+      } else {
+        setUser(null);
+      }
+    };
+    
+    loadUser();
+    
+    // Listen for storage changes (when user logs in/out from different tabs)
+    window.addEventListener('storage', loadUser);
+    
+    // Listen for custom event to refresh user data (same tab)
+    const handleUserUpdate = () => {
+      loadUser();
+    };
+    window.addEventListener('userUpdated', handleUserUpdate);
+    
+    return () => {
+      window.removeEventListener('storage', loadUser);
+      window.removeEventListener('userUpdated', handleUserUpdate);
+    };
+  }, []);
 
+  // Fetch active seasonal page
+  useEffect(() => {
+    const fetchActiveSeasonalPage = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/seasonal-page/active');
+        if (response.data.success && response.data.data) {
+          setActiveSeasonalPage(response.data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching active seasonal page:', error);
+        setActiveSeasonalPage(null);
+      }
+    };
+
+    fetchActiveSeasonalPage();
+  }, []);
+
+  // Search functionality
+  const performSearch = async (query) => {
+    if (!query.trim()) {
+      setSearchResults([]);
+      setShowSearchDropdown(false);
+      return;
+    }
+
+    setIsSearching(true);
+    try {
+      const response = await axios.get(`http://localhost:5000/api/products/search?q=${encodeURIComponent(query)}`);
+      setSearchResults(response.data);
+      setShowSearchDropdown(response.data.length > 0);
+    } catch (error) {
+      console.error('Search error:', error);
+      setSearchResults([]);
+      setShowSearchDropdown(false);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  // Debounced search
+  useEffect(() => {
+    const debounceTimer = setTimeout(() => {
+      performSearch(searchQuery);
+    }, 300);
+
+    return () => clearTimeout(debounceTimer);
+  }, [searchQuery]);
+
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // Handle search result click
+  const handleSearchResultClick = (productId) => {
+    setSearchQuery('');
+    setShowSearchDropdown(false);
+    navigate(`/products/${productId}`);
+  };
+
+  // Handle click outside search dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchDropdownRef.current && !searchDropdownRef.current.contains(event.target) &&
+          searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowSearchDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -43,6 +155,11 @@ export default function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    
+    // Dispatch custom event to update navbar immediately
+    window.dispatchEvent(new Event('userUpdated'));
+    
     showToast({
       type: 'success',
       message: 'Logged out successfully!',
@@ -62,8 +179,8 @@ export default function Navbar() {
           </Link>
 
           {/* Search */}
-          <div className="flex-1 flex justify-center max-w-lg mx-4">
-            <div className="flex items-center w-full bg-white border border-[#e0c3a0] rounded-lg px-3 py-2 shadow-md">
+          <div className="flex-1 flex justify-center max-w-lg mx-4 relative">
+            <div className="flex items-center w-full bg-white border border-[#e0c3a0] rounded-lg px-3 py-2 shadow-md" ref={searchRef}>
               <svg className="w-5 h-5 text-[#a97c50] mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <circle cx="11" cy="11" r="8" />
                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -72,23 +189,110 @@ export default function Navbar() {
                 type="text"
                 placeholder="Search necklaces, rings, gifts..."
                 className="bg-transparent outline-none w-full text-[#3e2d26] placeholder-[#4a3b35] font-serif font-semibold text-base tracking-wide"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                onFocus={() => searchQuery && setShowSearchDropdown(searchResults.length > 0)}
               />
+              {isSearching && (
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#D4AF37] ml-2"></div>
+              )}
             </div>
+            
+            {/* Search Dropdown */}
+            {showSearchDropdown && searchResults.length > 0 && (
+              <div 
+                ref={searchDropdownRef}
+                className="absolute top-full left-0 right-0 mt-2 bg-white border border-[#e0c3a0] rounded-lg shadow-2xl z-50 max-h-80 overflow-hidden"
+              >
+                <div className="py-2">
+                  <div className="px-4 py-2 text-sm text-[#7c5c36] font-medium border-b border-[#e0c3a0]">
+                    {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} found
+                  </div>
+                  <div className="max-h-64 overflow-y-auto">
+                    {searchResults.slice(0, 4).map((product) => (
+                      <div
+                        key={product._id}
+                        onClick={() => handleSearchResultClick(product._id)}
+                        className="flex items-center gap-3 px-4 py-3 hover:bg-[#f7e1c7] cursor-pointer transition-colors border-b border-[#f0f0f0] last:border-b-0"
+                      >
+                        <div className="w-12 h-12 bg-gray-100 rounded-lg border border-[#e0c3a0] overflow-hidden flex items-center justify-center">
+                          {product.imageUrl ? (
+                            <img
+                              src={product.imageUrl.startsWith('http') ? 
+                                product.imageUrl : 
+                                `/${product.imageUrl}`}
+                              alt={product.name}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                // Simple fallback - just hide the broken image and show icon
+                                e.target.style.display = 'none';
+                                const iconDiv = document.createElement('div');
+                                iconDiv.innerHTML = `
+                                  <svg class="w-8 h-8 text-[#D4AF37]" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2L2 7V10C2 16 6 20.5 12 22C18 20.5 22 16 22 10V7L12 2Z"/>
+                                  </svg>
+                                `;
+                                e.target.parentElement.appendChild(iconDiv);
+                              }}
+                              loading="lazy"
+                            />
+                          ) : (
+                            <svg className="w-8 h-8 text-[#D4AF37]" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M12 2L2 7V10C2 16 6 20.5 12 22C18 20.5 22 16 22 10V7L12 2Z"/>
+                            </svg>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-[#3e2d26] text-sm truncate">
+                            {product.name}
+                          </h4>
+                          <p className="text-[#7c5c36] text-xs truncate">
+                            {product.category} • ₹{product.price?.toLocaleString()}
+                          </p>
+                        </div>
+                        <svg className="w-4 h-4 text-[#a97c50]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                          <path d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                    ))}
+                    {searchResults.length > 4 && (
+                      <div className="px-4 py-2 text-center text-sm text-[#7c5c36] bg-[#f9f9f9] border-t border-[#e0c3a0]">
+                        +{searchResults.length - 4} more results
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Links & Icons */}
           <div className="flex items-center gap-6 justify-center w-full md:w-auto mt-3 md:mt-0">
             <Link to="/shop" className="flex items-center text-[#D4AF37] hover:text-[#4a3b35] font-serif font-semibold tracking-wide text-lg transition duration-200 transform hover:-translate-y-1 px-3 py-2">
               Shop
-              <svg className="w-5 h-5 ml-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path d="M6 9l6 6 6-6" />
-              </svg>
+          
             </Link>
 
-            <Link to="/raksha-bandhan" className="bg-gradient-to-r from-orange-200 to-pink-200 hover:from-orange-300 hover:to-pink-300 text-gray-800 font-semibold px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 text-base">
-              <span>Raksha Bandhan</span>
-              <span className="text-lg">💝</span>
-            </Link>
+{activeSeasonalPage && (
+              <Link 
+                to={`/seasonal/${activeSeasonalPage.slug}`} 
+                className="font-semibold px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 text-base"
+                style={{
+                  background: `linear-gradient(to right, ${activeSeasonalPage.colors.primary}20, ${activeSeasonalPage.colors.secondary}20)`,
+                  color: activeSeasonalPage.colors.text,
+                  borderColor: activeSeasonalPage.colors.primary
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.background = `linear-gradient(to right, ${activeSeasonalPage.colors.primary}30, ${activeSeasonalPage.colors.secondary}30)`;
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = `linear-gradient(to right, ${activeSeasonalPage.colors.primary}20, ${activeSeasonalPage.colors.secondary}20)`;
+                }}
+              >
+                <span>{activeSeasonalPage.title}</span>
+                <span className="text-lg">✨</span>
+              </Link>
+            )}
 
             <Link to="/about" className="text-[#D4AF37] hover:text-[#4a3b35] font-serif font-semibold tracking-wide text-lg transition duration-200 transform hover:-translate-y-1 px-3 py-2">About</Link>
 

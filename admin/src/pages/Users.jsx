@@ -7,9 +7,11 @@ import {
   UserPlus,
   ShieldOff,
   MoreVertical,
+  Download,
 } from "lucide-react";
 import api from "../api/axios";
 import { Link, useNavigate } from "react-router-dom";
+import * as XLSX from 'xlsx';
 
 const getInitials = (name) => {
   if (!name) return "?";
@@ -42,6 +44,7 @@ export default function Users() {
     password: "",
     isAdmin: false,
   });
+  const [orderCounts, setOrderCounts] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,7 +55,20 @@ export default function Users() {
     setLoading(true);
     try {
       const res = await api.get("/users");
-      setUsers(res.data.users || res.data || []);
+      const usersData = res.data.users || res.data || [];
+      setUsers(usersData);
+      
+      // Fetch order counts for each user
+      const orderCountsData = {};
+      for (const user of usersData) {
+        try {
+          const orderRes = await api.get(`/orders/my?userId=${user._id}`);
+          orderCountsData[user._id] = orderRes.data.orders ? orderRes.data.orders.length : 0;
+        } catch (error) {
+          orderCountsData[user._id] = 0;
+        }
+      }
+      setOrderCounts(orderCountsData);
     } catch (error) {
       // handle error
     }
@@ -74,7 +90,7 @@ export default function Users() {
 
   // Mock status and order count for now
   const getStatus = (user) => (user.blocked ? "Blocked" : "Active");
-  const getOrderCount = (user) => 0;
+  const getOrderCount = (user) => orderCounts[user._id] || 0;
 
   // Filtered users
   const filteredUsers = users.filter((user) => {
@@ -110,23 +126,64 @@ export default function Users() {
     fetchUsers();
   };
 
-  // Block User Handler
-  const handleBlockUser = async (user) => {
-    await api.patch(`/users/${user._id}`, { blocked: true });
-    setDropdownOpen(null);
-    fetchUsers();
+    // Excel Export Handler
+  const handleExportToExcel = () => {
+    // Prepare data for export
+    const exportData = filteredUsers.map((user, index) => ({
+      'S.No': index + 1,
+      'Name': user.name || 'N/A',
+      'Email': user.email || 'N/A',
+      'Phone': user.phone || 'N/A',
+      'Role': user.isAdmin ? 'Admin' : 'Customer',
+      'Status': getStatus(user),
+      'Orders': getOrderCount(user)
+    }));
+
+    // Create workbook and worksheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(exportData);
+
+    // Set column widths
+    const colWidths = [
+      { wch: 8 },  // S.No
+      { wch: 20 }, // Name
+      { wch: 25 }, // Email
+      { wch: 15 }, // Phone
+      { wch: 12 }, // Role
+      { wch: 12 }, // Status
+      { wch: 10 }  // Orders
+    ];
+    ws['!cols'] = colWidths;
+
+    // Add worksheet to workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Users');
+
+    // Generate filename with current date
+    const currentDate = new Date().toISOString().split('T')[0];
+    const filename = `users_export_${currentDate}.xlsx`;
+
+    // Save file
+    XLSX.writeFile(wb, filename);
   };
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
         <h1 className="text-4xl font-bold text-gray-900">Users</h1>
-        <button
-          onClick={() => setShowAddForm(true)}
-          className="bg-black text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 hover:bg-gray-800"
-        >
-          <UserPlus className="w-5 h-5" /> Add User
-        </button>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <button
+            onClick={handleExportToExcel}
+            className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 hover:bg-green-700 transition-colors"
+          >
+            <Download className="w-5 h-5" /> Export Excel
+          </button>
+          <button
+            onClick={() => setShowAddForm(true)}
+            className="bg-black text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 hover:bg-gray-800"
+          >
+            <UserPlus className="w-5 h-5" /> Add User
+          </button>
+        </div>
       </div>
       {/* Filters */}
       <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -146,14 +203,7 @@ export default function Users() {
           <option value="Customer">Customer</option>
           <option value="Admin">Admin</option>
         </select>
-        <select
-          value={statusFilter}
-          onChange={e => setStatusFilter(e.target.value)}
-          className="border border-gray-300 rounded-lg px-4 py-2 text-sm bg-white shadow w-full md:w-40"
-        >
-          <option value="">Active</option>
-          <option value="Blocked">Blocked</option>
-        </select>
+
       </div>
       {/* Users Table */}
       <div className="bg-white rounded-xl shadow overflow-x-auto">
@@ -164,7 +214,7 @@ export default function Users() {
               <th className="p-4 text-left font-semibold">Email</th>
               <th className="p-4 text-left font-semibold">Role</th>
               <th className="p-4 text-left font-semibold">Orders</th>
-              <th className="p-4 text-left font-semibold">Status</th>
+
               <th className="p-4 text-left font-semibold">Actions</th>
             </tr>
           </thead>
@@ -180,7 +230,7 @@ export default function Users() {
                 <td className="p-4">{user.email}</td>
                 <td className="p-4">{roleBadge(user.isAdmin)}</td>
                 <td className="p-4">{getOrderCount(user)}</td>
-                <td className="p-4">{statusBadge(getStatus(user))}</td>
+
                 <td className="p-4 relative">
                   <button
                     className="p-2 rounded hover:bg-gray-100"
@@ -193,9 +243,7 @@ export default function Users() {
                       <button className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-50" onClick={() => openEditUser(user)}>
                         <Edit className="w-4 h-4 mr-2" /> Edit User
                       </button>
-                      <button className="flex items-center w-full px-4 py-2 text-red-600 hover:bg-red-50" onClick={() => handleBlockUser(user)}>
-                        <ShieldOff className="w-4 h-4 mr-2" /> Block User
-                      </button>
+
                     </div>
                   )}
                 </td>
