@@ -1,11 +1,6 @@
 // Load environment variables
-const dotenv = require('dotenv');
-const result = dotenv.config({ path: '.env' });
+require('dotenv').config();
 
-if (result.error) {
-  console.error('❌ Error loading .env file');
-  process.exit(1);
-}
 
 // Now require other dependencies
 const express = require('express');
