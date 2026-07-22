@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const XLSX = require('xlsx');
-const Product = require('../models/Product');
+const Product = require('../models/product');
 const router = express.Router();
 
 // Configure multer for file upload
